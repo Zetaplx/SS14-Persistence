@@ -1,0 +1,18 @@
+- type: entity
+  id: StorageShelf
+  parent: BaseStructure
+  name: storage shelf
+  description: A simple verticle shelf for stacking larger containeres.
+  components:
+  - type: Sprite
+    sprite: _Persistence14/Structures/storage_shelf.rsi
+    state: shelf
+  - type: ContainerContainer
+    containers:
+      storage_shelf: !type:Container
+  - type: Appearance
+  - type: StorageShelf
+  - type: Clickable
+  - type: InteractionOutline
+  - type: Transform
+    anchored: true

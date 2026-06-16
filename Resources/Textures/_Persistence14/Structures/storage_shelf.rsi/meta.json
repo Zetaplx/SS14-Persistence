@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "Sprite made by Zetaplx as a testing prototype for Persistence14",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+        "name":"shelf",
+        "directions": 4
+    }
+  ]
+}
