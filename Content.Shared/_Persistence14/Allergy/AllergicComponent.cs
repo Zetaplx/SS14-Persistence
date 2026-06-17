@@ -1,4 +1,5 @@
 using Robust.Shared.GameStates;
+using Robust.Shared.Prototypes;
 
 namespace Content.Shared._Persistence14.Allergy;
 
@@ -12,5 +13,11 @@ public sealed partial class AllergicComponent : Component
     /// All current allergies for the entity
     /// </summary>
     [DataField, AutoNetworkedField]
-    public List<string> Allergies = new();
+    public List<ProtoId<AllergyPrototype>> Allergies = new();
+
+    [DataField, AutoNetworkedField]
+    public Dictionary<ProtoId<AllergyPrototype>, float> AllergenExposure = new();
+
+    [DataField, AutoNetworkedField]
+    public Dictionary<ProtoId<AllergyPrototype>, TimeSpan> LastReactionTimes = new();
 }

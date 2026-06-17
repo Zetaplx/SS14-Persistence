@@ -1,4 +1,6 @@
+using Content.Shared._Persistence14.Dependencies;
 using JetBrains.Annotations;
+using Robust.Shared.Timing;
 
 namespace Content.Shared._Persistence14.Allergy;
 
@@ -17,26 +19,12 @@ public abstract partial class AllergicReactionSelector
     [DataField]
     public float Interval = 1f;
 
-    [DataField]
-    public TimeSpan LastReactionTime;
-
-    public void Update(AllergyDependency dependencies, AllergyContext ctx)
+    public void Update(ContextDependencies dependencies, AllergyContext ctx)
     {
         if (CanReact(dependencies, ctx))
             React(dependencies, ctx);
     }
 
-    [MustCallBase]
-    protected virtual bool CanReact(AllergyDependency dependencies, AllergyContext ctx)
-    {
-        var currTime = dependencies.Timing.CurTime;
-        if ((currTime - LastReactionTime).TotalSeconds < Interval)
-            return false;
-
-        if (ctx.AllergenAmount < Threshold)
-            return false;
-
-        return true;
-    }
-    protected abstract void React(AllergyDependency dependencies, AllergyContext ctx);
+    protected abstract bool CanReact(ContextDependencies dependencies, AllergyContext ctx);
+    protected abstract void React(ContextDependencies dependencies, AllergyContext ctx);
 }

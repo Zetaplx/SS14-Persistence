@@ -3,14 +3,16 @@ using Robust.Shared.Prototypes;
 namespace Content.Shared._Persistence14.Allergy;
 
 [Prototype]
-public sealed partial class AllergyPrototype : IPrototype
+public sealed partial class AllergyPrototype : IPrototype, IInheritingPrototype
 {
     [IdDataField]
     public string ID { get; set; } = default!;
 
-    [DataField]
-    public AllergenSelector? Allergen;
+    
+
+    [DataField(required: true)]
+    public AllergenSelector Allergen = default!;
 
     [DataField]
-    public AllergicReactionSelector? Reaction;
+    public List<AllergicReactionSelector> Reactions = new();
 }
