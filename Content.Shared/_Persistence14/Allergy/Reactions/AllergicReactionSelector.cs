@@ -37,12 +37,12 @@ public abstract partial class AllergicReactionSelector
     /// <summary>
     /// The effect of the allergic reaction called each update if all conditions are met.
     /// </summary>
-    protected abstract void React(ContextDependencies dependencies, AllergyContext ctx);
+    public abstract void React(ContextDependencies dependencies, AllergyContext ctx);
 
     /// <summary>
     /// Required to be true for the reaction to react on update.
     /// </summary>
-    protected virtual bool CanReact(ContextDependencies dependencies, AllergyContext ctx)
+    public virtual bool CanReact(ContextDependencies dependencies, AllergyContext ctx)
     {
         return true;
     }
@@ -52,7 +52,7 @@ public abstract partial class AllergicReactionSelector
     /// Called before <see cref="BaseCanReact"/>.<br/>
     /// For code which must run every check (useful for admin log messages regarding checks). 
     /// </summary>
-    protected virtual bool CanReactPrefix(ContextDependencies dependencies, AllergyContext ctx)
+    public virtual bool CanReactPrefix(ContextDependencies dependencies, AllergyContext ctx)
     {
         return true;
     }
