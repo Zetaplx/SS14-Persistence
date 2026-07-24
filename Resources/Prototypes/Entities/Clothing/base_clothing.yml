@@ -17,6 +17,13 @@
   - type: PhysicalComposition
     materialComposition:
       Cloth: 100
+  - type: Dyeable
+  - type: Damageable
+  - type: Reactive
+    groups:
+      Dyeable:
+      - Touch
+  - type: Appearance
 
 - type: entity
   abstract: true

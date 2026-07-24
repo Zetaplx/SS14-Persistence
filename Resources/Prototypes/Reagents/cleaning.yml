@@ -31,6 +31,16 @@
     cleanCost: 0.13
   - !type:CleanDecalsReaction
     cleanCost: 0.13
+  reactiveEffects:
+    Dyeable:
+      methods:
+      - Touch
+      effects:
+      - !type:DyeEntity
+        r: 1
+        g: 1
+        b: 1
+        strength: .2
 
 - type: reagent
   id: SpaceCleaner
@@ -45,6 +55,16 @@
   tileReactions:
     - !type:CleanTileReaction {}
     - !type:CleanDecalsReaction {}
+  reactiveEffects:
+    Dyeable:
+      methods:
+      - Touch
+      effects:
+      - !type:DyeEntity
+        r: 1
+        g: 1
+        b: 1
+        strength: .1
 
 - type: reagent
   id: SoapReagent
@@ -74,6 +94,16 @@
           reagent: SoapReagent
           min: 6
         probability: 0.20
+  reactiveEffects:
+    Dyeable:
+      methods:
+      - Touch
+      effects:
+      - !type:DyeEntity
+        r: 1
+        g: 1
+        b: 1
+        strength: .02
 
 - type: reagent
   id: SpaceLube

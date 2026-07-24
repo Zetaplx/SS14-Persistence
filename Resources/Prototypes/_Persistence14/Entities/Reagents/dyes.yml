@@ -1,0 +1,89 @@
+- type: reactiveGroup
+  id: Dyeable
+
+- type: reagent
+  id: BaseDye
+  abstract: true
+  group: Fun
+  desc: reagent-desc-dye
+  physicalDesc: reagent-physical-desc-vibrant
+  flavor: bitter
+
+
+## PRIMARY COLORS ##
+- type: reagent
+  parent: BaseDye
+  id: DyeRed
+  name: reagent-name-dye-red
+  color: "#D62929"
+  reactiveEffects:
+    Dyeable:
+      methods:
+      - Touch
+      effects:
+      - !type:DyeEntity
+        r: 1
+        g: -1
+        b: -1
+
+- type: reagent
+  id: DyeGreen
+  parent: BaseDye
+  name: reagent-name-dye-yellow
+  color: "#4B9B58"
+  reactiveEffects:
+    Dyeable:
+      methods:
+      - Touch
+      effects:
+      - !type:DyeEntity
+        r: -1
+        g: 1
+        b: -1
+
+- type: reagent
+  id: DyeBlue
+  parent: BaseDye
+  name: reagent-name-dye-blue
+  color: "#3275c9"
+  reactiveEffects:
+    Dyeable:
+      methods:
+      - Touch
+      effects:
+      - !type:DyeEntity
+        r: -1
+        g: -1
+        b: 1
+
+- type: reagent
+  id: DyeBlack
+  parent: BaseDye
+  name: reagent-name-dye-black
+  color: "#202020"
+  reactiveEffects:
+    Dyeable:
+      methods:
+      - Touch
+      effects:
+      - !type:DyeEntity
+        color: "#202020"
+        r: -1
+        g: -1
+        b: -1
+
+- type: reagent
+  id: DyeWhite
+  parent: BaseDye
+  name: reagent-name-dye-white
+  color: "#F2F2F2"
+  reactiveEffects:
+    Dyeable:
+      methods:
+      - Touch
+      effects:
+      - !type:DyeEntity
+        r: 1
+        g: 1
+        b: 1
+    
