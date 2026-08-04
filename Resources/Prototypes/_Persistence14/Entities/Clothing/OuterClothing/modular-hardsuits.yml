@@ -1,0 +1,139 @@
+# The abstract form of a modular hardsuit defining all base functionality.
+- type: entity
+  id: ClothingModularHardsuitBase
+  abstract: true
+  parents: [ClothingOuterBase, AllowSuitStorageClothing]
+  name: modular hardsuit
+  components:
+  - type: Sprite
+    state: icon
+  - type: Clothing
+    slots: 
+    - outerClothing
+    clothingVisuals:
+      outerClothing:
+      - state: equipped-OUTERCLOTHING
+  - type: Item
+    inhandVisuals:
+      Left:
+      - state: inhand-left
+      Right:
+      - state: inhand-right
+  - type: InteractionOutline
+  - type: PressureProtection
+    highPressureMultiplier: 0.02
+    lowPressureMultiplier: 1000
+  - type: TemperatureProtection
+    heatingCoefficient: 0.01
+    coolingCoefficient: 0.01
+  - type: ToggleableClothing
+    clothingPrototype: ClothingModularHardsuitHelmetBase
+  - type: ContainerContainer
+    containers:
+      toggleable-clothing: !type:ContainerSlot {}
+      modsuit-plating: !type:Container {}
+  - type: HideLayerClothing
+    slots:
+    - Tail
+  - type: ModsuitPlatingManager
+    platingContainer: modsuit-plating
+    maxPlateCount: 3
+
+
+- type: entity
+  id: ClothingModularHardsuitHelmetBase
+  abstract: true
+  parents: [ ClothingHeadHardsuitBase ]
+  categories: [ HideSpawnMenu]
+  components:
+  - type: Sprite
+    state: icon
+    layers:
+    - state: icon
+    - state: icon-unshaded
+      shader: unshaded
+    - state: light-overlay
+      visible: false
+      shader: unshaded
+      map: [ "light" ]
+  - type: ToggleableVisuals
+    spriteLayer: light
+    clothingVisuals:
+      head:
+      - state: equipped-head-light
+        shader: unshaded
+      head-vox:
+      - state: equipped-head-light-vox
+        shader: unshaded
+      head-vulpkanin:
+      - state: equipped-head-light-vulpkanin
+        shader: unshaded
+      head-reptilian:
+      - state: equipped-head-light-reptilian
+        shader: unshaded
+  - type: Clothing
+    slots:
+    - head
+    clothingVisuals:
+      head:
+      - state: equipped-head
+      - state: equipped-head-unshaded
+        shader: unshaded
+      head-vox:
+      - state: equipped-head-vox
+      - state: equipped-head-unshaded-vox
+        shader: unshaded
+      head-vulpkanin:
+      - state: equipped-head-vulpkanin
+      - state: equipped-head-unshaded-vulpkanin
+        shader: unshaded
+      head-reptilian:
+      - state: equipped-head-reptilian
+      - state: equipped-head-unshaded-reptilian
+        shader: unshaded
+  - type: HandheldLight
+    addPrefix: false
+  - type: PointLight
+    enabled: false
+    radius: 6
+    energy: 2
+    color: "#daffad"
+    mask: /Textures/Effects/LightMasks/cone.png
+    autoRot: true
+  - type: PressureProtection
+    highPressureMultiplier: 0.08
+    lowPressureMultiplier: 1000
+  - type: TemperatureProtection
+    heatingCoefficient: 0.005
+    coolingCoefficient: 0.005
+  - type: Battery
+    maxCharge: 600 #lights drain 3/s but recharge of 2 makes this 1/s. Therefore 600 is 10 minutes of light.
+    startingCharge: 600
+  - type: BatterySelfRecharger
+    autoRechargeRate: 2 #recharge of 2 makes total drain 1w / s so max charge is 1:1 with time. Time to fully charge should be 5 minutes. Having recharge gives light an extended flicker period which gives you some warning to return to light area.
+
+
+- type: entity
+  id: ClothingModularHardsuit
+  parent: ClothingModularHardsuitbase
+  name: modular hardsuit
+  description: An offbrand WJNT MODSuit capable of supporting all MODules and MODSuit plating.
+  components:
+  - type: Sprite
+    sprite: _Persistence14/Clothing/OuterClothing/Modsuit/modsuit.rsi
+  - type: Clothing
+    sprite: _Persistence14/Clothing/OuterClothing/Modsuit/modsuit.rsi
+
+- type: entity
+  id: ClothingModularHardsuitHelmet
+  parent: ClothingModularHardsuitHelmetBase
+  name: modular hardsuit helmet
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _Persistence14/Clothing/Head/Helmets/Modsuit/modsuit.rsi
+  - type: PointLight
+    radius: 6
+    energy: 2
+    color: "#f1c753"
+  
