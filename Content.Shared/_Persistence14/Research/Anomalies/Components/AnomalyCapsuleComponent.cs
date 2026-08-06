@@ -4,10 +4,10 @@ namespace Content.Shared._Persistence14.Research.Anomalies;
 public sealed partial class AnomalyCapsuleComponent : Component
 {
     [DataField(required: true)]
-    public string CoreContainer = "[unknown]";
+    public string CoreSlot = "[unknown]";
 
     [DataField(required: true)]
-    public string ModuleContainer = "[unknown]";
+    public HashSet<string> ModuleSlots = new();
 
     [DataField]
     public int MaxModuleCount = 2;

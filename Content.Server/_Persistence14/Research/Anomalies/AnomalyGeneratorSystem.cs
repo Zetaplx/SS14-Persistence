@@ -1,11 +1,17 @@
 using Content.Server.Anomaly.Components;
 using Content.Server.Atmos.EntitySystems;
+using Content.Server.Audio;
+using Content.Server.Materials;
+using Content.Server.Power.EntitySystems;
 using Content.Server.Radio.EntitySystems;
 using Content.Shared._Persistence14.Research.Anomalies;
 using Content.Shared.Anomaly;
 using Content.Shared.CCVar;
 using Content.Shared.Containers.ItemSlots;
+using Content.Shared.Materials;
 using Content.Shared.Physics;
+using Content.Shared.Popups;
+using Content.Shared.Power;
 using Content.Shared.Radio;
 using Robust.Server.GameObjects;
 using Robust.Shared.Audio;
@@ -18,6 +24,7 @@ using Robust.Shared.Physics.Components;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
+using Robust.Shared.Toolshed.Syntax;
 
 namespace Content.Server._Persistence14.Research.Anomalies;
 
@@ -36,6 +43,9 @@ public sealed partial class AnomalyGeneratorSystem : SharedAnomalyGeneratorSyste
     [Dependency] private readonly RadioSystem _radio = default!;
     [Dependency] private readonly IPrototypeManager _prototype = default!;
     [Dependency] private readonly SharedUserInterfaceSystem _ui = default!;
+    [Dependency] private readonly MaterialStorageSystem _material = default!;
+    [Dependency] private readonly AmbientSoundSystem _ambient = default!;
+    [Dependency] private readonly SharedPopupSystem _popup = default!;
     private const int RandomCoordinateAttempts = 25;
     private const string Sawmill = "anomaly-generator";
 
@@ -44,6 +54,11 @@ public sealed partial class AnomalyGeneratorSystem : SharedAnomalyGeneratorSyste
         base.Initialize();
 
         SubscribeLocalEvent<AnomalyGeneratorComponent, GenerateAnomalyEvent>(OnGenerateAnomaly);
+        SubscribeLocalEvent<AnomalyGeneratorComponent, UpdateAnomalyGeneratorUIEvent>(OnUpdateUIEvent);
+        SubscribeLocalEvent<AnomalyGeneratorComponent, BoundUIOpenedEvent>(OnBUIOpen);
+        SubscribeLocalEvent<AnomalyGeneratorComponent, MaterialAmountChangedEvent>(OnMaterialQtyChange);
+        SubscribeLocalEvent<AnomalyGeneratorComponent, PowerChangedEvent>(OnPowerChanged);
+        SubscribeLocalEvent<AnomalyGeneratorComponent, ItemSlotInsertAttemptEvent>(OnCapsuleInsertAttempt);
     }
 
     public override void Update(float frameTime)
@@ -61,10 +76,52 @@ public sealed partial class AnomalyGeneratorSystem : SharedAnomalyGeneratorSyste
         }
     }
 
-    #region Signal Hooks
+    #region Event Hooks
     private void OnGenerateAnomaly(Entity<AnomalyGeneratorComponent> generator, ref GenerateAnomalyEvent args)
     {
         StartAnomalyGenerator(generator);
+    }
+
+    private void OnBUIOpen(Entity<AnomalyGeneratorComponent> generator, ref BoundUIOpenedEvent args)
+    {
+        UpdateGeneratorUi(generator);
+    }
+
+    private void OnMaterialQtyChange(Entity<AnomalyGeneratorComponent> generator, ref MaterialAmountChangedEvent args)
+    {
+        UpdateGeneratorUi(generator);
+    }
+
+    private void OnPowerChanged(Entity<AnomalyGeneratorComponent> generator, ref PowerChangedEvent args)
+    {
+        _ambient.SetAmbience(generator.Owner, args.Powered);
+        if (args.Powered)
+            return;
+
+        CancelAnomalyGenerator(generator);
+    }
+
+    private void OnUpdateUIEvent(Entity<AnomalyGeneratorComponent> generator, ref UpdateAnomalyGeneratorUIEvent args) => UpdateGeneratorUi(generator);
+
+    private void OnCapsuleInsertAttempt(Entity<AnomalyGeneratorComponent> generator, ref ItemSlotInsertAttemptEvent args)
+    {
+        if (args.Slot.ID != generator.Comp.CapsuleContainer)
+            return;
+
+        if (!TryComp<AnomalyCapsuleComponent>(args.Item, out var capsuleComp))
+            return; // Should be caught by the whitelist...
+
+        Entity<AnomalyCapsuleComponent> capsule = (args.Item, capsuleComp);
+
+        if (_capsules.HasCore(capsule))
+            return; // Insert as normal
+
+        args.Cancelled = true;
+
+        if (args.User is { } user)
+        {
+            _popup.PopupEntity(Loc.GetString("anomaly-generator-capsule-missing-core"), generator.Owner, user);
+        }
     }
     #endregion
 
@@ -75,7 +132,10 @@ public sealed partial class AnomalyGeneratorSystem : SharedAnomalyGeneratorSyste
         var isGenerating = TryComp<GeneratingAnomalyGeneratorComponent>(generator.Owner, out var generatingComp);
         var isOnCooldown = _time.CurTime < generator.Comp.CooldownEndTime;
 
-        var canGenerate = CanGenerateAnomaly(generator, out var capsule, out var anomalyPrototype);
+        var canGenerate = CanGenerateAnomaly(generator, out _, out var anomalyPrototype);
+        var hasCapsule = TryGetAnomalyCapsule(generator, out var capsule);
+
+        var material = _material.GetMaterialAmount(generator.Owner, generator.Comp.RequiredMaterial);
 
         var state = new AnomalyGeneratorBUIState
         {
@@ -84,7 +144,11 @@ public sealed partial class AnomalyGeneratorSystem : SharedAnomalyGeneratorSyste
             CooldownDuration = generator.Comp.CooldownLength,
             CooldownEndTime = isOnCooldown ? generator.Comp.CooldownEndTime : null,
 
-            CanGenerateAnomaly = canGenerate
+            CanGenerateAnomaly = canGenerate,
+
+            MaterialAmount = material / 100f,
+            MaterialRequired = generator.Comp.MaterialPerAnomaly / 100f,
+            Capsule = hasCapsule ? GetNetEntity(capsule.Owner) : null
         };
         _ui.SetUiState(generator.Owner, AnomalyGeneratorUiKey.Key, state);
     }
@@ -97,11 +161,24 @@ public sealed partial class AnomalyGeneratorSystem : SharedAnomalyGeneratorSyste
     {
         capsule = default!;
         anomalyPrototype = default!;
+
+        if (!this.IsPowered(generator.Owner, EntityManager))
+            return false; // Generator is unpowered
+
+        if (HasComp<GeneratingAnomalyGeneratorComponent>(generator.Owner))
+            return false; // Already is generating.
+
+        if (_time.CurTime < generator.Comp.CooldownEndTime)
+            return false; // Still on cooldown.
+
+        if (_material.GetMaterialAmount(generator.Owner, generator.Comp.RequiredMaterial) < generator.Comp.MaterialPerAnomaly)
+            return false; // Not enough fuel
+
         if (!TryGetAnomalyCapsule(generator, out capsule))
-            return false;
+            return false; // No capsule
 
         if (!_capsules.TryGetAnomalyPrototype(capsule, out anomalyPrototype))
-            return false;
+            return false; // Failed to fetch the anomaly prototype
 
         return true;
     }
@@ -122,7 +199,7 @@ public sealed partial class AnomalyGeneratorSystem : SharedAnomalyGeneratorSyste
                 Capsule = capsule
             }
         };
-        _capsules.RelayEventToModule(capsule, ref ev);
+        _capsules.RelayEventToModules(capsule, ref ev);
         RaiseLocalEvent(ref ev);
         if (ev.Cancelled)
             return false;
@@ -130,7 +207,11 @@ public sealed partial class AnomalyGeneratorSystem : SharedAnomalyGeneratorSyste
         if (ev.Context.TargetCoordinates is not { } coordinates && !TryGetCoordinatesOnGrid(generator.Owner, out coordinates))
             return false;
 
-        Spawn(anomalyPrototype.ID, coordinates);
+        if (!_material.TryChangeMaterialAmount(generator.Owner, generator.Comp.RequiredMaterial, -generator.Comp.MaterialPerAnomaly))
+            return false;
+
+        var spawn = Spawn(anomalyPrototype.ID, coordinates);
+        LogManager.GetSawmill(Sawmill).Info($"An anomaly ({ToPrettyString(spawn)}) was generated at these coordinates: {coordinates}");
         return true;
     }
 
@@ -142,7 +223,8 @@ public sealed partial class AnomalyGeneratorSystem : SharedAnomalyGeneratorSyste
             return;
         }
 
-        Spawn(anomalyProtoId, coordinates);
+        var spawn = Spawn(anomalyProtoId, coordinates);
+        LogManager.GetSawmill(Sawmill).Info($"An anomaly ({ToPrettyString(spawn)}) was generated at these coordinates: {coordinates}");
     }
 
     /// <summary>
@@ -233,6 +315,7 @@ public sealed partial class AnomalyGeneratorSystem : SharedAnomalyGeneratorSyste
         generatingComp.AudioStream = _audio.PlayPvs(generator.Comp.GeneratingSound, generator.Owner, AudioParams.Default.WithLoop(true))?.Entity;
         generator.Comp.CooldownEndTime = _time.CurTime + generator.Comp.CooldownLength;
         _appearance.SetData(generator.Owner, AnomalyGeneratorVisuals.Generating, true);
+        UpdateGeneratorUi(generator);
     }
 
     /// <summary>
@@ -240,15 +323,24 @@ public sealed partial class AnomalyGeneratorSystem : SharedAnomalyGeneratorSyste
     /// </summary>
     private void FinishAnomalyGenerator(Entity<AnomalyGeneratorComponent> generator)
     {
+        RemComp<GeneratingAnomalyGeneratorComponent>(generator.Owner);
         if (!TryGenerateAnomaly(generator))
             return; // Should probably do *something* if it fails to generate...
 
-        RemComp<GeneratingAnomalyGeneratorComponent>(generator.Owner);
         _appearance.SetData(generator.Owner, AnomalyGeneratorVisuals.Generating, false);
         _audio.PlayPvs(generator.Comp.GeneratingFinishedSound, generator.Owner);
 
         var message = Loc.GetString("anomaly-generator-announcement");
         _radio.SendRadioMessage(generator.Owner, message, _prototype.Index<RadioChannelPrototype>(generator.Comp.ScienceChannel), generator.Owner);
+        UpdateGeneratorUi(generator);
+    }
+
+    private void CancelAnomalyGenerator(Entity<AnomalyGeneratorComponent> generator)
+    {
+        RemComp<GeneratingAnomalyGeneratorComponent>(generator.Owner);
+
+        _appearance.SetData(generator.Owner, AnomalyGeneratorVisuals.Generating, false);
+        UpdateGeneratorUi(generator);
     }
 
     #endregion

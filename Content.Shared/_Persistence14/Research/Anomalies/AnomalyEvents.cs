@@ -1,4 +1,6 @@
+using Content.Shared.FixedPoint;
 using Robust.Shared.Map;
+using Robust.Shared.Serialization;
 
 namespace Content.Shared._Persistence14.Research.Anomalies;
 
@@ -8,8 +10,8 @@ public sealed partial class AnomalyGeneratorAttemptEvent : CancellableEntityEven
     public required AnomalyGenerationContext Context;
 }
 
-[ByRefEvent]
-public sealed partial class GenerateAnomalyEvent : EntityEventArgs { }
+[NetSerializable, Serializable]
+public sealed partial class GenerateAnomalyEvent : BoundUserInterfaceMessage { }
 
 public sealed partial class AnomalyGenerationContext
 {
@@ -18,6 +20,10 @@ public sealed partial class AnomalyGenerationContext
     public EntityCoordinates? TargetCoordinates = null;
 }
 
+[ByRefEvent]
+public sealed partial class UpdateAnomalyGeneratorUIEvent : EntityEventArgs { }
+
+[Serializable, NetSerializable]
 public sealed class AnomalyGeneratorBUIState : BoundUserInterfaceState
 {
     public required TimeSpan? GenerateEndTime;
@@ -28,4 +34,8 @@ public sealed class AnomalyGeneratorBUIState : BoundUserInterfaceState
     public required TimeSpan CooldownDuration;
 
     public required bool CanGenerateAnomaly;
+
+    public required FixedPoint2 MaterialAmount;
+    public required FixedPoint2 MaterialRequired;
+    public required NetEntity? Capsule;
 }
