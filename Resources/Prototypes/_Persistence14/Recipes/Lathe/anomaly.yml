@@ -1,0 +1,17 @@
+- type: latheRecipe
+  id: AnomalyCapsule
+  result: AnomalyCapsule
+  material:
+    Titanium: 1000
+    Glass: 200
+    Silver: 200
+    Gold: 200
+    Plasma: 100
+
+- type: latheRecipe
+  id: UnstableAnomalyCore
+  result: AnomalyCapsuleCoreUnstable
+  material:
+    Plasma: 1000
+    Phoron: 100
+    Bananium: 200

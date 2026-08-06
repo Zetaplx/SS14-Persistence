@@ -206,6 +206,7 @@
     staticPacks:
     - ChemistryStatic
     - SurgeryStatic
+    - AnomalyGenerationBasic
     dynamicPacks:
     - AdvancedTools
     - ScienceEquipment
