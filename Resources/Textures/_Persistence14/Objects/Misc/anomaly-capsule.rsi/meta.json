@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "created by JetBalrog (Discord/Github)",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "icon"
+    },
+    {
+      "name": "icon-open"
+    },
+    {
+      "name": "icon-open-2"
+    },
+    {
+      "name": "inhand-lid-lower"
+    },
+    {
+      "name": "icon-seed"
+    },
+    {
+      "name": "icon-open-filled"
+    },
+    {
+      "name": "iand-open-filled-2"
+    },
+    {
+      "name": "icon-filled"
+    }
+  ]
+}

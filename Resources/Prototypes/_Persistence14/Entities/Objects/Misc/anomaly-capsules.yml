@@ -1,0 +1,94 @@
+- type: entity
+  id: AnomalyCapsule
+  parent: BaseItem
+  description: A high-strength casing for storing the concentrated cores required to create new anomalies.
+  components:
+  - type: Sprite
+    sprite: _Persistence14/Objects/Misc/anomaly-capsule.rsi
+    layers: 
+    - state: icon-seed
+      visible: false
+    - state: icon
+  
+  - type: InteractionOutline
+  - type: ContainerContainer
+    containers:
+      core-container: !type:Container {}
+      module-container: !type:Container {}
+  - type: AnomalyCapsule
+    coreContainer: core-container
+    moduleContainer: module-container
+    maxModuleCount: 2
+
+- type: entity
+  id: AnomalyCapsuleCoreBase
+  parent: BaseItem
+  abstract: true
+  components:
+  - type: Sprite
+    sprite: _Persistence14/Objects/Misc/anomaly-capsule.rsi
+    state: icon-seed
+  
+  - type: InteractionOutline
+  - type: AnomalyCapsuleCore
+
+- type: entity
+  id: AnomalyCapsuleCoreUnstable
+  parent: AnomalyCapsuleCoreBase
+  name: unstable anomaly core
+  description: An unstable processed anomaly core which can be stored in an anomaly capsule for anomaly generation.
+  components:
+  - type: AnomalyCapsuleCore
+    anomalyPool: !type:RandomTableGroupSelector
+      children:
+      - !type:RandomTableNestedSelector
+        tableId: EnvironmentalAnomalyRandomTable
+      - !type:RandomTableNestedSelector
+        tableId: InjectorAnomalyRandomTable
+
+
+- type: randomTable
+  id: EnvironmentalAnomalyRandomTable
+  table: !type:RandomTableGroupSelector
+    children:
+    - prototype: AnomalyPyroclastic
+    - prototype: AnomalyGravity
+    - prototype: AnomalyElectricity
+    - prototype: AnomalyFlesh
+    - prototype: AnomalyBluespace
+    - prototype: AnomalyIce
+    - !type:RandomTableNestedSelector
+      tableId: RockAnomalyRandomTable
+    - prototype: AnomalyFlora
+    - prototype: AnomalyLiquid
+    - prototype: AnomalyShadow
+    - prototype: AnomalyTech
+    - prototype: AnomalyPolymorph
+    - prototype: AnomalyEye
+
+- type: randomTable
+  id: RockAnomalyRandomTable
+  table: !type:RandomTableGroupSelector
+    children:
+    - prototype: AnomalyRockUranium
+    - prototype: AnomalyRockBananium
+    - prototype: AnomalyRockQuartz
+    - prototype: AnomalyRockSilver
+    - prototype: AnomalyRockGold
+    - prototype: AnomalyRockIron
+    - prototype: AnomalyRockCoal
+
+- type: randomTable
+  id: InjectorAnomalyRandomTable
+  table: !type:RandomTableGroupSelector
+    children:
+    - prototype: AnomalyTrapPyroclastic
+    - prototype: AnomalyTrapElectricity
+    - prototype: AnomalyTrapShadow
+    - prototype: AnomalyTrapIce
+    - prototype: AnomalyTrapFlora
+    - prototype: AnomalyTrapBluespace
+    - prototype: AnomalyTrapFlesh
+    - prototype: AnomalyTrapGravity
+    - prototype: AnomalyTrapTech
+    - prototype: AnomalyTrapRock

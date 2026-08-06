@@ -265,6 +265,7 @@
       path: /Audio/Machines/anomaly_generate.ogg
     generatingFinishedSound:
       path: /Audio/Machines/beep.ogg
+    capsuleContainer: anomaly-capsule
   - type: MaterialStorage
     whitelist:
       tags:
@@ -330,3 +331,11 @@
   - type: GuideHelp
     guides:
     - AnomalousResearch
+  - type: ContainerContainer
+  - type: ItemSlots
+    slots:
+      anomaly-capsule:
+        name: anomaly-generator-slot-capsule
+        whitelist:
+          components:
+          - AnomalyCapsule
