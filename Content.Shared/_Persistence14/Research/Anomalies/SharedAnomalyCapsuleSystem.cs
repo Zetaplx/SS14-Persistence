@@ -1,11 +1,9 @@
 using System.Linq;
 using Content.Shared._Persistence14.RandomTable;
-using Content.Shared.Anomaly.Components;
 using Content.Shared.Interaction;
 using Content.Shared.Verbs;
 using Robust.Shared.Containers;
 using Robust.Shared.Prototypes;
-using Robust.Shared.Toolshed.Commands.Values;
 
 namespace Content.Shared._Persistence14.Research.Anomalies;
 
@@ -27,7 +25,8 @@ public sealed partial class SharedAnomalyCapsuleSystem : EntitySystem
         if (!TryComp<AnomalyCapsuleComponent>(args.Target, out var capsule))
             return;
 
-        TryInsertCore((args.Target, capsule), core);
+        if (TryInsertCore((args.Target, capsule), core))
+            args.Handled = true;
     }
 
     public bool HasCore(Entity<AnomalyCapsuleComponent> capsule, bool log = true) => TryGetCore(capsule, out _, log);
@@ -39,7 +38,7 @@ public sealed partial class SharedAnomalyCapsuleSystem : EntitySystem
         if (container.ContainedEntities.Count > 1 && log)
             LogManager.GetSawmill(Sawmill).Error($"Invalid amount of cores in container {capsule.Comp.CoreContainer} in entity {ToPrettyString(capsule)}");
 
-        if (container.ContainedEntities.Count != 0)
+        if (container.ContainedEntities.Count != 1)
             return false;
 
         var coreUid = container.ContainedEntities.First();
@@ -99,5 +98,10 @@ public sealed partial class SharedAnomalyCapsuleSystem : EntitySystem
             Act = () => TryRemoveCore(capsule, out _),
             Priority = 1
         });
+    }
+
+    public void RelayEventToModule<TEvent>(Entity<AnomalyCapsuleComponent> capsule, ref TEvent args) where TEvent : EntityEventArgs
+    {
+        // TODO: Relay the event to all modules.
     }
 }

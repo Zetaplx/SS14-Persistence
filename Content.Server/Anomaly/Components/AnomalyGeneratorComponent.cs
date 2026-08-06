@@ -12,7 +12,7 @@ namespace Content.Server.Anomaly.Components;
 /// This is used for a machine that is able to generate
 /// anomalies randomly on the station.
 /// </summary>
-[RegisterComponent, Access(typeof(SharedAnomalySystem)), AutoGenerateComponentPause]
+[RegisterComponent, AutoGenerateComponentPause]
 public sealed partial class AnomalyGeneratorComponent : Component
 {
     /// <summary>
