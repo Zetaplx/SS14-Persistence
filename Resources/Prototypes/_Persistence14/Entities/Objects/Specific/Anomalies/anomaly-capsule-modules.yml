@@ -47,7 +47,7 @@
     category: Environmental
 
 - type: entity
-  id: AnomalyModuleEnvironmentalStabilizer
+  id: AnomalyModuleInfectiousStabilizer
   parent: AnomalyModuleBase
   name: infection stabilizer anomaly module
   description: A module designed for an anomaly capsule stabilizing the anomaly core and ensuring it spawns an infectious anomaly. Incompatible with the environmental stabilizer anomaly module.

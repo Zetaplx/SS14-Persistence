@@ -12,10 +12,10 @@
       map: ["enum.AnomalyCapsuleVisualLayers.Core"]
     - state: icon
       map: ["enum.AnomalyCapsuleVisualLayers.Base"]
-    - state: up_chip
+    - state: up-chip
       visible: false
       map: ["enum.AnomalyCapsuleVisualLayers.Module1"]
-    - state: down_chip
+    - state: down-chip
       visible: false
       map: ["enum.AnomalyCapsuleVisualLayers.Module2"]
   - type: GenericVisualizer
@@ -24,6 +24,14 @@
         enum.AnomalyCapsuleVisualLayers.Core:
           True: { visible: true }
           False: { visible: false}
+      enum.AnomalyCapsuleVisualData.HasModule1:
+        enum.AnomalyCapsuleVisualLayers.Module1:
+          True: { visible: true }
+          False: { visible: false }
+      enum.AnomalyCapsuleVisualData.HasModule2:
+        enum.AnomalyCapsuleVisualLayers.Module2:
+          True: { visible: true }
+          False: { visible: false }
   - type: Appearance
   - type: AnomalyCapsuleVisualizer
   - type: InteractionOutline

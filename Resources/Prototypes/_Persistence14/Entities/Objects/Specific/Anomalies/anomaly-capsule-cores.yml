@@ -34,7 +34,7 @@
       tableId: EnergeticCoreSpawnTable
 
 - type: entity
-  id: AnomalyCapsuleCoreUnstable
+  id: AnomalyCapsuleCoreMassive
   parent: AnomalyCapsuleCoreBase
   name: massive anomaly core
   description: A massive processed anomaly core which can be stored in an anomaly capsule for anomaly generation.
@@ -44,7 +44,7 @@
       tableId: MassiveCoreSpawnTable
 
 - type: entity
-  id: AnomalyCapsuleCoreUnstable
+  id: AnomalyCapsuleCoreLiving
   parent: AnomalyCapsuleCoreBase
   name: living anomaly core
   description: A living processed anomaly core which can be stored in an anomaly capsule for anomaly generation.
@@ -54,7 +54,7 @@
       tableId: LivingCoreSpawnTable
 
 - type: entity
-  id: AnomalyCapsuleCoreUnstable
+  id: AnomalyCapsuleCoreStrange
   parent: AnomalyCapsuleCoreBase
   name: strange anomaly core
   description: A strange processed anomaly core which can be stored in an anomaly capsule for anomaly generation.

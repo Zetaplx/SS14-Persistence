@@ -4,6 +4,8 @@ using Content.Shared.Interaction;
 using Content.Shared.Popups;
 using Robust.Shared.Audio;
 using Robust.Shared.Audio.Systems;
+using Robust.Shared.Network;
+using Robust.Shared.Timing;
 
 namespace Content.Shared._Persistence14.Research.Anomalies.Modules;
 
@@ -25,6 +27,8 @@ public sealed partial class TargetingCapsuleModuleSystem : AnomalyCapsuleModuleS
     [Dependency] private readonly PersistentIdentifierSystem _pid = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
+    [Dependency] private readonly IGameTiming _gameTime = default!;
+    [Dependency] private readonly INetManager _net = default!;
 
     public override void Initialize()
     {
@@ -63,7 +67,10 @@ public sealed partial class TargetingCapsuleModuleSystem : AnomalyCapsuleModuleS
         }
 
         _pid.AssignIdReference(ref module.Comp.Target, target);
-        _popup.PopupEntity(Loc.GetString("anomaly-capsule-targeting-module-connected"), target);
-        _audio.PlayPvs(module.Comp.ConnectSound, target);
+        if (_gameTime.IsFirstTimePredicted && _net.IsClient)
+        {
+            _popup.PopupEntity(Loc.GetString("anomaly-capsule-targeting-module-connected"), target);
+            _audio.PlayPvs(module.Comp.ConnectSound, target);
+        }
     }
 }

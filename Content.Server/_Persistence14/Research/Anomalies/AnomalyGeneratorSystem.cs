@@ -166,17 +166,22 @@ public sealed partial class AnomalyGeneratorSystem : SharedAnomalyGeneratorSyste
         if (!this.IsPowered(generator.Owner, EntityManager))
             return false; // Generator is unpowered
 
-        if (HasComp<GeneratingAnomalyGeneratorComponent>(generator.Owner))
-            return false; // Already is generating.
-
-        if (_time.CurTime < generator.Comp.CooldownEndTime)
-            return false; // Still on cooldown.
-
         if (_material.GetMaterialAmount(generator.Owner, generator.Comp.RequiredMaterial) < generator.Comp.MaterialPerAnomaly)
             return false; // Not enough fuel
 
         if (!TryGetAnomalyCapsule(generator, out capsule))
             return false; // No capsule
+
+        return true;
+    }
+
+    private bool CanStartAnomaly(Entity<AnomalyGeneratorComponent> generator)
+    {
+        if (_time.CurTime < generator.Comp.CooldownEndTime)
+            return false; // Still on cooldown.
+
+        if (HasComp<GeneratingAnomalyGeneratorComponent>(generator.Owner))
+            return false; // Already started
 
         return true;
     }
@@ -348,7 +353,7 @@ public sealed partial class AnomalyGeneratorSystem : SharedAnomalyGeneratorSyste
     /// </summary>
     private void StartAnomalyGenerator(Entity<AnomalyGeneratorComponent> generator)
     {
-        if (!CanGenerateAnomaly(generator))
+        if (!CanGenerateAnomaly(generator) || !CanStartAnomaly(generator)) // Already generating
             return;
 
         var generatingComp = EnsureComp<GeneratingAnomalyGeneratorComponent>(generator.Owner);
@@ -365,12 +370,14 @@ public sealed partial class AnomalyGeneratorSystem : SharedAnomalyGeneratorSyste
     private void FinishAnomalyGenerator(Entity<AnomalyGeneratorComponent> generator)
     {
         RemComp<GeneratingAnomalyGeneratorComponent>(generator.Owner);
-        if (!TryGenerateAnomaly(generator))
-            return; // Should probably do *something* if it fails to generate...
-
         _appearance.SetData(generator.Owner, AnomalyGeneratorVisuals.Generating, false);
-        _audio.PlayPvs(generator.Comp.GeneratingFinishedSound, generator.Owner);
 
+        if (!TryGenerateAnomaly(generator))
+        {
+            return; // Should probably do *something* if it fails to generate...
+        }
+
+        _audio.PlayPvs(generator.Comp.GeneratingFinishedSound, generator.Owner);
         var message = Loc.GetString("anomaly-generator-announcement");
         _radio.SendRadioMessage(generator.Owner, message, _prototype.Index<RadioChannelPrototype>(generator.Comp.ScienceChannel), generator.Owner);
         UpdateGeneratorUi(generator);
