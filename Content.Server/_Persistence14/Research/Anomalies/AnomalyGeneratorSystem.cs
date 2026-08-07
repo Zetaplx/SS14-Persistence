@@ -4,6 +4,7 @@ using Content.Server.Audio;
 using Content.Server.Materials;
 using Content.Server.Power.EntitySystems;
 using Content.Server.Radio.EntitySystems;
+using Content.Shared._Persistence14.RandomTable.State;
 using Content.Shared._Persistence14.Research.Anomalies;
 using Content.Shared.Anomaly;
 using Content.Shared.CCVar;
@@ -13,6 +14,7 @@ using Content.Shared.Physics;
 using Content.Shared.Popups;
 using Content.Shared.Power;
 using Content.Shared.Radio;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Robust.Server.GameObjects;
 using Robust.Shared.Audio;
 using Robust.Shared.Audio.Systems;
@@ -132,7 +134,7 @@ public sealed partial class AnomalyGeneratorSystem : SharedAnomalyGeneratorSyste
         var isGenerating = TryComp<GeneratingAnomalyGeneratorComponent>(generator.Owner, out var generatingComp);
         var isOnCooldown = _time.CurTime < generator.Comp.CooldownEndTime;
 
-        var canGenerate = CanGenerateAnomaly(generator, out _, out var anomalyPrototype);
+        var canGenerate = CanGenerateAnomaly(generator, out _);
         var hasCapsule = TryGetAnomalyCapsule(generator, out var capsule);
 
         var material = _material.GetMaterialAmount(generator.Owner, generator.Comp.RequiredMaterial);
@@ -156,11 +158,10 @@ public sealed partial class AnomalyGeneratorSystem : SharedAnomalyGeneratorSyste
     #endregion
 
     #region Generation
-    private bool CanGenerateAnomaly(Entity<AnomalyGeneratorComponent> generator) => CanGenerateAnomaly(generator, out _, out _);
-    private bool CanGenerateAnomaly(Entity<AnomalyGeneratorComponent> generator, out Entity<AnomalyCapsuleComponent> capsule, out EntityPrototype anomalyPrototype)
+    private bool CanGenerateAnomaly(Entity<AnomalyGeneratorComponent> generator) => CanGenerateAnomaly(generator, out _);
+    private bool CanGenerateAnomaly(Entity<AnomalyGeneratorComponent> generator, out Entity<AnomalyCapsuleComponent> capsule)
     {
         capsule = default!;
-        anomalyPrototype = default!;
 
         if (!this.IsPowered(generator.Owner, EntityManager))
             return false; // Generator is unpowered
@@ -177,9 +178,6 @@ public sealed partial class AnomalyGeneratorSystem : SharedAnomalyGeneratorSyste
         if (!TryGetAnomalyCapsule(generator, out capsule))
             return false; // No capsule
 
-        if (!_capsules.TryGetAnomalyPrototype(capsule, out anomalyPrototype))
-            return false; // Failed to fetch the anomaly prototype
-
         return true;
     }
 
@@ -188,15 +186,16 @@ public sealed partial class AnomalyGeneratorSystem : SharedAnomalyGeneratorSyste
     /// </summary>
     private bool TryGenerateAnomaly(Entity<AnomalyGeneratorComponent> generator)
     {
-        if (!CanGenerateAnomaly(generator, out var capsule, out var anomalyPrototype))
+        if (!CanGenerateAnomaly(generator, out var capsule))
             return false;
-
+        var tableState = EnsureComp<RandomTableStateComponent>(generator.Owner);
         var ev = new AnomalyGeneratorAttemptEvent
         {
             Context = new AnomalyGenerationContext
             {
                 GeneratorUid = generator.Owner,
-                Capsule = capsule
+                Capsule = capsule,
+                RandomTableState = tableState
             }
         };
         _capsules.RelayEventToModules(capsule, ref ev);
@@ -204,7 +203,10 @@ public sealed partial class AnomalyGeneratorSystem : SharedAnomalyGeneratorSyste
         if (ev.Cancelled)
             return false;
 
-        if (ev.Context.TargetCoordinates is not { } coordinates && !TryGetCoordinatesOnGrid(generator.Owner, out coordinates))
+        if (!_capsules.TryGetAnomalyPrototype(capsule, out var anomalyPrototype, ev.Context.RandomTableState))
+            return false;
+
+        if (ev.Context.TargetCoordinates is not { } coordinates && !TryGetCoordinatesOnEntitysGrid(generator.Owner, out coordinates))
             return false;
 
         if (!_material.TryChangeMaterialAmount(generator.Owner, generator.Comp.RequiredMaterial, -generator.Comp.MaterialPerAnomaly))
@@ -215,11 +217,14 @@ public sealed partial class AnomalyGeneratorSystem : SharedAnomalyGeneratorSyste
         return true;
     }
 
-    public void GenerateAnomalyOnGrid(EntityUid grid, EntProtoId anomalyProtoId)
+    /// <summary>
+    /// Spawns an anomaly at a random point on a target grid.
+    /// </summary>
+    public void SpawnAnomalyOnGrid(EntityUid gridUid, EntProtoId anomalyProtoId)
     {
-        if (!TryGetCoordinatesOnGrid(grid, out var coordinates))
+        if (!TryGetCoordinatesOnGrid(gridUid, out var coordinates))
         {
-            LogManager.GetSawmill(Sawmill).Warning($"Attempted to manually spawn anomaly but failed to find valid coordinates on grid {ToPrettyString(grid)}");
+            LogManager.GetSawmill(Sawmill).Warning($"Attempted to manually spawn anomaly but failed to find valid coordinates on grid {ToPrettyString(gridUid)}.");
             return;
         }
 
@@ -228,19 +233,55 @@ public sealed partial class AnomalyGeneratorSystem : SharedAnomalyGeneratorSyste
     }
 
     /// <summary>
-    /// Attempts to get a random set of coordinates from the grid containing the anomaly generator.
-    /// Taken basically whole sale from the old anomaly generation logic in AnomalySystem.Generator.cs.
+    /// Spawns an anomaly at a random point on the same grid as the target entity.
     /// </summary>
-    private bool TryGetCoordinatesOnGrid(EntityUid targetUid, out EntityCoordinates coordinates)
+    public void SpawnAnomalyOnEntityGrid(EntityUid targetEntityUid, EntProtoId anomalyProtoId)
+    {
+        if (!TryGetCoordinatesOnEntitysGrid(targetEntityUid, out var coordinates))
+        {
+            LogManager.GetSawmill(Sawmill).Warning($"Attempted to manually spawn anomaly but failed to find valid coordinates on entity {ToPrettyString(targetEntityUid)}'s grid.");
+            return;
+        }
+
+        var spawn = Spawn(anomalyProtoId, coordinates);
+        LogManager.GetSawmill(Sawmill).Info($"An anomaly ({ToPrettyString(spawn)}) was generated at these coordinates: {coordinates}");
+    }
+
+    /// <summary>
+    /// Spawns an anomaly at a specific set of coordinates.
+    /// </summary>
+    public void SpawnAnomalyAtCoordinates(EntityCoordinates coordinates, EntProtoId anomalyProtoId)
+    {
+        var spawn = Spawn(anomalyProtoId, coordinates);
+        LogManager.GetSawmill(Sawmill).Info($"An anomaly ({ToPrettyString(spawn)}) was generated at these coordinates: {coordinates}");
+    }
+
+    /// <summary>
+    /// Attempts to get a random set of coordinates from the grid containing the target entity.
+    /// </summary>
+    private bool TryGetCoordinatesOnEntitysGrid(EntityUid targetUid, out EntityCoordinates coordinates)
     {
         coordinates = default!;
         var xform = Transform(targetUid);
 
-        if (xform.GridUid is null ||
-            !TryComp<MapGridComponent>(xform.GridUid, out var gridComp)) // Generator isn't on a grid. For some reason.
+        if (xform.GridUid is not { } gridUid) // Generator isn't on a grid. For some reason.
             return false;
-        Entity<MapGridComponent> grid = (xform.GridUid.Value, gridComp);
+
+        return TryGetCoordinatesOnGrid(gridUid, out coordinates);
+    }
+
+    /// <summary>
+    /// Attempts to get a random set of coordinates from a specific grid entity.
+    /// </summary>
+    private bool TryGetCoordinatesOnGrid(EntityUid gridUid, out EntityCoordinates coordinates)
+    {
+        coordinates = default!;
+        if (!TryComp<MapGridComponent>(gridUid, out var gridComp))
+            return false;
+
+        Entity<MapGridComponent> grid = (gridUid, gridComp);
         var gridBounds = gridComp.LocalAABB.Scale(_configuration.GetCVar(CCVars.AnomalyGenerationGridBoundsScale));
+        var xform = Transform(grid.Owner);
 
         for (int i = 0; i < RandomCoordinateAttempts; i++)
         {

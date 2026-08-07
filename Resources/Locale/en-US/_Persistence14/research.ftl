@@ -28,3 +28,6 @@ anomaly-generator-capsule-missing-core = Capsule has no core!
 anomaly-capsule-slot-core  = anomaly core
 anomaly-capsule-slot-mod-1 = anomaly module
 anomaly-capsule-slot-mod-2 = anomaly module
+
+anomaly-capsule-targeting-module-connected = Connected to targeting beacon!
+anomaly-capsule-targeting-module-failed = Invalid target!

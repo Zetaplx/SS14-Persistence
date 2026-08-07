@@ -30,6 +30,12 @@
     },
     {
       "name": "icon-filled"
+    },
+    {
+      "name": "up_chip"
+    },
+    {
+      "name": "down_chip"
     }
   ]
 }

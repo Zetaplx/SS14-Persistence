@@ -1,3 +1,4 @@
+using Content.Shared._Persistence14.RandomTable.State;
 using Content.Shared.FixedPoint;
 using Robust.Shared.Map;
 using Robust.Shared.Serialization;
@@ -18,6 +19,7 @@ public sealed partial class AnomalyGenerationContext
     public required EntityUid GeneratorUid;
     public required Entity<AnomalyCapsuleComponent> Capsule;
     public EntityCoordinates? TargetCoordinates = null;
+    public required RandomTableStateComponent RandomTableState;
 }
 
 [ByRefEvent]

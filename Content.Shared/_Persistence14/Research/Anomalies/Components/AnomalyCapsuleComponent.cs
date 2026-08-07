@@ -8,8 +8,5 @@ public sealed partial class AnomalyCapsuleComponent : Component
 
     [DataField(required: true)]
     public HashSet<string> ModuleSlots = new();
-
-    [DataField]
-    public int MaxModuleCount = 2;
 }
 

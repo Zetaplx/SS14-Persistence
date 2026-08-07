@@ -40,7 +40,7 @@ public sealed class AnomalySpawnRule : StationEventSystem<AnomalySpawnRuleCompon
         var amountToSpawn = 1;
         for (var i = 0; i < amountToSpawn; i++)
         {
-            _anomaly.GenerateAnomalyOnGrid(grid.Value, component.AnomalySpawnerPrototype);
+            _anomaly.SpawnAnomalyOnGrid(grid.Value, component.AnomalySpawnerPrototype);
         }
     }
 }
