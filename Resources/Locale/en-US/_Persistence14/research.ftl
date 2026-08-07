@@ -31,3 +31,5 @@ anomaly-capsule-slot-mod-2 = anomaly module
 
 anomaly-capsule-targeting-module-connected = Connected to targeting beacon!
 anomaly-capsule-targeting-module-failed = Invalid target!
+
+capsule-insert-module-failed = Incompatible module!

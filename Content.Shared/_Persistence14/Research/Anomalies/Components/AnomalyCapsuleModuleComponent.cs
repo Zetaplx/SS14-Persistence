@@ -6,8 +6,8 @@ namespace Content.Shared._Persistence14.Research.Anomalies;
 public sealed partial class AnomalyCapsuleModuleComponent : Component
 {
     [DataField]
-    public EntityWhitelist Whitelist = new();
+    public EntityWhitelist? Whitelist;
 
     [DataField]
-    public EntityWhitelist Blacklist = new();
+    public EntityWhitelist? Blacklist;
 }

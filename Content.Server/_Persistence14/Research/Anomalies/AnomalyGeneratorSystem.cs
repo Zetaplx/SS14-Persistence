@@ -217,6 +217,7 @@ public sealed partial class AnomalyGeneratorSystem : SharedAnomalyGeneratorSyste
         if (!_material.TryChangeMaterialAmount(generator.Owner, generator.Comp.RequiredMaterial, -generator.Comp.MaterialPerAnomaly))
             return false;
 
+        QueueDel(capsule.Owner); // Delete the used capsule
         var spawn = Spawn(anomalyPrototype.ID, coordinates);
         LogManager.GetSawmill(Sawmill).Info($"An anomaly ({ToPrettyString(spawn)}) was generated at these coordinates: {coordinates}");
         return true;

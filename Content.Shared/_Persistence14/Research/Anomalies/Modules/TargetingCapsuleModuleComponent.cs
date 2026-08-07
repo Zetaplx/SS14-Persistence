@@ -62,7 +62,8 @@ public sealed partial class TargetingCapsuleModuleSystem : AnomalyCapsuleModuleS
             return;
         if (!TryComp<TargetingModuleTargetComponent>(args.Target, out var targetingComp))
         {
-            _popup.PopupEntity(Loc.GetString("anomaly-capsule-targeting-module-failed"), target);
+            if (_gameTime.IsFirstTimePredicted && _net.IsClient)
+                _popup.PopupEntity(Loc.GetString("anomaly-capsule-targeting-module-failed"), target);
             return;
         }
 

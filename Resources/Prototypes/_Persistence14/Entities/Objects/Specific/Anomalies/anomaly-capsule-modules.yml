@@ -30,6 +30,8 @@
   - type: AnomalyCapsuleModuleVisualizer
     color: "#1b7ecf"
   - type: TargetingCapsuleModule
+    connectSound: 
+      path: /Audio/Items/beep.ogg
 
 - type: entity
   id: AnomalyModuleEnvironmentalStabilizer
