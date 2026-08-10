@@ -1,11 +1,14 @@
 using System.Numerics;
+using Content.Client._Persistence14.Items;
 using Content.Client.Items.Systems;
+using Content.Client.Storage.Visualizers;
 using Content.Shared.Item;
 using Content.Shared.Storage;
 using Robust.Client.GameObjects;
 using Robust.Client.Graphics;
 using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.CustomControls;
+using Robust.Shared.Utility;
 
 namespace Content.Client.UserInterface.Systems.Storage.Controls;
 
@@ -169,7 +172,76 @@ public sealed class ItemGridPiece : Control, IEntityControl
             (boundingGrid.Height + 1) * size.Y + iconOffset.Y);
         var iconRotation = Location.Rotation + Angle.FromDegrees(itemComponent.StoredRotation);
 
-        if (itemComponent.StoredSprite is { } storageSprite)
+        // Added for Persistence14, allowing more complex storage visuals.
+
+        var storageVisual = new GetStorageVisualsEvent();
+        _entityManager.EventBus.RaiseLocalEvent(Entity, ref storageVisual);
+
+        if (storageVisual.Layers.Count > 0)
+        {
+            var scale = 2 * UIScale;
+            var spriteSystem = _entityManager.System<SpriteSystem>();
+
+            Texture? referenceTexture = null;
+
+            foreach (var (layerKey, layer) in storageVisual.Layers)
+            {
+                if (layer.RsiPath == null || layer.State == null)
+                    continue;
+
+                var specifier = new SpriteSpecifier.Rsi(new ResPath($"/Textures/{layer.RsiPath}"), layer.State);
+                referenceTexture = spriteSystem.Frame0(specifier);
+                break;
+            }
+
+            if (referenceTexture != null)
+            {
+                var sizeDifference = ((boundingGrid.Size + Vector2i.One) * _centerTexture.Size * 2 - referenceTexture.Size) * UIScale;
+
+                var spriteBox = new Box2Rotated(
+                    new Box2(
+                        0f,
+                        referenceTexture.Height * scale,
+                        referenceTexture.Width * scale,
+                        0f),
+                    -iconRotation,
+                    Vector2.Zero);
+
+                var root = spriteBox.CalcBoundingBox().BottomLeft;
+
+                var pos = PixelPosition * 2
+                            + (Parent?.GlobalPixelPosition ?? Vector2.Zero)
+                            + sizeDifference
+                            + iconOffset;
+
+                handle.SetTransform(pos, iconRotation);
+
+                var box = new UIBox2(
+                    root,
+                    root + referenceTexture.Size * scale
+                );
+
+                foreach (var (layerKey, layer) in storageVisual.Layers)
+                {
+                    if (layer.RsiPath == null || layer.State == null)
+                        continue;
+
+                    var specifier = new SpriteSpecifier.Rsi(new ResPath($"/Textures/{layer.RsiPath}"), layer.State);
+                    var texture = spriteSystem.Frame0(specifier);
+
+                    var color = colorModulate != null ? (layer?.Color ?? Color.White) * colorModulate : (layer?.Color ?? Color.White);
+
+                    handle.DrawTextureRect(
+                        texture,
+                        box,
+                        color
+                    );
+                }
+
+                handle.SetTransform(GlobalPixelPosition, Angle.Zero);
+            }
+        } // Persistence14 Change End
+        else if (itemComponent.StoredSprite is { } storageSprite)
         {
             var scale = 2 * UIScale;
             var sprite = _entityManager.System<SpriteSystem>().Frame0(storageSprite);

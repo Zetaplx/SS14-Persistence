@@ -1,0 +1,41 @@
+{
+    "license": "CC-BY-SA-3.0",
+    "copyright": "Taken from tgstation at https://github.com/tgstation/tgstation/commit/ff8df99906ab1909674680b9973bd3c909080360. Recolored and split by Zetaplx for Persistence14",
+    "version": 1,
+    "size": {
+        "x": 32,
+        "y": 32
+    },
+    "states": [
+    {
+        "name": "base",
+        "directions": 4
+    },
+    {
+        "name": "base-striped-upper",
+        "directions": 4
+    },
+    {
+        "name": "base-striped-lower",
+        "directions": 4
+    },
+    {
+        "name": "base-striped-double",
+        "directions": 4
+    },
+
+    {
+        "name": "border",
+        "directions": 4
+    },
+
+    {
+        "name": "stripe-lower",
+        "directions": 4
+    },
+    {
+        "name": "stripe-upper",
+        "directions": 4
+    }
+  ]
+}

@@ -1,0 +1,580 @@
+- type: entity
+  id: GasTankBaseNew
+  parent: BaseItem
+  abstract: true
+  components:
+  - type: InteractionOutline
+  - type: Appearance
+  - type: Sprite
+  - type: Item
+    size: Normal
+  - type: Clothing
+    quickEquip: false
+  - type: UseDelay
+    delays:
+      gasTank:
+        length: 1.0
+  - type: ActivatableUI
+    key: enum.SharedGasTankUiKey.Key
+  - type: UserInterface
+    interfaces: 
+      enum.SharedGasTankUiKey.Key:
+        type: GasTankBoundUserInterface
+  - type: GasTank
+    outputPressure: 21.3
+    air:
+      volume: 5
+      temperature: 293.15
+    tankLowPressure: 30.0
+  - type: Explosive
+    explosionType: MicroBomb
+    maxIntensity: 20
+  - type: MeleeWeapon
+    wideAnimationRotation: 45
+    attackRate: 0.8
+    damage:
+      types:
+        Blunt: 10
+  - type: PhysicalComposition
+    materialComposition: 
+      Steel: 185
+  - type: StaticPrice
+    price: 30
+
+## Gas Tank Stripes ##
+- type: entity
+  id: GasTankStripeless
+  abstract: true
+  components:
+  - type: GasTankVisualizer
+    baseState: base
+
+- type: entity
+  id: GasTankLowerStripe
+  abstract: true
+  components:
+  - type: GasTankVisualizer
+    baseState: base-striped-lower
+
+- type: entity
+  id: GasTankUpperStripe
+  abstract: true
+  components:
+  - type: GasTankVisualizer
+    baseState: base-striped-upper
+
+- type: entity
+  id: GasTankDoubleStripe
+  abstract: true
+  components:
+  - type: GasTankVisualizer
+    baseState: base-striped-double
+
+- type: entity
+  id: GasTankStandardBase
+  parent: GasTankBaseNew
+  abstract: true
+  name: gas tank
+  description: A tank capable of holding up to 5L of gas.
+  components:
+  - type: Clothing
+    slots: 
+    - BACK
+    - SUITSTORAGE
+  - type: GasTankVisualizer
+    borderState: border
+    variants: 
+      Icon: _Persistence14/Objects/Tanks/GasTanks/Standard/icon.rsi
+      InhandLeft: _Persistence14/Objects/Tanks/GasTanks/Standard/inhand-left.rsi
+      InhandRight: _Persistence14/Objects/Tanks/GasTanks/Standard/inhand-right.rsi
+      EquippedSuitStorage: _Persistence14/Objects/Tanks/GasTanks/Standard/SuitStorage/suit.rsi
+      EquippedBackpack: _Persistence14/Objects/Tanks/GasTanks/Standard/equipped-BACKPACK.rsi
+      # All the animal variants
+      EquippedSuitStorage_Cat: _Persistence14/Objects/Tanks/GasTanks/Standard/SuitStorage/cat.rsi
+      EquippedSuitStorage_Dog: _Persistence14/Objects/Tanks/GasTanks/Standard/SuitStorage/dog.rsi
+      EquippedSuitStorage_Fox: _Persistence14/Objects/Tanks/GasTanks/Standard/SuitStorage/fox.rsi
+      EquippedSuitStorage_Hamster: _Persistence14/Objects/Tanks/GasTanks/Standard/SuitStorage/hamster.rsi
+      EquippedSuitStorage_Kangaroo: _Persistence14/Objects/Tanks/GasTanks/Standard/SuitStorage/kangaroo.rsi
+      EquippedSuitStorage_Pig: _Persistence14/Objects/Tanks/GasTanks/Standard/SuitStorage/pig.rsi
+      EquippedSuitStorage_Possum: _Persistence14/Objects/Tanks/GasTanks/Standard/SuitStorage/possum.rsi
+      EquippedSuitStorage_Puppy: _Persistence14/Objects/Tanks/GasTanks/Standard/SuitStorage/puppy.rsi
+      EquippedSuitStorage_Sloth: _Persistence14/Objects/Tanks/GasTanks/Standard/SuitStorage/sloth.rsi
+
+- type: entity
+  id: GasTankEmergencyBase
+  parent: GasTankBaseNew
+  abstract: true
+  name: emergency gas tank
+  description: A tiny tank capable of holding up to 1.5L of gas. For emergency use only.
+  components:
+  - type: Item
+    shape: 
+    - 0,0,0,1
+  - type: Clothing
+    slots: 
+    - BELT
+    - SUITSTORAGE
+    - POCKET
+  - type: GasTank
+    air:
+      volume: 1.5
+  - type: GasTankVisualizer
+    borderState: border
+    variants: 
+      Icon: _Persistence14/Objects/Tanks/GasTanks/Emergency/icon.rsi
+      Storage: _Persistence14/Objects/Tanks/GasTanks/Emergency/storage.rsi
+      InhandLeft: _Persistence14/Objects/Tanks/GasTanks/Emergency/inhand-left.rsi
+      InhandRight: _Persistence14/Objects/Tanks/GasTanks/Emergency/inhand-right.rsi
+      EquippedSuitStorage: _Persistence14/Objects/Tanks/GasTanks/Emergency/SuitStorage/suit.rsi
+      EquippedBelt: _Persistence14/Objects/Tanks/GasTanks/Emergency/equipped-BELT.rsi
+      # All the animal variants
+      EquippedSuitStorage_Cat: _Persistence14/Objects/Tanks/GasTanks/Emergency/SuitStorage/cat.rsi
+      EquippedSuitStorage_Dog: _Persistence14/Objects/Tanks/GasTanks/Emergency/SuitStorage/dog.rsi
+      EquippedSuitStorage_Fox: _Persistence14/Objects/Tanks/GasTanks/Emergency/SuitStorage/fox.rsi
+      EquippedSuitStorage_Hamster: _Persistence14/Objects/Tanks/GasTanks/Emergency/SuitStorage/hamster.rsi
+      EquippedSuitStorage_Kangaroo: _Persistence14/Objects/Tanks/GasTanks/Emergency/SuitStorage/kangaroo.rsi
+      EquippedSuitStorage_Pig: _Persistence14/Objects/Tanks/GasTanks/Emergency/SuitStorage/pig.rsi
+      EquippedSuitStorage_Possum: _Persistence14/Objects/Tanks/GasTanks/Emergency/SuitStorage/possum.rsi
+      EquippedSuitStorage_Puppy: _Persistence14/Objects/Tanks/GasTanks/Emergency/SuitStorage/puppy.rsi
+      EquippedSuitStorage_Sloth: _Persistence14/Objects/Tanks/GasTanks/Emergency/SuitStorage/sloth.rsi
+
+- type: entity
+  id: GasTankExtendedBase
+  parent: GasTankBaseNew
+  abstract: true
+  name: extended-emergency gas tank
+  description: A tank capable of holding up to 2.5L of gas. For emergency use only.
+  components:
+  - type: Item
+    shape: 
+    - 0,0,0,1
+  - type: Clothing
+    slots: 
+    - BELT
+    - SUITSTORAGE
+    - POCKET
+  - type: GasTank
+    air:
+      volume: 2.5
+  - type: GasTankVisualizer
+    borderState: border
+    variants: 
+      Icon: _Persistence14/Objects/Tanks/GasTanks/ExtendedEmergency/icon.rsi
+      Storage: _Persistence14/Objects/Tanks/GasTanks/ExtendedEmergency/storage.rsi
+      InhandLeft: _Persistence14/Objects/Tanks/GasTanks/ExtendedEmergency/inhand-left.rsi
+      InhandRight: _Persistence14/Objects/Tanks/GasTanks/ExtendedEmergency/inhand-right.rsi
+      EquippedSuitStorage: _Persistence14/Objects/Tanks/GasTanks/ExtendedEmergency/SuitStorage/suit.rsi
+      EquippedBelt: _Persistence14/Objects/Tanks/GasTanks/ExtendedEmergency/equipped-BELT.rsi
+      # All the animal variants
+      EquippedSuitStorage_Cat: _Persistence14/Objects/Tanks/GasTanks/ExtendedEmergency/SuitStorage/cat.rsi
+      EquippedSuitStorage_Dog: _Persistence14/Objects/Tanks/GasTanks/ExtendedEmergency/SuitStorage/dog.rsi
+      EquippedSuitStorage_Fox: _Persistence14/Objects/Tanks/GasTanks/ExtendedEmergency/SuitStorage/fox.rsi
+      EquippedSuitStorage_Hamster: _Persistence14/Objects/Tanks/GasTanks/ExtendedEmergency/SuitStorage/hamster.rsi
+      EquippedSuitStorage_Kangaroo: _Persistence14/Objects/Tanks/GasTanks/ExtendedEmergency/SuitStorage/kangaroo.rsi
+      EquippedSuitStorage_Pig: _Persistence14/Objects/Tanks/GasTanks/ExtendedEmergency/SuitStorage/pig.rsi
+      EquippedSuitStorage_Possum: _Persistence14/Objects/Tanks/GasTanks/ExtendedEmergency/SuitStorage/possum.rsi
+      EquippedSuitStorage_Puppy: _Persistence14/Objects/Tanks/GasTanks/ExtendedEmergency/SuitStorage/puppy.rsi
+      EquippedSuitStorage_Sloth: _Persistence14/Objects/Tanks/GasTanks/ExtendedEmergency/SuitStorage/sloth.rsi
+
+- type: entity
+  id: GasTankDoubleBase
+  parent: GasTankBaseNew
+  abstract: true
+  name: double-emergency gas tank
+  description: A tank capable of holding up to 3.5L of gas. For emergency use only.
+  components:
+  - type: Item
+    shape: 
+    - 0,0,0,1
+  - type: Clothing
+    slots: 
+    - BELT
+    - SUITSTORAGE
+    - POCKET
+  - type: GasTank
+    air:
+      volume: 3.5
+  - type: GasTankVisualizer
+    borderState: border
+    variants: 
+      Icon: _Persistence14/Objects/Tanks/GasTanks/DoubleEmergency/icon.rsi
+      Storage: _Persistence14/Objects/Tanks/GasTanks/DoubleEmergency/storage.rsi
+      InhandLeft: _Persistence14/Objects/Tanks/GasTanks/DoubleEmergency/inhand-left.rsi
+      InhandRight: _Persistence14/Objects/Tanks/GasTanks/DoubleEmergency/inhand-right.rsi
+      EquippedSuitStorage: _Persistence14/Objects/Tanks/GasTanks/DoubleEmergency/SuitStorage/suit.rsi
+      EquippedBelt: _Persistence14/Objects/Tanks/GasTanks/DoubleEmergency/equipped-BELT.rsi
+      # All the animal variants
+      EquippedSuitStorage_Cat: _Persistence14/Objects/Tanks/GasTanks/DoubleEmergency/SuitStorage/cat.rsi
+      EquippedSuitStorage_Dog: _Persistence14/Objects/Tanks/GasTanks/DoubleEmergency/SuitStorage/dog.rsi
+      EquippedSuitStorage_Fox: _Persistence14/Objects/Tanks/GasTanks/DoubleEmergency/SuitStorage/fox.rsi
+      EquippedSuitStorage_Hamster: _Persistence14/Objects/Tanks/GasTanks/DoubleEmergency/SuitStorage/hamster.rsi
+      EquippedSuitStorage_Kangaroo: _Persistence14/Objects/Tanks/GasTanks/DoubleEmergency/SuitStorage/kangaroo.rsi
+      EquippedSuitStorage_Pig: _Persistence14/Objects/Tanks/GasTanks/DoubleEmergency/SuitStorage/pig.rsi
+      EquippedSuitStorage_Possum: _Persistence14/Objects/Tanks/GasTanks/DoubleEmergency/SuitStorage/possum.rsi
+      EquippedSuitStorage_Puppy: _Persistence14/Objects/Tanks/GasTanks/DoubleEmergency/SuitStorage/puppy.rsi
+      EquippedSuitStorage_Sloth: _Persistence14/Objects/Tanks/GasTanks/DoubleEmergency/SuitStorage/sloth.rsi
+
+
+## OXYGEN ##
+- type: entity
+  id: GasTankOxygen
+  parent: [ GasTankLowerStripe ]
+  abstract: true
+  suffix: Oxygen
+  components:
+  - type: GasTankVisualizer
+    layerColors: 
+      Base: "#0d89ee"    
+      StripeLower: "#b8b8b8"
+
+- type: entity
+  id: GasTankStandardOxygen
+  parent: [ GasTankStandardBase, GasTankOxygen ]
+
+- type: entity
+  id: GasTankEmergencyOxygen
+  parent: [ GasTankEmergencyBase, GasTankOxygen ]
+
+- type: entity
+  id: GasTankExtendedOxygen
+  parent: [ GasTankEmergencyBase, GasTankOxygen ]
+
+- type: entity
+  id: GasTankDoubleOxygen
+  parent: [ GasTankDoubleBase, GasTankOxygen ]
+
+## NITROGEN ##
+- type: entity
+  id: GasTankNitrogen
+  parent: [ GasTankStripeless ]
+  abstract: true
+  suffix: Nitrogen
+  components:
+  - type: GasTankVisualizer
+    layerColors: 
+      Base: "#c73f3f"
+
+- type: entity
+  id: GasTankStandardNitrogen
+  parent: [ GasTankStandardBase, GasTankNitrogen ]
+
+- type: entity
+  id: GasTankEmergencyNitrogen
+  parent: [ GasTankEmergencyBase, GasTankNitrogen ]
+
+- type: entity
+  id: GasTankExtendedNitrogen
+  parent: [ GasTankEmergencyBase, GasTankNitrogen ]
+
+- type: entity
+  id: GasTankDoubleNitrogen
+  parent: [ GasTankDoubleBase, GasTankNitrogen ]
+
+## CARBON DIOXIDE ##
+- type: entity
+  id: GasTankCO2
+  parent: [ GasTankStripeless ]
+  abstract: true
+  suffix: Carbon Dioxide
+  components:
+  - type: GasTankVisualizer
+    layerColors: 
+      Base: "#363636"
+
+- type: entity
+  id: GasTankStandardCO2
+  parent: [ GasTankStandardBase, GasTankCO2 ]
+
+- type: entity
+  id: GasTankEmergencyCO2
+  parent: [ GasTankEmergencyBase, GasTankCO2 ]
+
+- type: entity
+  id: GasTankExtendedCO2
+  parent: [ GasTankEmergencyBase, GasTankCO2 ]
+
+- type: entity
+  id: GasTankDoubleCO2
+  parent: [ GasTankDoubleBase, GasTankCO2 ]
+
+## NITROUS OXIDE ##
+- type: entity
+  id: GasTankN2O
+  parent: [ GasTankLowerStripe ]
+  abstract: true
+  suffix: Nitrous Oxide
+  components:
+  - type: GasTankVisualizer
+    layerColors: 
+      Base: "#c0c0c0"
+      StripeLower: "#b84b4b"
+
+- type: entity
+  id: GasTankStandardN2O
+  parent: [ GasTankStandardBase, GasTankN2O ]
+
+- type: entity
+  id: GasTankEmergencyN2O
+  parent: [ GasTankEmergencyBase, GasTankN2O ]
+
+- type: entity
+  id: GasTankExtendedN2O
+  parent: [ GasTankEmergencyBase, GasTankN2O ]
+
+- type: entity
+  id: GasTankDoubleN2O
+  parent: [ GasTankDoubleBase, GasTankN2O ]
+
+## AMMONIA ##
+- type: entity
+  id: GasTankAmmonia
+  parent: [ GasTankDoubleStripe ]
+  abstract: true
+  suffix: Ammonia
+  components:
+  - type: GasTankVisualizer
+    layerColors: 
+      Base: "#61ec3f"
+      StripeLower: &ammonia-yellow "#e2c72b"
+      StripeUpper: *ammonia-yellow
+
+- type: entity
+  id: GasTankStandardAmmonia
+  parent: [ GasTankStandardBase, GasTankAmmonia ]
+
+- type: entity
+  id: GasTankEmergencyAmmonia
+  parent: [ GasTankEmergencyBase, GasTankAmmonia ]
+
+- type: entity
+  id: GasTankExtendedAmmonia
+  parent: [ GasTankEmergencyBase, GasTankAmmonia ]
+
+- type: entity
+  id: GasTankDoubleAmmonia
+  parent: [ GasTankDoubleBase, GasTankAmmonia ]
+
+## CHLORINE ##
+- type: entity
+  id: GasTankChlorine
+  parent: [ GasTankStripeless ]
+  abstract: true
+  suffix: Chlorine
+  components:
+  - type: GasTankVisualizer
+    layerColors: 
+      Base: "#ece93f"
+
+- type: entity
+  id: GasTankStandardChlorine
+  parent: [ GasTankStandardBase, GasTankChlorine ]
+
+- type: entity
+  id: GasTankEmergencyChlorine
+  parent: [ GasTankEmergencyBase, GasTankChlorine ]
+
+- type: entity
+  id: GasTankExtendedChlorine
+  parent: [ GasTankExtendedBase, GasTankChlorine ]
+
+- type: entity
+  id: GasTankDoubleChlorine
+  parent: [ GasTankDoubleBase, GasTankChlorine ]
+
+## FLUORINE ##
+- type: entity
+  id: GasTankFluorine
+  parent: [ GasTankStripeless ]
+  abstract: true
+  suffix: Fluorine
+  components:
+  - type: GasTankVisualizer
+    layerColors: 
+      Base: "#61ec3f"
+
+- type: entity
+  id: GasTankStandardFluorine
+  parent: [ GasTankStandardBase, GasTankFluorine ]
+
+- type: entity
+  id: GasTankEmergencyFluorine
+  parent: [ GasTankEmergencyBase, GasTankFluorine ]
+
+- type: entity
+  id: GasTankExtendedFluorine
+  parent: [ GasTankExtendedBase, GasTankFluorine ]
+
+- type: entity
+  id: GasTankDoubleFluorine
+  parent: [ GasTankDoubleBase, GasTankFluorine ]
+
+## PLASMA ##
+- type: entity
+  id: GasTankPlasma
+  parent: [ GasTankLowerStripe ]
+  abstract: true
+  suffix: Plasma
+  components:
+  - type: GasTankVisualizer
+    layerColors: 
+      Base: "#ec3fc1"
+      StripeLower: "#222222"
+
+- type: entity
+  id: GasTankStandardPlasma
+  parent: [ GasTankStandardBase, GasTankPlasma ]
+
+- type: entity
+  id: GasTankEmergencyPlasma
+  parent: [ GasTankEmergencyBase, GasTankPlasma ]
+
+- type: entity
+  id: GasTankExtendedPlasma
+  parent: [ GasTankExtendedBase, GasTankPlasma ]
+
+- type: entity
+  id: GasTankDoublePlasma
+  parent: [ GasTankDoubleBase, GasTankPlasma ]
+
+## TRITIUM ##
+- type: entity
+  id: GasTankTritium
+  parent: [ GasTankDoubleStripe ]
+  abstract: true
+  suffix: Tritium
+  components:
+  - type: GasTankVisualizer
+    layerColors: 
+      Base: "#61ec3f"
+      StripeLower: "#222222"
+      StripeUpper: "#222222"
+
+- type: entity
+  id: GasTankStandardTritium
+  parent: [ GasTankStandardBase, GasTankTritium ]
+
+- type: entity
+  id: GasTankEmergencyTritium
+  parent: [ GasTankEmergencyBase, GasTankTritium ]
+
+- type: entity
+  id: GasTankExtendedTritium
+  parent: [ GasTankExtendedBase, GasTankTritium ]
+
+- type: entity
+  id: GasTankDoubleTritium
+  parent: [ GasTankDoubleBase, GasTankTritium ]
+
+## FREZON ##
+- type: entity
+  id: GasTankFrezon
+  parent: [ GasTankDoubleStripe ]
+  abstract: true
+  suffix: Frezon
+  components:
+  - type: GasTankVisualizer
+    layerColors: 
+      Base: "#59d5eb"
+      StripeLower: "#f1f1f1"
+      StripeUpper: "#f1f1f1"
+
+- type: entity
+  id: GasTankStandardFrezon
+  parent: [ GasTankStandardBase, GasTankFrezon ]
+
+- type: entity
+  id: GasTankEmergencyFrezon
+  parent: [ GasTankEmergencyBase, GasTankFrezon ]
+
+- type: entity
+  id: GasTankExtendedFrezon
+  parent: [ GasTankExtendedBase, GasTankFrezon ]
+
+- type: entity
+  id: GasTankDoubleFrezon
+  parent: [ GasTankDoubleBase, GasTankFrezon ]
+
+## HYDROGEN ##
+- type: entity
+  id: GasTankHydrogen
+  parent: [ GasTankStripeless ]
+  abstract: true
+  suffix: Hydrogen
+  components:
+  - type: GasTankVisualizer
+    layerColors: 
+      Base: "#a559eb"
+
+- type: entity
+  id: GasTankStandardHydrogen
+  parent: [ GasTankStandardBase, GasTankHydrogen ]
+
+- type: entity
+  id: GasTankEmergencyHydrogen
+  parent: [ GasTankEmergencyBase, GasTankHydrogen ]
+
+- type: entity
+  id: GasTankExtendedHydrogen
+  parent: [ GasTankExtendedBase, GasTankHydrogen ]
+
+- type: entity
+  id: GasTankDoubleHydrogen
+  parent: [ GasTankDoubleBase, GasTankHydrogen ]
+
+## CHLORINE TRIFLORIDE ##
+- type: entity
+  id: GasTankCLF3
+  parent: [ GasTankDoubleStripe ]
+  abstract: true
+  suffix: Chlorine Trifloride
+  components:
+  - type: GasTankVisualizer
+    layerColors: 
+      Base: "#c73f3f"
+      StripeLower: "#222222"
+      StripeUpper: "#222222"
+
+- type: entity
+  id: GasTankStandardCLF3
+  parent: [ GasTankStandardBase, GasTankCLF3 ]
+
+- type: entity
+  id: GasTankEmergencyCLF3
+  parent: [ GasTankEmergencyBase, GasTankCLF3 ]
+
+- type: entity
+  id: GasTankExtendedCLF3
+  parent: [ GasTankExtendedBase, GasTankCLF3 ]
+
+- type: entity
+  id: GasTankDoubleCLF3
+  parent: [ GasTankDoubleBase, GasTankCLF3 ]
+
+## METHANE ##
+- type: entity
+  id: GasTankMethane
+  parent: [ GasTankDoubleStripe ]
+  abstract: true
+  suffix: Methane
+  components:
+  - type: GasTankVisualizer
+    layerColors: 
+      Base: "#725427"
+      StripeLower: &methane-purple "#f1a8f8"
+      StripeUpper: *methane-purple
+
+- type: entity
+  id: GasTankStandardMethane
+  parent: [ GasTankStandardBase, GasTankMethane ]
+
+- type: entity
+  id: GasTankEmergencyMethane
+  parent: [ GasTankEmergencyBase, GasTankMethane ]
+
+- type: entity
+  id: GasTankExtendedMethane
+  parent: [ GasTankExtendedBase, GasTankMethane ]
+
+- type: entity
+  id: GasTankDoubleMethane
+  parent: [ GasTankDoubleBase, GasTankMethane ]
