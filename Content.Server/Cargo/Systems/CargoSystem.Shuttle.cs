@@ -2,7 +2,6 @@ using Content.Server.Cargo.Components;
 using Content.Server.Hands.Systems;
 using Content.Shared.Cargo;
 using Content.Shared.Cargo.BUI;
-using Content.Shared.Cargo.Components;
 using Content.Shared.Cargo.Events;
 using Content.Shared.CCVar;
 using Content.Shared.Coordinates;
@@ -10,8 +9,10 @@ using Content.Shared.Invoices.Components;
 using Content.Shared.Stacks;
 using Content.Shared.Station.Components;
 using Robust.Server.GameObjects;
+using Content.Shared.HijackBeacon;
 using Robust.Shared.Audio;
 using System.Linq;
+using Content.Shared.Cargo.Components;
 
 namespace Content.Server.Cargo.Systems;
 
@@ -20,8 +21,8 @@ public sealed partial class CargoSystem
     private const string CreditProtoID = "Credit";
 
     /*
-* Handles cargo shuttle / trade mechanics.
-*/
+    * Handles cargo shuttle / trade mechanics.
+    */
 
     [Dependency] private readonly HandsSystem _hands = default!;
     [Dependency] private readonly TransformSystem _transform = default!;
@@ -150,11 +151,6 @@ public sealed partial class CargoSystem
     private void OnTradeSplit(EntityUid uid, TradeStationComponent component, ref GridSplitEvent args)
     {
         return;
-        // If the trade station gets bombed it's still a trade station.
-        foreach (var gridUid in args.NewGrids)
-        {
-            EnsureComp<TradeStationComponent>(gridUid);
-        }
     }
 
     #region Shuttle

@@ -120,4 +120,7 @@ public sealed partial class GasPrototype : IPrototype
     /// </summary>
     [DataField]
     public bool IsOxidizer;
+
+    [DataField]
+    public Color BurnColor;
 }
