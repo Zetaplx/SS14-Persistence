@@ -67,12 +67,6 @@ public sealed class AccessReaderSystem : EntitySystem
     }
     // Moffstation - End
 
-    private void OnMapInit(Entity<AccessReaderComponent> ent, ref MapInitEvent args)
-    {
-        ent.Comp.AccessListsOriginal ??= [.. ent.Comp.AccessLists];
-        Dirty(ent);
-    }
-
     private void OnExamined(Entity<AccessReaderComponent> ent, ref ExaminedEvent args)
     {
         return;

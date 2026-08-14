@@ -216,7 +216,7 @@
       layers:
         - state: methane
     - type: GasCanister
-      gasMixture:
+      air:
         volume: 1500
         moles:
           Methane: 2769.36
@@ -255,7 +255,7 @@
       layers:
         - state: hydrogen
     - type: GasCanister
-      gasMixture:
+      air:
         volume: 1500
         moles:
           Hydrogen: 2769.36
@@ -294,7 +294,7 @@
       layers:
         - state: fluorine
     - type: GasCanister
-      gasMixture:
+      air:
         volume: 1500
         moles:
           Fluorine: 2769.36
@@ -333,7 +333,7 @@
       layers:
         - state: chlorine
     - type: GasCanister
-      gasMixture:
+      air:
         volume: 1500
         moles:
           Chlorine: 2769.36
@@ -372,7 +372,7 @@
       layers:
         - state: clf3
     - type: GasCanister
-      gasMixture:
+      air:
         volume: 1500
         moles:
           ChlorineTrifluoride: 2769.36

@@ -1,10 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using Content.Shared.Mind;
 using Content.Shared.Store;
 using Content.Shared.Store.Components;
 using Robust.Shared.Prototypes;
 
-namespace Content.Server.Store.Systems;
-
+namespace Content.Shared.Store;
 public abstract partial class SharedStoreSystem
 {
     /// <summary>

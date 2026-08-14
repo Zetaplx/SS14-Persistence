@@ -23,11 +23,12 @@ public sealed partial class GasCanisterComponent : GasMaxPressureHolderComponent
     [DataField]
     public bool SafetyValveOpen;
 
+
     /// <summary>
     ///     Last recorded pressure, for appearance-updating purposes.
     /// </summary>
     public float LastPressure = 0f;
 
     [GuidebookData]
-    public float Volume => Air.Volume;
+    public float Volume => Air?.Volume ?? 0f;
 }
