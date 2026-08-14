@@ -131,7 +131,7 @@
           type: WiresBoundUserInterface
   - type: RadarConsole
   - type: ActivatableUIRequiresAccess
-  - type: AccessReade
+  - type: AccessReader
   - type: WorldLoader
     radius: 512
   - type: PointLight

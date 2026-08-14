@@ -1,6 +1,10 @@
 - type: entity
   abstract: true
+<<<<<<< HEAD
   parent: BaseItem # Persistence: removed StorePresetUplink
+=======
+  parent: [ BaseItem ]
+>>>>>>> 9ad745045b
   id: BasePDA
   name: PDA
   description: Personal Data Assistant.
@@ -109,6 +113,7 @@
         type: InstrumentBoundUserInterface
       enum.HealthAnalyzerUiKey.Key:
         type: HealthAnalyzerBoundUserInterface
+  - type: RemoteStore # PDAs can access uplinks so they need this component.
   - type: Tag
     tags:
     - DoorBumpOpener

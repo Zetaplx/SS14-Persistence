@@ -58,7 +58,7 @@
 - type: weightedRandomEntity
   id: RandomAsteroidPool
   weights:
-    AsteroidSalvageSmall: 3
-    AsteroidSalvageMedium: 7
-    AsteroidSalvageLarge: 5
-    AsteroidSalvageHuge: 3
+    AsteroidDebrisSmall: 3
+    AsteroidDebrisMedium: 7
+    AsteroidDebrisLarge: 5
+    AsteroidDebrisHuge: 3
