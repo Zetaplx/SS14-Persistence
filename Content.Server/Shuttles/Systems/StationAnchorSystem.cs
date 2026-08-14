@@ -2,6 +2,7 @@ using Content.Server.Cargo.Components;
 using Content.Server.Popups;
 using Content.Server.Power.EntitySystems;
 using Content.Server.Shuttles.Components;
+using Content.Shared.Cargo.Components;
 using Content.Shared.Construction.Components;
 using Content.Shared.Popups;
 
