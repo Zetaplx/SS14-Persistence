@@ -1,10 +1,6 @@
 - type: entity
   abstract: true
-<<<<<<< HEAD
   parent: BaseItem # Persistence: removed StorePresetUplink
-=======
-  parent: [ BaseItem ]
->>>>>>> 9ad745045b
   id: BasePDA
   name: PDA
   description: Personal Data Assistant.

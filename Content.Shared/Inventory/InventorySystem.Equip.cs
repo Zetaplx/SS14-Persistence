@@ -179,6 +179,14 @@ public abstract partial class InventorySystem
             return false;
         }
 
+        // give other systems a chance to do stuff before equipping
+        var beforeGettingEquippedEvent = new BeforeGettingEquippedEvent(actor, target, itemUid, slotDefinition);
+        var beforeEquipEvent = new BeforeEquipEvent(actor, target, itemUid, slotDefinition);
+
+        RaiseLocalEvent(itemUid, beforeGettingEquippedEvent);
+        RaiseLocalEvent(target, beforeEquipEvent);
+
+        // actually equip the item
         if (!_containerSystem.Insert(itemUid, slotContainer))
         {
             if (!silent)
@@ -450,6 +458,14 @@ public abstract partial class InventorySystem
             return false;
         }
 
+        // give other systems a chance do stuff before unequipping
+        var beforeGettingUnequippedEvent = new BeforeGettingUnequippedEvent(actor, target, removedItem.Value, slotDefinition);
+        var beforeUnequipEvent = new BeforeUnequipEvent(actor, target, removedItem.Value, slotDefinition);
+
+        RaiseLocalEvent(removedItem.Value, beforeGettingUnequippedEvent);
+        RaiseLocalEvent(target, beforeUnequipEvent);
+
+        // actually unequip the item
         if (!_containerSystem.Remove(removedItem.Value, slotContainer, force: force, reparent: reparent))
             return false;
 
@@ -457,6 +473,8 @@ public abstract partial class InventorySystem
         var firstRun = itemsDropped == 0;
         ++itemsDropped;
 
+        // TODO: This is not being checked at the moment if we remove clothing by any other means than TryUnequip, for example when deleting the item or teleporting it away.
+        // But checking this in a EntGotRemovedFromContainerMessage subscription is fundamentally incompatible with the current prediction API for popups and audio since we don't have a user.
         foreach (var slotDef in inventory.Slots)
         {
             if (slotDef != slotDefinition && slotDef.DependsOn == slotDefinition.Name)

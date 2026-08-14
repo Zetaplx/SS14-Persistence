@@ -41,6 +41,7 @@ using Robust.Shared.Random;
 using Robust.Shared.Utility;
 using System.Data;
 using System.Linq;
+using System.Text;
 
 namespace Content.Server.GameTicking.Rules;
 

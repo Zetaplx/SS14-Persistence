@@ -159,6 +159,7 @@
 
 - type: entity
   parent: BaseSubdermalImplant
+<<<<<<< HEAD
   id: JobNetworkImplant
   name: job network implant
   description: This implant lets the user access the local job network to clock in and out.
@@ -174,6 +175,8 @@
 
 - type: entity
   parent: [ BaseSubdermalImplant, StorePresetUplink ]
+=======
+>>>>>>> c8b8369756
   id: UplinkImplant
   name: uplink implant
   description: This implant lets the user access a hidden Syndicate uplink at will.
