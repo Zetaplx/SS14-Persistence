@@ -130,8 +130,10 @@
         enum.WiresUiKey.Key:
           type: WiresBoundUserInterface
   - type: RadarConsole
+  - type: ActivatableUIRequiresAccess
+  - type: AccessReade
   - type: WorldLoader
-    radius: 256
+    radius: 512
   - type: PointLight
     radius: 1.5
     energy: 4.0
@@ -199,7 +201,7 @@
     tags:
       - Syndicate
   - type: RadarConsole
-    maxRange: 384
+    maxRange: 768
   - type: WorldLoader
     radius: 1536
   - type: PointLight
@@ -231,7 +233,7 @@
     components:
       - type: CargoShuttle
   - type: RadarConsole
-    maxRange: 256
+    maxRange: 512
   - type: PointLight
     radius: 1.5
     energy: 4.0
@@ -572,7 +574,7 @@
   parent: BaseComputerAiAccess
   id: ComputerId
   name: ID card computer
-  description: Terminal for programming Nanotrasen employee ID cards to access parts of the station.
+  description: Terminal for programming employee ID cards to access parts of the station.
   components:
   - type: IdCardConsole
     privilegedIdSlot:
@@ -630,6 +632,8 @@
       board: !type:Container
       IdCardConsole-privilegedId: !type:ContainerSlot
       IdCardConsole-targetId: !type:ContainerSlot
+  - type: AccessReader
+    access: []
 
 - type: entity
   parent: BaseComputerAiAccess
@@ -844,6 +848,7 @@
     - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
       state: generic_panel_open
   - type: RadarConsole
+    maxRange: 1024
   - type: ActivatableUI
     key: enum.RadarConsoleUiKey.Key
   - type: UserInterface
@@ -897,7 +902,6 @@
     energy: 4.0
     color: "#b89f25"
   - type: AccessReader
-    access: [["Cargo"]]
   - type: DeviceNetwork
     deviceNetId: Wireless
     receiveFrequencyId: BasicDevice
