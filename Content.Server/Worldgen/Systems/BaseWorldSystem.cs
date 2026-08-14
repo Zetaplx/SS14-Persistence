@@ -1,6 +1,6 @@
+using System.Numerics;
 using Content.Server.Worldgen.Components;
 using JetBrains.Annotations;
-using System.Numerics;
 
 namespace Content.Server.Worldgen.Systems;
 
@@ -55,16 +55,6 @@ public abstract class BaseWorldSystem : EntitySystem
     public EntityUid? GetOrCreateChunk(Vector2i chunk, EntityUid map, WorldControllerComponent? controller = null)
     {
         return _worldController.GetOrCreateChunk(chunk, map, controller);
-    }
-
-    [Pure]
-    public EntityUid? GetOrCreateChunkAt(EntityUid ent, TransformComponent? xform = null, WorldControllerComponent? controller = null)
-    {
-        if (!Resolve(ent, ref xform))
-            throw new Exception("Failed to resolve transform, somehow.");
-        if (!xform.MapUid.HasValue)
-            return null;
-        return GetOrCreateChunk(GetChunkCoords(ent), xform.MapUid.Value, controller);
     }
 }
 
