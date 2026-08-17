@@ -1,147 +1,55 @@
 - type: randomTable
   id: UnstableCoreSpawnTable
-  table: !type:RandomTableGroupSelector
-    children:
-    - !type:RandomTableNestedSelector 
-      conditions: 
-      - !type:RTCAnomalyGeneration
-        category: Environmental
-      tableId: EnvironmentalAnomalyRandomTable
-    - !type:RandomTableNestedSelector
-      conditions: 
-      - !type:RTCAnomalyGeneration
-        category: Infectious
-      tableId: InjectorAnomalyRandomTable
+  table: !type:RandomTableNestedSelector
+    tableId: CompleteAnomalyRandomTable
 
 - type: randomTable
   id: EnergeticCoreSpawnTable
   table: !type:RandomTableGroupSelector
     children:
-    - !type:RandomTableGroupSelector
-      conditions:
-      - !type:RTCAnomalyGeneration
-        category: Environmental
-      children:
-      - prototype: AnomalyPyroclastic
-      - prototype: AnomalyElectricity
-      - prototype: AnomalyIce
-    - !type:RandomTableGroupSelector
-      conditions:
-      - !type:RTCAnomalyGeneration
-        category: Infectious
-      children:
-      - prototype: AnomalyTrapPyroclastic
-      - prototype: AnomalyTrapElectricity
-      - prototype: AnomalyTrapIce
+    - prototype: PyroclasticAnomaly
+    - prototype: IceAnomaly
+    - prototype: ElectricAnomaly
 
 - type: randomTable
   id: MassiveCoreSpawnTable
   table: !type:RandomTableGroupSelector
     children:
-    - !type:RandomTableGroupSelector
-      conditions:
-      - !type:RTCAnomalyGeneration
-        category: Environmental
-      children:
-      - prototype: AnomalyGravity
-      - !type:RandomTableNestedSelector
-        tableId: RockAnomalyRandomTable
-      - prototype: AnomalyLiquid
-      # Gas when its implemented
-    - !type:RandomTableGroupSelector
-      conditions:
-      - !type:RTCAnomalyGeneration
-        category: Infectious
-      children:
-      - prototype: AnomalyTrapGravity
-      - prototype: AnomalyTrapRock
-      # Liquid when its implemented
-      # Gas when its implemented
+    - prototype: GravityAnomaly
+    - prototype: RockAnomaly
+    - prototype: LiquidAnomaly
+    # Gas when implemented
 
 - type: randomTable
   id: LivingCoreSpawnTable
   table: !type:RandomTableGroupSelector
     children:
-    - !type:RandomTableGroupSelector
-      conditions:
-      - !type:RTCAnomalyGeneration
-        category: Environmental
-      children:
-      - prototype: AnomalyFlora
-      - prototype: AnomalyFlesh
-      - prototype: AnomalyShadow
-    - !type:RandomTableGroupSelector
-      conditions:
-      - !type:RTCAnomalyGeneration
-        category: Infectious
-      children:
-      - prototype: AnomalyTrapFlora
-      - prototype: AnomalyTrapFlesh
-      - prototype: AnomalyTrapShadow
+    - prototype: FloraAnomaly
+    - prototype: FleshAnomaly
+    - prototype: ShadowAnomaly
 
 - type: randomTable
   id: StrangeCoreSpawnTable
   table: !type:RandomTableGroupSelector
     children:
-    - !type:RandomTableGroupSelector
-      conditions:
-      - !type:RTCAnomalyGeneration
-        category: Environmental
-      children:
-      - prototype: AnomalyTech
-      - prototype: AnomalyPolymorph
-      - prototype: AnomalyEye
-    - !type:RandomTableGroupSelector
-      conditions:
-      - !type:RTCAnomalyGeneration
-        category: Infectious
-      children:
-      - prototype: AnomalyTrapTech
-      
+    - prototype: TechAnomaly
+    - prototype: PolymorphAnomaly
+    - prototype: EyeAnomaly
 
-
+## Should contain all anomaly types
 - type: randomTable
-  id: EnvironmentalAnomalyRandomTable
+  id: CompleteAnomalyRandomTable
   table: !type:RandomTableGroupSelector
     children:
-    - prototype: AnomalyPyroclastic
-    - prototype: AnomalyGravity
-    - prototype: AnomalyElectricity
-    - prototype: AnomalyFlesh
-    - prototype: AnomalyBluespace
-    - prototype: AnomalyIce
-    - !type:RandomTableNestedSelector
-      tableId: RockAnomalyRandomTable
-    - prototype: AnomalyFlora
-    - prototype: AnomalyLiquid
-    - prototype: AnomalyShadow
-    - prototype: AnomalyTech
-    - prototype: AnomalyPolymorph
-    - prototype: AnomalyEye
-
-- type: randomTable
-  id: RockAnomalyRandomTable
-  table: !type:RandomTableGroupSelector
-    children:
-    - prototype: AnomalyRockUranium
-    - prototype: AnomalyRockBananium
-    - prototype: AnomalyRockQuartz
-    - prototype: AnomalyRockSilver
-    - prototype: AnomalyRockGold
-    - prototype: AnomalyRockIron
-    - prototype: AnomalyRockCoal
-
-- type: randomTable
-  id: InjectorAnomalyRandomTable
-  table: !type:RandomTableGroupSelector
-    children:
-    - prototype: AnomalyTrapPyroclastic
-    - prototype: AnomalyTrapElectricity
-    - prototype: AnomalyTrapShadow
-    - prototype: AnomalyTrapIce
-    - prototype: AnomalyTrapFlora
-    - prototype: AnomalyTrapBluespace
-    - prototype: AnomalyTrapFlesh
-    - prototype: AnomalyTrapGravity
-    - prototype: AnomalyTrapTech
-    - prototype: AnomalyTrapRock
+    - prototype: PyroclasticAnomaly
+    - prototype: GravityAnomaly
+    - prototype: ElectricAnomaly
+    - prototype: FleshAnomaly
+    - prototype: BluespaceAnomaly
+    - prototype: IceAnomaly
+    - prototype: FloraAnomaly
+    - prototype: LiquidAnomaly
+    - prototype: ShadowAnomaly
+    - prototype: TechAnomaly
+    - prototype: PolymorphAnomaly
+    - prototype: EyeAnomaly

@@ -14,7 +14,6 @@ using Content.Shared.Physics;
 using Content.Shared.Popups;
 using Content.Shared.Power;
 using Content.Shared.Radio;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Robust.Server.GameObjects;
 using Robust.Shared.Audio;
 using Robust.Shared.Audio.Systems;
@@ -26,7 +25,6 @@ using Robust.Shared.Physics.Components;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
-using Robust.Shared.Toolshed.Syntax;
 
 namespace Content.Server._Persistence14.Research.Anomalies;
 
@@ -200,7 +198,6 @@ public sealed partial class AnomalyGeneratorSystem : SharedAnomalyGeneratorSyste
             {
                 GeneratorUid = generator.Owner,
                 Capsule = capsule,
-                RandomTableState = tableState
             }
         };
         _capsules.RelayEventToModules(capsule, ref ev);
@@ -208,7 +205,19 @@ public sealed partial class AnomalyGeneratorSystem : SharedAnomalyGeneratorSyste
         if (ev.Cancelled)
             return false;
 
-        if (!_capsules.TryGetAnomalyPrototype(capsule, out var anomalyPrototype, ev.Context.RandomTableState))
+        if (!_capsules.TryGetAnomalyPrototype(capsule, out var anomalyPrototype))
+            return false;
+
+        if (ev.Context.ForceEnvironmental && ev.Context.ForceInfectious)
+            return false;
+
+        if (!(ev.Context.ForceEnvironmental || ev.Context.ForceInfectious) && !anomalyPrototype.TryGetSpawnableProtoId(_random, out var spawnable))
+            return false;
+
+        if (ev.Context.ForceEnvironmental && !anomalyPrototype.TrySpawnEnvironmental(_random, out spawnable))
+            return false;
+
+        if (ev.Context.ForceInfectious && !anomalyPrototype.TrySpawnInfectious(_random, out spawnable))
             return false;
 
         if (ev.Context.TargetCoordinates is not { } coordinates && !TryGetCoordinatesOnEntitysGrid(generator.Owner, out coordinates))
@@ -218,7 +227,7 @@ public sealed partial class AnomalyGeneratorSystem : SharedAnomalyGeneratorSyste
             return false;
 
         QueueDel(capsule.Owner); // Delete the used capsule
-        var spawn = Spawn(anomalyPrototype.ID, coordinates);
+        var spawn = Spawn(spawnable.Id, coordinates); // spawnable is assigned, I promise.
         LogManager.GetSawmill(Sawmill).Info($"An anomaly ({ToPrettyString(spawn)}) was generated at these coordinates: {coordinates}");
         return true;
     }

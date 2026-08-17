@@ -77,13 +77,13 @@ public sealed partial class SharedAnomalyCapsuleSystem : EntitySystem
         return true;
     }
 
-    public bool TryGetAnomalyPrototype(Entity<AnomalyCapsuleComponent> capsule, out EntityPrototype anomalyPrototype, RandomTableStateComponent? state = null)
+    public bool TryGetAnomalyPrototype(Entity<AnomalyCapsuleComponent> capsule, out AnomalyPrototype anomalyPrototype, RandomTableStateComponent? state = null)
     {
         anomalyPrototype = default!;
         if (!TryGetCore(capsule, out var core))
             return false;
 
-        var run = _randomTable.RunPrototype<EntityPrototype>(core.Comp.AnomalyPool, state: state);
+        var run = _randomTable.RunPrototype<AnomalyPrototype>(core.Comp.AnomalyPool, state: state);
         if (run.Count() <= 0)
             return false;
 

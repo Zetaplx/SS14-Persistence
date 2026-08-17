@@ -15,6 +15,14 @@ public sealed partial class CategorySpecifierCapsuleModuleSystem : AnomalyCapsul
     {
         var ctx = args.Context;
 
-        ctx.RandomTableState.Data[RTCAnomalyGeneration.ContextKey] = (int)module.Comp.Category;
+        switch (module.Comp.Category)
+        {
+            case AnomalyCategory.Environmental:
+                ctx.ForceEnvironmental = true;
+                return;
+            case AnomalyCategory.Infectious:
+                ctx.ForceInfectious = true;
+                return;
+        }
     }
 }

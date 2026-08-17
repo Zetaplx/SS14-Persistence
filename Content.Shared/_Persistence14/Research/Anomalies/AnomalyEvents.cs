@@ -1,6 +1,8 @@
 using Content.Shared._Persistence14.RandomTable.State;
+using Content.Shared.Anomaly.Prototypes;
 using Content.Shared.FixedPoint;
 using Robust.Shared.Map;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
 
 namespace Content.Shared._Persistence14.Research.Anomalies;
@@ -19,7 +21,8 @@ public sealed partial class AnomalyGenerationContext
     public required EntityUid GeneratorUid;
     public required Entity<AnomalyCapsuleComponent> Capsule;
     public EntityCoordinates? TargetCoordinates = null;
-    public required RandomTableStateComponent RandomTableState;
+    public bool ForceEnvironmental = false;
+    public bool ForceInfectious = false;
 }
 
 [ByRefEvent]
@@ -40,4 +43,6 @@ public sealed class AnomalyGeneratorBUIState : BoundUserInterfaceState
     public required FixedPoint2 MaterialAmount;
     public required FixedPoint2 MaterialRequired;
     public required NetEntity? Capsule;
+
+    
 }

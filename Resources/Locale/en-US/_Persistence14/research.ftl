@@ -8,7 +8,7 @@ research-console-filter-tier = Tier {$tier}
 research-console-expand-technology = Show technology details
 research-console-collapse-technology = Hide technology details
 
-## Anomaly Generator ##
+## Anomaly Generator
 
 anomaly-generator-capsule-header = Capsule
 anomaly-generator-no-capsule = No capsule inserted
@@ -33,3 +33,21 @@ anomaly-capsule-targeting-module-connected = Connected to targeting beacon!
 anomaly-capsule-targeting-module-failed = Invalid target!
 
 capsule-insert-module-failed = Incompatible module!
+
+## Anomalies
+
+anomaly-name-pyroclastic = pyroclastic anomaly
+anomaly-name-ice = ice anomaly
+anomaly-name-gravity = gravity anomaly
+anomaly-name-electric = electricity anomaly
+anomaly-name-flesh = flesh anomaly
+anomaly-name-bluespace = bluespace anomaly
+anomaly-name-rock = rock anomaly
+anomaly-name-flora = plant anomaly
+anomaly-name-liquid = liquid anomaly
+anomaly-name-gas = gaseous anomaly
+anomaly-name-shadow = shadow anomaly
+anomaly-name-tech = technology anomaly
+anomaly-name-santa = santa anomaly
+anomaly-name-polymorph = polymorph anomaly
+anomaly-name-eye = eye anomaly
