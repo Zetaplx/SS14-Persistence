@@ -1,11 +1,14 @@
+using System.Linq;
 using Content.Server.Anomaly.Components;
 using Content.Server.Atmos.EntitySystems;
 using Content.Server.Audio;
 using Content.Server.Materials;
 using Content.Server.Power.EntitySystems;
 using Content.Server.Radio.EntitySystems;
+using Content.Shared._Persistence14.RandomTable;
 using Content.Shared._Persistence14.RandomTable.State;
 using Content.Shared._Persistence14.Research.Anomalies;
+using Content.Shared._Persistence14.Research.Anomalies.Modules;
 using Content.Shared.Anomaly;
 using Content.Shared.CCVar;
 using Content.Shared.Containers.ItemSlots;
@@ -46,6 +49,7 @@ public sealed partial class AnomalyGeneratorSystem : SharedAnomalyGeneratorSyste
     [Dependency] private readonly MaterialStorageSystem _material = default!;
     [Dependency] private readonly AmbientSoundSystem _ambient = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
+    [Dependency] private readonly RandomTableSystem _randomTable = default!;
     private const int RandomCoordinateAttempts = 25;
     private const string Sawmill = "anomaly-generator";
 
@@ -137,6 +141,31 @@ public sealed partial class AnomalyGeneratorSystem : SharedAnomalyGeneratorSyste
 
         var material = _material.GetMaterialAmount(generator.Owner, generator.Comp.RequiredMaterial);
 
+
+        var list = new Dictionary<ProtoId<AnomalyPrototype>, float>();
+        if (hasCapsule && _capsules.TryGetCore(capsule, out var core))
+        {
+            list = _randomTable.ListPrototype<AnomalyPrototype>(core.Comp.AnomalyPool).ToDictionary(
+                pair => new ProtoId<AnomalyPrototype>(pair.prototype.ID),
+                pair => pair.prob
+            );
+        }
+
+        var forcedEnvironmental = false;
+        var forcedInfectious = false;
+        if (hasCapsule)
+        {
+            foreach (var module in _capsules.GetModules(capsule))
+            {
+                if (TryComp<CategorySpecifierCapsuleModuleComponent>(module.Owner, out var comp))
+                {
+                    if (comp.Category == AnomalyCategory.Environmental) forcedEnvironmental = true;
+                    if (comp.Category == AnomalyCategory.Infectious) forcedInfectious = true;
+                }
+            }
+        }
+
+
         var state = new AnomalyGeneratorBUIState
         {
             GenerateDuration = generator.Comp.GenerationLength,
@@ -148,7 +177,11 @@ public sealed partial class AnomalyGeneratorSystem : SharedAnomalyGeneratorSyste
 
             MaterialAmount = material / 100f,
             MaterialRequired = generator.Comp.MaterialPerAnomaly / 100f,
-            Capsule = hasCapsule ? GetNetEntity(capsule.Owner) : null
+            Capsule = hasCapsule ? GetNetEntity(capsule.Owner) : null,
+
+            AnomalyProbabilities = list,
+            ForcedEnvironmental = forcedEnvironmental,
+            ForcedInfectious = forcedInfectious
         };
         _ui.SetUiState(generator.Owner, AnomalyGeneratorUiKey.Key, state);
     }

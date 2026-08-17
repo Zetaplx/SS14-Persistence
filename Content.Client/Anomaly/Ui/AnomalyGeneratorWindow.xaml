@@ -3,164 +3,175 @@
 <controls:FancyWindow xmlns="https://spacestation14.io"
                       xmlns:controls="clr-namespace:Content.Client.UserInterface.Controls"
                       Title="{Loc 'anomaly-generator-ui-title'}"
-                      MinSize="800 520"
+                      MinSize="800 620"
                       Resizable="True">
 
-    <BoxContainer Orientation="Vertical"
-                  HorizontalExpand="True"
-                  VerticalExpand="True"
-                  Margin="10">
+       <BoxContainer Orientation="Vertical"
+                     HorizontalExpand="True"
+                     VerticalExpand="True"
+                     Margin="10">
 
-        <!-- Main content -->
-        <BoxContainer Orientation="Horizontal"
-                      HorizontalExpand="True"
-                      VerticalExpand="True">
-
-            <!-- Left capsule/fuel panel -->
-            <PanelContainer StyleClasses="BackgroundPanel"
-                            SetWidth="220"
-                            VerticalExpand="True"
-                            Margin="0 0 10 0">
-
-                <BoxContainer Orientation="Vertical"
-                              HorizontalExpand="True"
-                              VerticalExpand="True"
-                              Margin="10">
-
-                    <Label Text="{Loc 'anomaly-generator-capsule-header'}"
-                           StyleClasses="LabelHeading"
-                           HorizontalAlignment="Center"
-                           Margin="0 0 0 8" />
-
-                    <!-- Capsule / core sprite -->
-                    <PanelContainer StyleClasses="BackgroundPanelDark"
-                                    HorizontalAlignment="Center"
-                                    Margin="0 0 0 8">
-
-                        <SpriteView Name="CapsuleView"
-                                    SetSize="128 128"
-                                    OverrideDirection="South"
-                                    Stretch="Fill"/>
-                    </PanelContainer>
-
-                    <!-- Capsule/core information -->
-                    <Label Name="CapsuleNameLabel"
-                           Text="{Loc 'anomaly-generator-no-capsule'}"
-                           HorizontalAlignment="Center"
-                           Margin="0 0 0 4" />
-
-                    <!-- Fuel amount -->
-                    <Label Text="{Loc 'anomaly-generator-fuel-header'}"
-                           StyleClasses="LabelHeading"
-                           Margin="0 0 0 4" />
-
-                    <ProgressBar Name="FuelBar"
-                                 MinValue="0"
-                                 MaxValue="1"
-                                 SetHeight="28"
-                                 HorizontalExpand="True"
-                                 Margin="0 0 0 4">
-
-                        <Label Name="FuelText"
-                               Text="0 / 0"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center" />
-                    </ProgressBar>
-
-                    <Control VerticalExpand="True" />
-
-                    <Button Name="EjectCapsuleButton"
-                            Text="{Loc 'anomaly-generator-eject-capsule'}"
-                            HorizontalExpand="True"
-                            SetHeight="36" />
-
-                </BoxContainer>
-            </PanelContainer>
-
-            <!-- Right prediction/information panel -->
-            <PanelContainer StyleClasses="BackgroundPanel"
+              <!-- Main content -->
+              <BoxContainer Orientation="Horizontal"
                             HorizontalExpand="True"
                             VerticalExpand="True">
 
-                <BoxContainer Orientation="Vertical"
+                     <!-- Left capsule/fuel panel -->
+                     <PanelContainer StyleClasses="BackgroundPanel"
+                                     SetWidth="220"
+                                     VerticalExpand="True"
+                                     Margin="0 0 10 0">
+
+                            <BoxContainer Orientation="Vertical"
+                                          HorizontalExpand="True"
+                                          VerticalExpand="True"
+                                          Margin="10">
+
+                                   <Label Text="{Loc 'anomaly-generator-capsule-header'}"
+                                          StyleClasses="LabelHeading"
+                                          HorizontalAlignment="Center"
+                                          Margin="0 0 0 8"/>
+
+                                   <!-- Capsule / core sprite -->
+                                   <PanelContainer StyleClasses="BackgroundPanelDark"
+                                                   HorizontalAlignment="Center"
+                                                   Margin="0 0 0 8">
+
+                                          <SpriteView Name="CapsuleView"
+                                                      SetSize="128 300"
+                                                      OverrideDirection="South"
+                                                      Stretch="None"/>
+                                   </PanelContainer>
+
+                                   <Button Name="EjectCapsuleButton"
+                                           Text="{Loc 'anomaly-generator-eject-capsule'}"
+                                           HorizontalExpand="True"
+                                           SetHeight="36"/>
+
+                                   <Control VerticalExpand="True"/>
+
+                                   <!-- Fuel amount -->
+                                   <Label Text="{Loc 'anomaly-generator-fuel-header'}"
+                                          StyleClasses="LabelHeading"
+                                          Margin="0 0 0 4"/>
+
+
+                                   <ProgressBar Name="FuelBar"
+                                                MinValue="0"
+                                                MaxValue="1"
+                                                SetHeight="28"
+                                                HorizontalExpand="True"
+                                                Margin="0 0 0 4">
+
+                                          <Label Name="FuelText"
+                                                 Text="0 / 0"
+                                                 HorizontalAlignment="Center"
+                                                 VerticalAlignment="Center"/>
+                                   </ProgressBar>
+
+
+
+
+
+                            </BoxContainer>
+                     </PanelContainer>
+
+                     <!-- Right prediction/information panel -->
+                     <PanelContainer StyleClasses="BackgroundPanel"
+                                     HorizontalExpand="True"
+                                     VerticalExpand="True">
+
+                            <BoxContainer Orientation="Vertical"
+                                          HorizontalExpand="True"
+                                          VerticalExpand="True"
+                                          Margin="12">
+
+                                   <Label Text="{Loc 'anomaly-generator-analysis-header'}"
+                                          StyleClasses="LabelHeading"
+                                          Margin="0 0 0 8"/>
+
+                                   <PanelContainer StyleClasses="BackgroundPanelDark"
+                                                   HorizontalExpand="True"
+                                                   VerticalExpand="True">
+                                          <ScrollContainer HorizontalExpand="True"
+                                                           VerticalExpand="True">
+                                                 <BoxContainer Name="AnomalyCardContainer"
+                                                               Orientation="Vertical"
+                                                               HorizontalExpand="True"
+                                                               VerticalExpand="True"
+                                                               VerticalAlignment="Center"
+                                                               SeparationOverride="8">
+                                                        <BoxContainer Name="AnomalyCardRow1"
+                                                                      Orientation="Horizontal"
+                                                                      HorizontalAlignment="Center"
+                                                                      Margin="10"
+                                                                      SeparationOverride="16"/>
+                                                        <BoxContainer Name="AnomalyCardRow2"
+                                                                      Orientation="Horizontal"
+                                                                      HorizontalAlignment="Center"
+                                                                      Margin="10"
+                                                                      SeparationOverride="30"/>
+                                                 </BoxContainer>
+                                                 <Label Name="AnomalyUnavailableLabel"
+                                                        Text="{Loc 'anomaly-generator-analysis-unavailable'}"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        HorizontalExpand="True"
+                                                        VerticalExpand="True"/>
+                                          </ScrollContainer>
+                                   </PanelContainer>
+
+                            </BoxContainer>
+                     </PanelContainer>
+
+              </BoxContainer>
+
+              <!-- Full-width status area -->
+              <PanelContainer StyleClasses="BackgroundPanel"
                               HorizontalExpand="True"
-                              VerticalExpand="True"
-                              Margin="12">
+                              SetHeight="82"
+                              Margin="0 10 0 0">
 
-                    <Label Text="{Loc 'anomaly-generator-analysis-header'}"
-                           StyleClasses="LabelHeading"
-                           Margin="0 0 0 8" />
-
-                    <PanelContainer StyleClasses="BackgroundPanelDark"
-                                    HorizontalExpand="True"
-                                    VerticalExpand="True">
-
-                        <BoxContainer Orientation="Vertical"
-                                      HorizontalExpand="True"
-                                      VerticalExpand="True"
-                                      Margin="10">
-
-                            <Label Name="AnalysisPlaceholderLabel"
-                                   Text="{Loc 'anomaly-generator-analysis-unavailable'}"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
+                     <BoxContainer Orientation="Vertical"
                                    HorizontalExpand="True"
-                                   VerticalExpand="True" />
+                                   VerticalExpand="True"
+                                   Margin="10">
 
-                        </BoxContainer>
-                    </PanelContainer>
+                            <!-- Ready state -->
+                            <Button Name="GenerateButton"
+                                    Text="{Loc 'anomaly-generator-generate'}"
+                                    HorizontalExpand="True"
+                                    VerticalExpand="True"
+                                    Visible="True"/>
 
-                </BoxContainer>
-            </PanelContainer>
+                            <!-- Generating state -->
+                            <ProgressBar Name="GenerationBar"
+                                         MinValue="0"
+                                         MaxValue="1"
+                                         HorizontalExpand="True"
+                                         VerticalExpand="True"
+                                         Visible="False">
 
-        </BoxContainer>
+                                   <Label Name="GenerationText"
+                                          Text="{Loc 'anomaly-generator-generating'}"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
+                            </ProgressBar>
 
-        <!-- Full-width status area -->
-        <PanelContainer StyleClasses="BackgroundPanel"
-                        HorizontalExpand="True"
-                        SetHeight="82"
-                        Margin="0 10 0 0">
+                            <!-- Cooldown state -->
+                            <ProgressBar Name="CooldownBar"
+                                         MinValue="0"
+                                         MaxValue="1"
+                                         HorizontalExpand="True"
+                                         VerticalExpand="True"
+                                         Visible="False">
 
-            <BoxContainer Orientation="Vertical"
-                          HorizontalExpand="True"
-                          VerticalExpand="True"
-                          Margin="10">
-
-                <!-- Ready state -->
-                <Button Name="GenerateButton"
-                        Text="{Loc 'anomaly-generator-generate'}"
-                        HorizontalExpand="True"
-                        VerticalExpand="True"
-                        Visible="True" />
-
-                <!-- Generating state -->
-                <ProgressBar Name="GenerationBar"
-                             MinValue="0"
-                             MaxValue="1"
-                             HorizontalExpand="True"
-                             VerticalExpand="True"
-                             Visible="False">
-
-                    <Label Name="GenerationText"
-                           Text="{Loc 'anomaly-generator-generating'}"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center" />
-                </ProgressBar>
-
-                <!-- Cooldown state -->
-                <ProgressBar Name="CooldownBar"
-                             MinValue="0"
-                             MaxValue="1"
-                             HorizontalExpand="True"
-                             VerticalExpand="True"
-                             Visible="False">
-
-                    <Label Name="CooldownText"
-                           Text="{Loc 'anomaly-generator-cooling-down'}"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center" />
-                </ProgressBar>
-            </BoxContainer>
-        </PanelContainer>
-    </BoxContainer>
+                                   <Label Name="CooldownText"
+                                          Text="{Loc 'anomaly-generator-cooling-down'}"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
+                            </ProgressBar>
+                     </BoxContainer>
+              </PanelContainer>
+       </BoxContainer>
 </controls:FancyWindow>

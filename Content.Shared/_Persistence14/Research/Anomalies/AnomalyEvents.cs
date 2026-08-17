@@ -43,6 +43,9 @@ public sealed class AnomalyGeneratorBUIState : BoundUserInterfaceState
     public required FixedPoint2 MaterialAmount;
     public required FixedPoint2 MaterialRequired;
     public required NetEntity? Capsule;
+    public bool HasCapsule => Capsule != null;
 
-    
+    public required Dictionary<ProtoId<AnomalyPrototype>, float> AnomalyProbabilities;
+    public required bool ForcedEnvironmental;
+    public required bool ForcedInfectious;
 }
