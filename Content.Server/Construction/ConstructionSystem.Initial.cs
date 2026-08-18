@@ -1,11 +1,16 @@
 using Content.Server.Construction.Components;
+using Content.Shared._Persistence14.Chemistry;
+using Content.Shared._Persistence14.Construction.Steps;
 using Content.Shared.ActionBlocker;
+using Content.Shared.Chemistry.Components;
+using Content.Shared.Chemistry.Reagent;
 using Content.Shared.Construction;
 using Content.Shared.Construction.Prototypes;
 using Content.Shared.Construction.Steps;
 using Content.Shared.Coordinates;
 using Content.Shared.Database;
 using Content.Shared.DoAfter;
+using Content.Shared.FixedPoint;
 using Content.Shared.Hands.Components;
 using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Interaction;
@@ -15,9 +20,11 @@ using Content.Shared.Whitelist;
 using Robust.Shared.Containers;
 using Robust.Shared.Map;
 using Robust.Shared.Player;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
 using System.IO;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Threading.Tasks;
 
 namespace Content.Server.Construction
@@ -105,6 +112,9 @@ namespace Content.Server.Construction
             // We need a place to hold our construction items!
             var container = _container.EnsureContainer<Container>(user, materialContainer, out var existed);
 
+            // We also need a place to hold the reagents...
+            var pendingReagents = new List<(Entity<SolutionComponent> Solution, ProtoId<ReagentPrototype> Reagent, FixedPoint2 Quantity)>();
+
             if (existed)
             {
                 _popup.PopupEntity(Loc.GetString("construction-system-construct-cannot-start-another-construction"), user, user);
@@ -148,6 +158,11 @@ namespace Content.Server.Construction
                     {
                         _container.Remove(entity, cont);
                     }
+                }
+
+                foreach (var (sol, reagent, qty) in pendingReagents)
+                {
+                    _solution.TryAddReagent(sol, reagent, qty);
                 }
 
                 // If we don't do this, items are invisible for some fucking reason. Nice.
@@ -234,6 +249,25 @@ namespace Content.Server.Construction
                             break;
                         }
 
+                        break;
+
+                    case ReagentConstructionGraphStep reagentStep:
+                        foreach (var entity in EnumerateNearby(user))
+                        {
+                            if (!TryComp<ConstructionSolutionComponent>(entity, out var constructionSolution))
+                                continue;
+
+                            if (!_solution.TryGetSolution(entity, constructionSolution.Solution, out var solutionEnt, out var solution))
+                                continue;
+
+                            if (_solution.GetTotalPrototypeQuantity(entity, reagentStep.Reagent) < reagentStep.Quantity)
+                                continue;
+
+                            pendingReagents.Add((solutionEnt.Value, reagentStep.Reagent, reagentStep.Quantity));
+                            _solution.RemoveReagent(solutionEnt.Value, reagentStep.Reagent, reagentStep.Quantity);
+                            handled = true;
+                            break;
+                        }
                         break;
                 }
 

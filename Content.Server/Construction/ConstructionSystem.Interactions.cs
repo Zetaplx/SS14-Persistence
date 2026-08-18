@@ -2,6 +2,10 @@ using System.Linq;
 using Content.Server.Administration.Logs;
 using Content.Server.Construction.Components;
 using Content.Server.Temperature.Components;
+using Content.Shared._Persistence14.Chemistry;
+using Content.Shared._Persistence14.Construction.Steps;
+using Content.Shared.Chemistry.Components.SolutionManager;
+using Content.Shared.Chemistry.Reagent;
 using Content.Shared.Construction;
 using Content.Shared.Construction.Components;
 using Content.Shared.Construction.EntitySystems;
@@ -15,6 +19,7 @@ using Content.Shared.Temperature;
 using Content.Shared.Temperature.Components;
 using Content.Shared.Tools.Systems;
 using Robust.Shared.Containers;
+using Robust.Shared.Toolshed.Syntax;
 using Robust.Shared.Utility;
 #if EXCEPTION_TOLERANCE
 // ReSharper disable once RedundantUsingDirective
@@ -429,6 +434,63 @@ namespace Content.Server.Construction
                         if (partAssemblyStep.Condition(uid, EntityManager))
                             return validation ? HandleResult.Validated : HandleResult.True;
                         return HandleResult.False;
+                    }
+
+                // Persistence14 Construction Step
+                case ReagentConstructionGraphStep reagentStep:
+                    {
+                        if (ev is not InteractUsingEvent interactUsing)
+                            break;
+
+                        user = interactUsing.User;
+
+                        if (!TryComp<ConstructionSolutionComponent>(interactUsing.Used, out var constructionSolution))
+                        {
+                            // TODO: Send Popup
+                            LogManager.GetSawmill("TEST").Warning("Rejected step for missing ConstructionSolutionComponent");
+                            return HandleResult.False;
+                        }
+
+                        if (!_solution.TryGetSolution(interactUsing.Used, constructionSolution.Solution, out var solutionComp, out var solution))
+                        {
+                            LogManager.GetSawmill("TEST").Warning($"Rejected step for missing solution: {constructionSolution.Solution}");
+                            return HandleResult.False;
+                        }
+
+                        var qty = solution.GetTotalPrototypeQuantity(reagentStep.Reagent);
+                        if (qty < reagentStep.Quantity)
+                        {
+                            // TODO: Send Popup
+                            LogManager.GetSawmill("TEST").Warning($"Rejected step for missing reagent: Expected {reagentStep.Quantity}u {reagentStep.Reagent}, Actual: {qty}");
+                            return HandleResult.False;
+                        }
+
+                        // If we still haven't completed this step's DoAfter...
+                        if (doAfterState == DoAfterState.None && reagentStep.DoAfter > 0)
+                        {
+                            var doAfterEv = new ConstructionInteractDoAfterEvent(EntityManager, interactUsing);
+
+                            var doAfterEventArgs = new DoAfterArgs(EntityManager, interactUsing.User, step.DoAfter, doAfterEv, uid, uid, interactUsing.Used)
+                            {
+                                BreakOnDamage = false,
+                                BreakOnMove = true,
+                                NeedHand = true,
+                            };
+
+                            var started = _doAfterSystem.TryStartDoAfter(doAfterEventArgs);
+
+                            if (!started)
+                                return HandleResult.False;
+
+                            return HandleResult.DoAfter;
+                        }
+
+                        if (validation)
+                            return HandleResult.Validated;
+
+                        _solution.RemoveReagent((interactUsing.Used, solutionComp), new ReagentQuantity(reagentStep.Reagent, reagentStep.Quantity));
+                        LogManager.GetSawmill("TEST").Warning($"Step Success");
+                        return HandleResult.True;
                     }
 
                 #endregion

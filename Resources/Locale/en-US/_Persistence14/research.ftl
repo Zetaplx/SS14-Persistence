@@ -51,3 +51,8 @@ anomaly-name-tech = technology anomaly
 anomaly-name-santa = santa anomaly
 anomaly-name-polymorph = polymorph anomaly
 anomaly-name-eye = eye anomaly
+
+anomaly-lathe-category = anomalies
+
+reagent-construction-graph-step = Next, apply {$quantity}u {$reagentName}.
+construction-presenter-reagent-step = Add {$quantity}u {$reagentName}.

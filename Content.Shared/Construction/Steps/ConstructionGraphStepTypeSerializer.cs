@@ -1,3 +1,4 @@
+using Content.Shared._Persistence14.Construction.Steps;
 using Robust.Shared.Serialization;
 using Robust.Shared.Serialization.Manager;
 using Robust.Shared.Serialization.Markdown.Mapping;
@@ -44,6 +45,11 @@ namespace Content.Shared.Construction.Steps
             if (node.Has("assemblyId") || node.Has("guideString"))
             {
                 return typeof(PartAssemblyConstructionGraphStep);
+            }
+
+            if (node.Has("reagent"))
+            {
+                return typeof(ReagentConstructionGraphStep);
             }
 
             return null;

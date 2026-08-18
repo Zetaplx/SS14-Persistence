@@ -1,6 +1,7 @@
 using Content.Server.Construction.Components;
 using Content.Server.Stack;
 using Content.Server.Worldgen.Components.Debris;
+using Content.Shared.Chemistry.EntitySystems;
 using Content.Shared.Construction;
 using Content.Shared.DoAfter;
 using JetBrains.Annotations;
@@ -21,6 +22,7 @@ namespace Content.Server.Construction
         [Dependency] private readonly ContainerSystem _container = default!;
         [Dependency] private readonly StackSystem _stackSystem = default!;
         [Dependency] private readonly SharedToolSystem _toolSystem = default!;
+        [Dependency] private readonly SharedSolutionContainerSystem _solution = default!;
 
         public override void Initialize()
         {

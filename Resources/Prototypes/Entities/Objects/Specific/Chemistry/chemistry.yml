@@ -44,6 +44,8 @@
     canChangeTransferAmount: true
   - type: SolutionItemStatus
     solution: beaker
+  - type: ConstructionSolution
+    solution: beaker
   - type: UserInterface
     interfaces:
       enum.TransferAmountUiKey.Key:

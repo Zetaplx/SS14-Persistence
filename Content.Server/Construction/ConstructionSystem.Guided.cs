@@ -1,4 +1,5 @@
 using Content.Server.Construction.Components;
+using Content.Shared._Persistence14.Construction.Steps;
 using Content.Shared.Construction;
 using Content.Shared.Construction.Prototypes;
 using Content.Shared.Construction.Steps;
@@ -187,10 +188,19 @@ namespace Content.Server.Construction
                     foreach (var graphStep in edge.Steps)
                     {
                         // This graph is invalid, we only allow insert steps as the initial construction steps.
-                        if (graphStep is not EntityInsertConstructionGraphStep insertStep)
-                            return null;
+                        if (graphStep is EntityInsertConstructionGraphStep insertStep)
+                        {
+                            entries.Add(insertStep.GenerateGuideEntry());
+                            continue;
+                        }
 
-                        entries.Add(insertStep.GenerateGuideEntry());
+                        if (graphStep is ReagentConstructionGraphStep reagentStep)
+                        {
+                            entries.Add(reagentStep.GenerateGuideEntry());
+                            continue;
+                        }
+
+                        return null;
                     }
 
                     // Now actually list the construction conditions.
