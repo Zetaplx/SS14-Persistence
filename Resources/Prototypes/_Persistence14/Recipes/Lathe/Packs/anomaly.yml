@@ -1,0 +1,5 @@
+- type: latheRecipePack
+  id: BasicAnomalyPack
+  recipes:
+  - AnomalyCapsuleRecipe
+  - AnomalyCoreMoldRecipe

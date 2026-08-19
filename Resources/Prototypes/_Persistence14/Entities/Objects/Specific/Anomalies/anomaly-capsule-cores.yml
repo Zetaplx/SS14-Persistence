@@ -22,7 +22,11 @@
   - type: AnomalyCapsuleCore
     anomalyPool: !type:RandomTableNestedSelector
       tableId: UnstableCoreSpawnTable
+  - type: Construction
+    graph: AnomalyCore
+    node: unstable
 
+# Subtype anomaly cores
 - type: entity
   id: AnomalyCapsuleCoreEnergetic
   parent: AnomalyCapsuleCoreBase
@@ -62,3 +66,154 @@
   - type: AnomalyCapsuleCore
     anomalyPool: !type:RandomTableNestedSelector
       tableId: StrangeCoreSpawnTable
+
+# Specific Anomaly Cores
+- type: entity
+  id: AnomalyCapsuleCorePyroclastic
+  parent: AnomalyCapsuleCoreBase
+  name: pyroclastic anomaly core
+  description: TBD
+  components:
+  - type: AnomalyCapsuleCore
+    anomalyPool:
+    - prototype: PyroclasticAnomaly
+
+- type: entity
+  id: AnomalyCapsuleCoreIce
+  parent: AnomalyCapsuleCoreBase
+  name: ice anomaly core
+  description: TBD
+  components:
+  - type: AnomalyCapsuleCore
+    anomalyPool:
+    - prototype: IceAnomaly
+
+- type: entity
+  id: AnomalyCapsuleCoreGravity
+  parent: AnomalyCapsuleCoreBase
+  name: gravity anomaly core
+  description: TBD
+  components:
+  - type: AnomalyCapsuleCore
+    anomalyPool:
+    - prototype: GravityAnomaly
+
+- type: entity
+  id: AnomalyCapsuleCoreElectric
+  parent: AnomalyCapsuleCoreBase
+  name: electric anomaly core
+  description: TBD
+  components:
+  - type: AnomalyCapsuleCore
+    anomalyPool:
+    - prototype: ElectricAnomaly
+
+- type: entity
+  id: AnomalyCapsuleCoreFlesh
+  parent: AnomalyCapsuleCoreBase
+  name: flesh anomaly core
+  description: TBD
+  components:
+  - type: AnomalyCapsuleCore
+    anomalyPool:
+    - prototype: FleshAnomaly
+
+- type: entity
+  id: AnomalyCapsuleCoreBluespace
+  parent: AnomalyCapsuleCoreBase
+  name: bluespace anomaly core
+  description: TBD
+  components:
+  - type: AnomalyCapsuleCore
+    anomalyPool:
+    - prototype: BluespaceAnomaly
+
+- type: entity
+  id: AnomalyCapsuleCoreRock
+  parent: AnomalyCapsuleCoreBase
+  name: rock anomaly core
+  description: TBD
+  components:
+  - type: AnomalyCapsuleCore
+    anomalyPool:
+    - prototype: RockAnomaly
+
+- type: entity
+  id: AnomalyCapsuleCoreFlora
+  parent: AnomalyCapsuleCoreBase
+  name: plant anomaly core
+  description: TBD
+  components:
+  - type: AnomalyCapsuleCore
+    anomalyPool:
+    - prototype: FloraAnomaly
+
+- type: entity
+  id: AnomalyCapsuleCoreLiquid
+  parent: AnomalyCapsuleCoreBase
+  name: liquid anomaly core
+  description: TBD
+  components:
+  - type: AnomalyCapsuleCore
+    anomalyPool:
+    - prototype: LiquidAnomaly
+
+- type: entity
+  id: AnomalyCapsuleCoreShadow
+  parent: AnomalyCapsuleCoreBase
+  name: shadow anomaly core
+  description: TBD
+  components:
+  - type: AnomalyCapsuleCore
+    anomalyPool:
+    - prototype: ShadowAnomaly
+
+- type: entity
+  id: AnomalyCapsuleCoreTech
+  parent: AnomalyCapsuleCoreBase
+  name: technology anomaly core
+  description: TBD
+  components:
+  - type: AnomalyCapsuleCore
+    anomalyPool:
+    - prototype: TechAnomaly
+
+- type: entity
+  id: AnomalyCapsuleCorePolymorph
+  parent: AnomalyCapsuleCoreBase
+  name: polymorph anomaly core
+  description: TBD
+  components:
+  - type: AnomalyCapsuleCore
+    anomalyPool:
+    - prototype: PolymorphAnomaly
+
+- type: entity
+  id: AnomalyCapsuleCoreEye
+  parent: AnomalyCapsuleCoreBase
+  name: eye anomaly core
+  description: TBD
+  components:
+  - type: AnomalyCapsuleCore
+    anomalyPool:
+    - prototype: EyeAnomaly
+
+- type: entity
+  id: AnomalyCapsuleCoreGas
+  parent: AnomalyCapsuleCoreBase
+  name: gaseous anomaly core
+  description: NOT YET IMPLEMENTED, DO NOT USE
+  components:
+  - type: AnomalyCapsuleCore
+    anomalyPool:
+    - prototype: GasAnomaly
+
+- type: entity
+  id: AnomalyCapsuleCoreSanta
+  parent: AnomalyCapsuleCoreBase
+  name: santa anomaly core
+  description: TBD
+  components:
+  - type: AnomalyCapsuleCore
+    anomalyPool:
+    - prototype: SantaAnomaly

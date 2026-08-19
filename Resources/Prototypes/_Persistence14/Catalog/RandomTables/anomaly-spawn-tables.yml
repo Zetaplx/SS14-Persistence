@@ -32,6 +32,7 @@
   id: StrangeCoreSpawnTable
   table: !type:RandomTableGroupSelector
     children:
+    - prototype: BluespaceAnomaly
     - prototype: TechAnomaly
     - prototype: PolymorphAnomaly
     - prototype: EyeAnomaly

@@ -2,7 +2,7 @@
   parent: BaseItem
   id: BaseAnomalyCore
   abstract: true
-  name: anomaly core
+  name: raw anomaly core
   description: The core of a destroyed incomprehensible object.
   components:
   - type: Sprite
@@ -33,6 +33,9 @@
     timeToDecay: 600
     startPrice: 10000
     endPrice: 200
+  - type: Extractable
+    grindableSolutionName: essence
+  - type: SolutionContainerManager
 
 - type: entity
   parent: BaseAnomalyCore
@@ -49,6 +52,13 @@
   - type: IgnitionSource
     temperature: 400
     ignited: true
+  - type: SolutionContainerManager
+    solutions:
+      essence:
+        reagents:
+        - ReagentId: PyroclasticEssence
+          Quantity: 10
+
 
 - type: entity
   parent: BaseAnomalyCore
@@ -62,6 +72,13 @@
     energy: 10
     color: "#1e070e"
     castShadows: false
+  - type: SolutionContainerManager
+    solutions:
+      essence:
+        reagents:
+        - ReagentId: GravityEssence
+          Quantity: 10
+
 
 - type: entity
   parent: BaseAnomalyCore
@@ -75,6 +92,13 @@
     energy: 2.7
     color: "#befaff"
     castShadows: false
+  - type: SolutionContainerManager
+    solutions:
+      essence:
+        reagents:
+        - ReagentId: IceEssence
+          Quantity: 10
+
 
 - type: entity
   parent: BaseAnomalyCore
@@ -89,6 +113,13 @@
     energy: 3.5
     color: "#cb5b7e"
     castShadows: false
+  - type: SolutionContainerManager
+    solutions:
+      essence:
+        reagents:
+        - ReagentId: FleshEssence
+          Quantity: 10
+
 
 - type: entity
   parent: BaseAnomalyCore
@@ -102,6 +133,13 @@
     energy: 3.5
     color: "#5ca8cb"
     castShadows: false
+  - type: SolutionContainerManager
+    solutions:
+      essence:
+        reagents:
+        - ReagentId: RockEssence
+          Quantity: 10
+
 
 - type: entity
   parent: BaseAnomalyCore
@@ -115,6 +153,13 @@
     energy: 3.5
     color: "#ffffff"
     castShadows: false
+  - type: SolutionContainerManager
+    solutions:
+      essence:
+        reagents:
+        - ReagentId: LiquidEssence
+          Quantity: 10
+
 
 - type: entity
   parent: BaseAnomalyCore
@@ -128,6 +173,13 @@
     energy: 3.5
     color: "#00ccff"
     castShadows: false
+  - type: SolutionContainerManager
+    solutions:
+      essence:
+        reagents:
+        - ReagentId: BluespaceEssence
+          Quantity: 10
+
 
 - type: entity
   parent: BaseAnomalyCore
@@ -142,6 +194,13 @@
     color: "#ffffaa"
     castShadows: false
   - type: Electrified
+  - type: SolutionContainerManager
+    solutions:
+      essence:
+        reagents:
+        - ReagentId: ElectricEssence
+          Quantity: 10
+
 
 - type: entity
   parent: BaseAnomalyCore
@@ -157,6 +216,13 @@
     energy: 2.0
     color: "#6270bb"
     castShadows: false
+  - type: SolutionContainerManager
+    solutions:
+      essence:
+        reagents:
+        - ReagentId: FloraEssence
+          Quantity: 10
+
 
 - type: entity
   parent: [ BaseAnomalyCore, BaseShadow ]
@@ -170,6 +236,13 @@
     energy: 2.0
     color: "#793a80"
     castShadows: false
+  - type: SolutionContainerManager
+    solutions:
+      essence:
+        reagents:
+        - ReagentId: ShadowEssence
+          Quantity: 10
+
 
 - type: entity
   parent: BaseAnomalyCore
@@ -183,6 +256,13 @@
     energy: 2.0
     color: "#56c1e8"
     castShadows: false
+  - type: SolutionContainerManager
+    solutions:
+      essence:
+        reagents:
+        - ReagentId: TechEssence
+          Quantity: 10
+
 
 - type: entity
   parent: BaseAnomalyCore
@@ -196,6 +276,13 @@
     energy: 2.0
     color: "#fc0303"
     castShadows: false
+  - type: SolutionContainerManager
+    solutions:
+      essence:
+        reagents:
+        - ReagentId: SantaEssence
+          Quantity: 10
+
 
 # Inert cores
 
@@ -213,6 +300,7 @@
   - type: AnomalyCore
     timeToDecay: 0
     isDecayed: true
+  
 
 - type: entity
   parent: BaseAnomalyInertCore
@@ -226,6 +314,14 @@
     energy: 2.7
     color: "#fca3c0"
     castShadows: false
+  - type: SolutionContainerManager
+    solutions:
+      essence:
+        reagents:
+        - ReagentId: PyroclasticEssence
+          Quantity: 5
+        - ReagentId: InertEssence
+          Quantity: 5
 
 - type: entity
   parent: BaseAnomalyInertCore
@@ -239,6 +335,14 @@
     energy: 10
     color: "#1e070e"
     castShadows: false
+  - type: SolutionContainerManager
+    solutions:
+      essence:
+        reagents:
+        - ReagentId: GravityEssence
+          Quantity: 5
+        - ReagentId: InertEssence
+          Quantity: 5
 
 - type: entity
   parent: BaseAnomalyInertCore
@@ -252,6 +356,14 @@
     energy: 2.7
     color: "#befaff"
     castShadows: false
+  - type: SolutionContainerManager
+    solutions:
+      essence:
+        reagents:
+        - ReagentId: IceEssence
+          Quantity: 5
+        - ReagentId: InertEssence
+          Quantity: 5
 
 - type: entity
   parent: BaseAnomalyInertCore
@@ -266,6 +378,14 @@
     energy: 3.5
     color: "#cb5b7e"
     castShadows: false
+  - type: SolutionContainerManager
+    solutions:
+      essence:
+        reagents:
+        - ReagentId: FleshEssence
+          Quantity: 5
+        - ReagentId: InertEssence
+          Quantity: 5
 
 - type: entity
   parent: BaseAnomalyInertCore
@@ -279,6 +399,14 @@
     energy: 3.5
     color: "#5ca8cb"
     castShadows: false
+  - type: SolutionContainerManager
+    solutions:
+      essence:
+        reagents:
+        - ReagentId: RockEssence
+          Quantity: 5
+        - ReagentId: InertEssence
+          Quantity: 5
 
 - type: entity
   parent: BaseAnomalyInertCore
@@ -292,6 +420,14 @@
     energy: 3.5
     color: "#ffffff"
     castShadows: false
+  - type: SolutionContainerManager
+    solutions:
+      essence:
+        reagents:
+        - ReagentId: LiquidEssence
+          Quantity: 5
+        - ReagentId: InertEssence
+          Quantity: 5
 
 - type: entity
   parent: BaseAnomalyInertCore
@@ -305,6 +441,14 @@
     energy: 3.5
     color: "#00ccff"
     castShadows: false
+  - type: SolutionContainerManager
+    solutions:
+      essence:
+        reagents:
+        - ReagentId: BluespaceEssence
+          Quantity: 5
+        - ReagentId: InertEssence
+          Quantity: 5
 
 - type: entity
   parent: BaseAnomalyInertCore
@@ -318,6 +462,14 @@
     energy: 2.0
     color: "#ffffaa"
     castShadows: false
+  - type: SolutionContainerManager
+    solutions:
+      essence:
+        reagents:
+        - ReagentId: ElectricEssence
+          Quantity: 5
+        - ReagentId: InertEssence
+          Quantity: 5
 
 - type: entity
   parent: BaseAnomalyInertCore
@@ -333,6 +485,14 @@
     energy: 2.0
     color: "#6270bb"
     castShadows: false
+  - type: SolutionContainerManager
+    solutions:
+      essence:
+        reagents:
+        - ReagentId: FloraEssence
+          Quantity: 5
+        - ReagentId: InertEssence
+          Quantity: 5
 
 - type: entity
   parent: [ BaseAnomalyInertCore, BaseShadow ]
@@ -346,6 +506,14 @@
     energy: 2.0
     color: "#793a80"
     castShadows: false
+  - type: SolutionContainerManager
+    solutions:
+      essence:
+        reagents:
+        - ReagentId: ShadowEssence
+          Quantity: 5
+        - ReagentId: InertEssence
+          Quantity: 5
 
 - type: entity
   parent: BaseAnomalyInertCore
@@ -359,6 +527,14 @@
     energy: 2.0
     color: "#56c1e8"
     castShadows: false
+  - type: SolutionContainerManager
+    solutions:
+      essence:
+        reagents:
+        - ReagentId: TechEssence
+          Quantity: 5
+        - ReagentId: InertEssence
+          Quantity: 5
 
 - type: entity
   parent: BaseAnomalyInertCore
@@ -372,6 +548,14 @@
     energy: 2.0
     color: "#fc0303"
     castShadows: false
+  - type: SolutionContainerManager
+    solutions:
+      essence:
+        reagents:
+        - ReagentId: SantaEssence
+          Quantity: 5
+        - ReagentId: InertEssence
+          Quantity: 5
 
 - type: entity
   parent: BaseAnomalyCore
@@ -385,6 +569,12 @@
     energy: 2.0
     color: "#c060ff"
     castShadows: false
+  - type: SolutionContainerManager
+    solutions:
+      essence:
+        reagents:
+        - ReagentId: PolymorphEssence
+          Quantity: 10
 
 - type: entity
   parent: BaseAnomalyInertCore
@@ -398,6 +588,14 @@
     energy: 2.0
     color: "#c060ff"
     castShadows: false
+  - type: SolutionContainerManager
+    solutions:
+      essence:
+        reagents:
+        - ReagentId: PolymorphEssence
+          Quantity: 5
+        - ReagentId: InertEssence
+          Quantity: 5
 
 - type: entity
   parent: BaseAnomalyCore
@@ -412,6 +610,12 @@
     energy: 3.0
     color: "#7a3f78"
     castShadows: false
+  - type: SolutionContainerManager
+    solutions:
+      essence:
+        reagents:
+        - ReagentId: EyeEssence
+          Quantity: 10
 
 - type: entity
   parent: BaseAnomalyInertCore
@@ -425,3 +629,11 @@
     energy: 3.0
     color: "#7a3f78"
     castShadows: false
+  - type: SolutionContainerManager
+    solutions:
+      essence:
+        reagents:
+        - ReagentId: EyeEssence
+          Quantity: 5
+        - ReagentId: InertEssence
+          Quantity: 5

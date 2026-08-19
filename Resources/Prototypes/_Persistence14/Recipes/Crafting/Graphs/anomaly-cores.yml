@@ -1,0 +1,24 @@
+- type: constructionGraph
+  id: AnomalyCore
+  start: start
+  graph:
+  - node: start
+    edges:
+    - to: unstable
+      steps:
+      - material: Plasma
+        amount: 5
+        doAfter: 5
+      - material: Phoron
+        amount: 1
+        doAfter: 5
+      - material: ArtifactFragment
+        amount: 5
+        doAfter: 5
+      - tag: AnomalyCoreMold
+        name: construction-graph-tag-core-mold
+        icon:
+          sprite: _Persistence14/Objects/Misc/anomaly-capsule.rsi
+          state: anomaly-core-mold
+  - node: unstable
+    entity: AnomalyCapsuleCoreUnstable

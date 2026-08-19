@@ -203,6 +203,9 @@
     staticPacks:
     - ChemistryStatic
     - SurgeryStatic
+    # Persistence14 - Start
+    - BasicAnomalyPack
+    # Persistence14 - End
     dynamicPacks:
     - AdvancedTools
     - ScienceEquipment

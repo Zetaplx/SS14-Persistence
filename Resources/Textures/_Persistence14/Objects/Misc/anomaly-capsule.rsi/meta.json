@@ -36,6 +36,9 @@
     },
     {
       "name": "down-chip"
+    },
+    {
+      "name": "anomaly-core-mold"
     }
   ]
 }

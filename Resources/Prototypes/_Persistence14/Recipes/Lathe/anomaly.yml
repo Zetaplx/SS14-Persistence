@@ -1,0 +1,21 @@
+- type: latheRecipe
+  id: AnomalyCapsuleRecipe
+  categories:
+  - Anomaly
+  completetime: 2
+  materials:
+    Titanium: 500
+    ReinforcedGlass: 200
+    Gold: 200
+    Silver: 200
+  result: AnomalyCapsule
+
+- type: latheRecipe
+  id: AnomalyCoreMoldRecipe
+  categories:
+  - Anomaly
+  completetime: 2
+  materials:
+    Steel: 200
+    Plasteel: 200
+  result: AnomalyCoreMold

@@ -1,0 +1,127 @@
+- type: reagent
+  id: InertEssence
+  name: reagent-name-essence-inert
+  desc: reagent-desc-essence-inert
+  group: Fun # This should probably be changed to something like "Research"
+  physicalDesc: reagent-physdesc-essence-inert
+  color: "#7c7c7c"
+
+- type: reagent
+  id: PyroclasticEssence
+  name: reagent-name-essence-pyroclastic
+  desc: reagent-desc-essence-pyroclastic
+  group: Fun # This should probably be changed to something like "Research"
+  physicalDesc: reagent-physdesc-essence-pyroclastic
+  color: "#ff5e00"
+
+- type: reagent
+  id: IceEssence
+  name: reagent-name-essence-ice
+  desc: reagent-desc-essence-ice
+  group: Fun
+  physicalDesc: reagent-physdesc-essence-ice
+  color: "#75d7ff"
+
+- type: reagent
+  id: GravityEssence
+  name: reagent-name-essence-gravity
+  desc: reagent-desc-essence-gravity
+  group: Fun
+  physicalDesc: reagent-physdesc-essence-gravity
+  color: "#6d4a8f"
+
+- type: reagent
+  id: ElectricEssence
+  name: reagent-name-essence-electric
+  desc: reagent-desc-essence-electric
+  group: Fun
+  physicalDesc: reagent-physdesc-essence-electric
+  color: "#fff238"
+
+- type: reagent
+  id: FleshEssence
+  name: reagent-name-essence-flesh
+  desc: reagent-desc-essence-flesh
+  group: Fun
+  physicalDesc: reagent-physdesc-essence-flesh
+  color: "#d95757"
+
+- type: reagent
+  id: BluespaceEssence
+  name: reagent-name-essence-bluespace
+  desc: reagent-desc-essence-bluespace
+  group: Fun
+  physicalDesc: reagent-physdesc-essence-bluespace
+  color: "#3f7cff"
+
+- type: reagent
+  id: RockEssence
+  name: reagent-name-essence-rock
+  desc: reagent-desc-essence-rock
+  group: Fun
+  physicalDesc: reagent-physdesc-essence-rock
+  color: "#8a7561"
+
+- type: reagent
+  id: FloraEssence
+  name: reagent-name-essence-flora
+  desc: reagent-desc-essence-flora
+  group: Fun
+  physicalDesc: reagent-physdesc-essence-flora
+  color: "#4caf50"
+
+- type: reagent
+  id: LiquidEssence
+  name: reagent-name-essence-liquid
+  desc: reagent-desc-essence-liquid
+  group: Fun
+  physicalDesc: reagent-physdesc-essence-liquid
+  color: "#3fa9d9"
+
+- type: reagent
+  id: ShadowEssence
+  name: reagent-name-essence-shadow
+  desc: reagent-desc-essence-shadow
+  group: Fun
+  physicalDesc: reagent-physdesc-essence-shadow
+  color: "#342b45"
+
+- type: reagent
+  id: TechEssence
+  name: reagent-name-essence-tech
+  desc: reagent-desc-essence-tech
+  group: Fun
+  physicalDesc: reagent-physdesc-essence-tech
+  color: "#6fc7b5"
+
+- type: reagent
+  id: PolymorphEssence
+  name: reagent-name-essence-polymorph
+  desc: reagent-desc-essence-polymorph
+  group: Fun
+  physicalDesc: reagent-physdesc-essence-polymorph
+  color: "#e05bd8"
+
+- type: reagent
+  id: EyeEssence
+  name: reagent-name-essence-eye
+  desc: reagent-desc-essence-eye
+  group: Fun
+  physicalDesc: reagent-physdesc-essence-eye
+  color: "#c79be8"
+
+- type: reagent
+  id: GasEssence
+  name: reagent-name-essence-gas
+  desc: reagent-desc-essence-gas
+  group: Fun
+  physicalDesc: reagent-physdesc-essence-gas
+  color: "#b5d6c5"
+
+- type: reagent
+  id: SantaEssence
+  name: reagent-name-essence-santa
+  desc: reagent-desc-essence-santa
+  group: Fun
+  physicalDesc: reagent-physdesc-essence-santa
+  color: "#d62929"

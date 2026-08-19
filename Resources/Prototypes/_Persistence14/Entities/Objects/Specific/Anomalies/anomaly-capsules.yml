@@ -57,4 +57,16 @@
     coreSlot: core-slot
     moduleSlots: [ module-slot-1, module-slot-2 ]
 
-
+- type: entity
+  id: AnomalyCoreMold
+  parent: BaseItem
+  name: anomaly core mold
+  description: A mold designed to facilitate the creation of anomaly cores. May be configured to target a specific core type.
+  components:
+  - type: Sprite
+    sprite: _Persistence14/Objects/Misc/anomaly-capsule.rsi
+    state: anomaly-core-mold
+  - type: InteractionOutline
+  - type: Tag
+    tags: 
+    - AnomalyCoreMold

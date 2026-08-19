@@ -52,7 +52,71 @@ anomaly-name-santa = santa anomaly
 anomaly-name-polymorph = polymorph anomaly
 anomaly-name-eye = eye anomaly
 
-anomaly-lathe-category = anomalies
+anomaly-lathe-category = Anomaly
 
 reagent-construction-graph-step = Next, apply {$quantity}u {$reagentName}.
 construction-presenter-reagent-step = Add {$quantity}u {$reagentName}.
+
+reagent-name-essence-inert = inert essence
+reagent-desc-essence-inert = The spent remains of anomalous essence.
+reagent-physdesc-essence-inert = inert
+
+reagent-name-essence-pyroclastic = essence of fire
+reagent-desc-essence-pyroclastic = The concentrated essence of a pyroclastic anomaly.
+reagent-physdesc-essence-pyroclastic = hot
+
+reagent-name-essence-ice = essence of ice
+reagent-desc-essence-ice = The concentrated essence of an ice anomaly.
+reagent-physdesc-essence-ice = cold
+
+reagent-name-essence-gravity = essence of gravity
+reagent-desc-essence-gravity = The concentrated essence of a gravity anomaly.
+reagent-physdesc-essence-gravity = heavy
+
+reagent-name-essence-electric = essence of electricity
+reagent-desc-essence-electric = The concentrated essence of an electric anomaly.
+reagent-physdesc-essence-electric = shocking
+
+reagent-name-essence-flesh = essence of flesh
+reagent-desc-essence-flesh = The concentrated essence of a flesh anomaly.
+reagent-physdesc-essence-flesh = pulsating
+
+reagent-name-essence-bluespace = essence of bluespace
+reagent-desc-essence-bluespace = The concentrated essence of a bluespace anomaly.
+reagent-physdesc-essence-bluespace = timey-wimey
+
+reagent-name-essence-rock = essence of rock
+reagent-desc-essence-rock = The concentrated essence of a rock anomaly.
+reagent-physdesc-essence-rock = sturdy
+
+reagent-name-essence-flora = essence of flora
+reagent-desc-essence-flora = The concentrated essence of a plant anomaly.
+reagent-physdesc-essence-flora = pretty
+
+reagent-name-essence-liquid = essence of liquid
+reagent-desc-essence-liquid = The concentrated essence of a liquid anomaly.
+reagent-physdesc-essence-liquid = wet
+
+reagent-name-essence-shadow = essence of shadow
+reagent-desc-essence-shadow = The concentrated essence of a shadow anomaly.
+reagent-physdesc-essence-shadow = dark
+
+reagent-name-essence-tech = essence of technology
+reagent-desc-essence-tech = The concentrated essence of a technology anomaly.
+reagent-physdesc-essence-tech = expensive
+
+reagent-name-essence-polymorph = essence of polymorphism
+reagent-desc-essence-polymorph = The concentrated essence of a polymorph anomaly.
+reagent-physdesc-essence-polymorph = shifting
+
+reagent-name-essence-eye = essence of the eye
+reagent-desc-essence-eye = The concentrated essence of an eye anomaly.
+reagent-physdesc-essence-eye = invasive
+
+reagent-name-essence-gas = essence of gas
+reagent-desc-essence-gas = The concentrated essence of a gas anomaly.
+reagent-physdesc-essence-gas = smelly
+
+reagent-name-essence-santa = essence of santa
+reagent-desc-essence-santa = The concentrated essence of a santa anomaly.
+reagent-physdesc-essence-santa = jolly

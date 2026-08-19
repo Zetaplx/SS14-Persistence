@@ -9,9 +9,6 @@
       - material: ArtifactFragment
         amount: 4
         doAfter: 5
-      - reagent: Artifexium
-        quantity: 5
-        doAfter: 5
   - node: done
     entity: ComplexXenoArtifactItem
   

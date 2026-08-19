@@ -3,6 +3,8 @@
 # ALSO DOCUMENT WHAT THE HELL THEY DO
 
 ## A ##
+- type: Tag
+  id: AnomalyCoreMold # Allows the selection of an anomaly core type for graph node selection.
 
 ## B ##
 - type: Tag

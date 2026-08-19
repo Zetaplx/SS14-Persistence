@@ -1,0 +1,7 @@
+- type: construction
+  id: AnomalyCoreUnstable
+  graph: AnomalyCore
+  startNode: start
+  targetNode: unstable
+  category: construction-category-misc
+  objectType: Item
