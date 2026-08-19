@@ -17,8 +17,242 @@
         doAfter: 5
       - tag: AnomalyCoreMold
         name: construction-graph-tag-core-mold
+        store: mold
         icon:
           sprite: _Persistence14/Objects/Misc/anomaly-capsule.rsi
           state: anomaly-core-mold
+
   - node: unstable
     entity: AnomalyCapsuleCoreUnstable
+
+  - node: energetic
+    entity: AnomalyCapsuleCoreEnergetic
+    edges:
+    - to: fire-heated
+      steps:
+      - minTemperature: &fireAnomTemp 500
+    - to: ice-chilled
+      steps:
+      - maxTemperature: &iceAnomTemp 100
+  
+  - node: fire-heated
+    edges:
+    - to: fire-filled-1
+      steps:
+      - tag: HotPlant
+        store: ingredients
+        doAfter: 1
+    - to: energetic
+      steps:
+      - maxTemperature: *fireAnomTemp
+
+  - node: fire-filled-1
+    edges:
+    - to: fire-filled-2
+      steps:
+      - tag: HotPlant
+        store: ingredients
+        doAfter: 1
+    - to: energetic
+      steps:
+      - maxTemperature: *fireAnomTemp
+      completed:
+      - !type:DeleteEntitiesInContainer
+        container: ingredients
+      - !type:SpawnPrototype
+        prototype: Ash
+        amount: 1
+  
+  - node: fire-filled-2
+    edges:
+    - to: fire-filled
+      steps:
+      - tag: HotPlant
+        store: ingredients
+        doAfter: 1
+    - to: energetic
+      steps:
+      - maxTemperature: *fireAnomTemp
+      completed:
+      - !type:DeleteEntitiesInContainer
+        container: ingredients
+      - !type:SpawnPrototype
+        prototype: Ash
+        amount: 2
+
+  - node: fire-filled
+    edges:
+    - to: fire-primed
+      steps:
+      - tool: Welding
+        doAfter: 3
+    - to: energetic
+      steps:
+      - maxTemperature: *fireAnomTemp
+      completed:
+      - !type:DeleteEntitiesInContainer
+        container: ingredients
+      - !type:SpawnPrototype
+        prototype: Ash
+        amount: 3
+  
+  - node: fire-primed
+    edges:
+    - to: fire
+      steps:
+      - reagent: PyroclasticEssence
+        quantity: 10
+        doAfter: 2
+    - to: energetic
+      steps:
+      - maxTemperature: *fireAnomTemp
+      completed:
+      - !type:DeleteEntitiesInContainer
+        container: ingredients
+      - !type:SpawnPrototype
+        prototype: Ash
+        amount: 3
+
+  - node: fire
+    entity: AnomalyCapsuleCorePyroclastic
+
+  - node: ice-chilled
+    edges:
+    - to: ice-frezon
+      steps:
+      - reagent: Frezon
+        quantity: 20
+        doAfter: 2
+        solution: ingredients1
+    - to: energetic
+      steps:
+      - minTemperature: *iceAnomTemp
+  
+  - node: ice-frezon
+    edges:
+    - to: ice-frost-oil
+      steps:
+      - reagent: FrostOil
+        quantity: 20
+        doAfter: 2
+        solution: ingredients2
+    - to: energetic
+      steps:
+      - minTemperature: *iceAnomTemp
+      completed:
+      - !type:SpillSolution
+        solution: ingredients1
+  
+  - node: ice-frost-oil
+    edges:
+    - to: ice
+      steps:
+      - reagent: IceEssence
+        quantity: 10
+        doAfter: 2
+    - to: energetic
+      steps:
+      - minTemperature: *iceAnomTemp
+      completed:
+      - !type:SpillSolution
+        solution: ingredients1
+      - !type:SpillSolution
+        solution: ingredients2
+        useSound: false # only one splash sound please
+  
+  - node: ice
+    entity: AnomalyCapsuleCoreIce
+
+  - node: electric-cabeled
+    steps:
+
+  - node: electric
+    entity: AnomalyCapsuleCoreElectric
+
+  - node: massive
+    entity: AnomalyCapsuleCoreMassive
+    edges:
+    - to: rock-ore
+      steps:
+      - material: RawIron
+        amount: 10
+        store: mats
+      - material: RawQuartz
+        amount: 10
+        store: mats
+      - material: RawCopper
+        amount: 10
+        store: mats
+      - material: RawTin
+        amount: 10
+        store: mats
+      - material: RawTitanium
+        amount: 10
+        store: mats
+      - material: RawSilver
+        amount: 10
+        store: mats
+      - material: RawGold
+        amount: 10
+        store: mats
+      - material: RawUranium
+        amount: 10
+        store: mats
+      - material: RawPlasma
+        amount: 10
+        store: mats
+      - material: RawBananium
+        amount: 10
+        store: mats
+        doAfter: 5
+
+  - node: gravity
+    entity: AnomalyCapsuleCoreGravity
+  
+  - node: rock-ore
+    edges:
+    - to: rock-primed
+      steps:
+      - tool: Welding
+        doAfter: 5
+  
+  - node: rock-primed
+    edges:
+    - to: rock
+      steps:
+      - reagent: RockEssence
+        quantity: 10
+        doAfter: 2
+
+  - node: rock
+    entity: AnomalyCapsuleCoreRock
+  
+  - node: liquid
+    entity: AnomalyCapsuleCoreLiquid
+  
+  - node: gas
+    entity: AnomalyCapsuleCoreGas
+  
+  - node: living
+    entity: AnomalyCapsuleCoreLiving
+
+  - node: plant
+    entity: AnomalyCapsuleCoreFlora
+
+  - node: flesh
+    entity: AnomalyCapsuleCoreFlesh
+  
+  - node: shadow
+    entity: AnomalyCapsuleCoreShadow
+
+  - node: strange
+    entity: AnomalyCapsuleCoreStrange
+
+  - node: tech
+    entity: AnomalyCapsuleCoreTech
+  
+  - node: polymorph
+    entity: AnomalyCapsuleCorePolymorph
+  
+  - node: eye
+    entity: AnomalyCapsuleCoreEye

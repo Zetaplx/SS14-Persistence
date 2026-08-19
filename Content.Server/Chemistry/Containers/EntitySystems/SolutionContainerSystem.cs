@@ -1,3 +1,5 @@
+using Content.Server.Construction;
+using Content.Server.Construction.Components;
 using Content.Shared.Chemistry.Components;
 using Content.Shared.Chemistry.Components.SolutionManager;
 using Content.Shared.Chemistry.EntitySystems;
@@ -8,6 +10,15 @@ namespace Content.Server.Chemistry.Containers.EntitySystems;
 [Obsolete("This is being depreciated. Use SharedSolutionContainerSystem instead!")]
 public sealed partial class SolutionContainerSystem : SharedSolutionContainerSystem
 {
+    [Dependency] private readonly ConstructionSystem _constructionSystem = default!;
+
+    public override void Initialize()
+    {
+        base.Initialize();
+
+        SubscribeLocalEvent<SolutionContainerManagerComponent, ComponentInit>(OnInit);
+    }
+
     [Obsolete("This is being depreciated. Use the ensure methods in SharedSolutionContainerSystem instead!")]
     public Solution EnsureSolution(Entity<MetaDataComponent?> entity, string name)
         => EnsureSolution(entity, name, out _);
@@ -37,5 +48,17 @@ public sealed partial class SolutionContainerSystem : SharedSolutionContainerSys
     {
         EnsureSolutionEntity(entity, name, out existed, out var solEnt, maxVol, prototype);
         return solEnt!.Value;//solEnt is only ever null on the client, so we can suppress this
+    }
+
+    // Added for Persistence14. Needed to store reagents between construction steps.
+    private void OnInit(Entity<SolutionContainerManagerComponent> entity, ref ComponentInit args)
+    {
+        if (TryComp<ConstructionComponent>(entity.Owner, out var construction))
+        {
+            foreach (var (id, _) in EnumerateSolutions(entity.Owner, true))
+            {
+                _constructionSystem.AddSolution(entity.Owner, id ?? entity.Owner.Id.ToString(), construction);
+            }
+        }
     }
 }

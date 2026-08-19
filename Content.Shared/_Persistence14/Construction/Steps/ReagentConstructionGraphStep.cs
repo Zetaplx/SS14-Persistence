@@ -10,11 +10,23 @@ namespace Content.Shared._Persistence14.Construction.Steps;
 [DataDefinition]
 public sealed partial class ReagentConstructionGraphStep : ConstructionGraphStep
 {
+    /// <summary>
+    /// Reagent required for the construction step.
+    /// </summary>
     [DataField(required: true)]
     public ProtoId<ReagentPrototype> Reagent;
 
+    /// <summary>
+    /// Amount of reagent required for the construction step.
+    /// </summary>
     [DataField(required: true)]
     public FixedPoint2 Quantity;
+
+    /// <summary>
+    /// The name of the solution to store the construction reagents in. If not already present on entity, creates a solution.
+    /// </summary>
+    [DataField]
+    public string? Solution = null;
 
     public override void DoExamine(ExaminedEvent examinedEvent)
     {

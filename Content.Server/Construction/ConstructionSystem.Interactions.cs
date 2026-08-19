@@ -447,13 +447,11 @@ namespace Content.Server.Construction
                         if (!TryComp<ConstructionSolutionComponent>(interactUsing.Used, out var constructionSolution))
                         {
                             // TODO: Send Popup
-                            LogManager.GetSawmill("TEST").Warning("Rejected step for missing ConstructionSolutionComponent");
                             return HandleResult.False;
                         }
 
                         if (!_solution.TryGetSolution(interactUsing.Used, constructionSolution.Solution, out var solutionComp, out var solution))
                         {
-                            LogManager.GetSawmill("TEST").Warning($"Rejected step for missing solution: {constructionSolution.Solution}");
                             return HandleResult.False;
                         }
 
@@ -461,7 +459,6 @@ namespace Content.Server.Construction
                         if (qty < reagentStep.Quantity)
                         {
                             // TODO: Send Popup
-                            LogManager.GetSawmill("TEST").Warning($"Rejected step for missing reagent: Expected {reagentStep.Quantity}u {reagentStep.Reagent}, Actual: {qty}");
                             return HandleResult.False;
                         }
 
@@ -489,7 +486,22 @@ namespace Content.Server.Construction
                             return HandleResult.Validated;
 
                         _solution.RemoveReagent((interactUsing.Used, solutionComp), new ReagentQuantity(reagentStep.Reagent, reagentStep.Quantity));
-                        LogManager.GetSawmill("TEST").Warning($"Step Success");
+                        // Solution-storage handling.
+                        if (!string.IsNullOrEmpty(reagentStep.Solution))
+                        {
+                            // In the case we want to store this item in a container on the entity...
+                            var store = reagentStep.Solution;
+
+                            // Add this container to the collection of "construction-owned" containers.
+                            // Containers in that set will be transferred to new entities in the case of a prototype change.
+                            construction.Solutions.Add(store);
+
+                            // The container doesn't necessarily need to exist, so we ensure it.
+                            EnsureComp<SolutionContainerManagerComponent>(uid, out var solutionManager);
+                            _solution.EnsureSolutionEntity((uid, solutionManager), store, out var storeSolutionEnt, 999999);
+                            _solution.TryAddReagent(storeSolutionEnt!.Value, new ReagentQuantity(reagentStep.Reagent, reagentStep.Quantity), out var acceptedQuantity);
+                        }
+
                         return HandleResult.True;
                     }
 

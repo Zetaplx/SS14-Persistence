@@ -120,3 +120,27 @@ reagent-physdesc-essence-gas = smelly
 reagent-name-essence-santa = essence of santa
 reagent-desc-essence-santa = The concentrated essence of a santa anomaly.
 reagent-physdesc-essence-santa = jolly
+
+anomaly-core-construction-target-unstable = Unstable
+
+anomaly-core-construction-target-energetic = Energetic
+anomaly-core-construction-target-pyroclastic = Pyroclastic
+anomaly-core-construction-target-ice = Ice
+anomaly-core-construction-target-electric = Electric
+
+anomaly-core-construction-target-massive = Massive
+anomaly-core-construction-target-gravity = Gravity
+anomaly-core-construction-target-rock = Rock
+anomaly-core-construction-target-liquid = Liquid
+anomaly-core-construction-target-gas = Gas
+
+anomaly-core-construction-target-living = Living
+anomaly-core-construction-target-flora = Plant
+anomaly-core-construction-target-flesh = Flesh
+anomaly-core-construction-target-shadow = Shadow
+
+anomaly-core-construction-target-strange = Strange
+anomaly-core-construction-target-tech = Technology
+anomaly-core-construction-target-polymorph = Polymorph
+anomaly-core-construction-target-eye = Eye
+anomaly-core-construction-target-bluespace = Bluespace

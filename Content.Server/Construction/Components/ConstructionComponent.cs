@@ -21,6 +21,10 @@ namespace Content.Server.Construction.Components
         [DataField("containers")]
         public HashSet<string> Containers { get; set; } = new();
 
+        // Added for Persistence14
+        [DataField("solutions")]
+        public HashSet<string> Solutions { get; set; } = new();
+
         [DataField("defaultTarget")]
         public string? TargetNode { get; set; } = null;
 

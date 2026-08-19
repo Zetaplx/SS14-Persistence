@@ -1,4 +1,5 @@
 using Content.Server.Construction.Components;
+using Content.Shared.Chemistry.Components.SolutionManager;
 using Content.Shared.Construction;
 using Content.Shared.Construction.Prototypes;
 using Content.Shared.Construction.Steps;
@@ -6,6 +7,7 @@ using Content.Shared.Containers;
 using Content.Shared.Database;
 using Robust.Shared.Containers;
 using Robust.Shared.Prototypes;
+using Robust.Shared.Toolshed.Commands.Values;
 using System.Linq;
 
 namespace Content.Server.Construction
@@ -31,6 +33,14 @@ namespace Content.Server.Construction
                 return false;
 
             return construction.Containers.Add(container);
+        }
+
+        public bool AddSolution(EntityUid uid, string solution, ConstructionComponent? construction = null)
+        {
+            if (!Resolve(uid, ref construction))
+                return false;
+
+            return construction.Solutions.Add(solution);
         }
 
         /// <summary>
@@ -290,7 +300,8 @@ namespace Content.Server.Construction
             string? previousNode = null,
             MetaDataComponent? metaData = null,
             TransformComponent? transform = null,
-            ContainerManagerComponent? containerManager = null)
+            ContainerManagerComponent? containerManager = null,
+            SolutionContainerManagerComponent? solutionManager = null)
         {
             if (!Resolve(uid, ref construction, ref metaData, ref transform))
             {
@@ -318,6 +329,7 @@ namespace Content.Server.Construction
 
             // Optional resolves.
             Resolve(uid, ref containerManager, false);
+            Resolve(uid, ref solutionManager, false);
 
             // We create the new entity.
             var newUid = EntityManager.CreateEntityUninitialized(newEntity, transform.Coordinates);
@@ -327,6 +339,7 @@ namespace Content.Server.Construction
 
             // Transfer all construction-owned containers.
             newConstruction.Containers.UnionWith(construction.Containers);
+            newConstruction.Solutions.UnionWith(construction.Solutions);
 
             // Prevent MapInitEvent spawned entities from spawning into the containers.
             // Containers created by ChangeNode() actions do not exist until after this function is complete,
@@ -391,6 +404,27 @@ namespace Content.Server.Construction
                         _container.Remove(entity, ourContainer, reparent: false, force: true);
                         _container.Insert(entity, otherContainer);
                     }
+                }
+            }
+
+            // Persistence14 - Transfer solutions
+            if (solutionManager != null)
+            {
+                var newSolutionManager = EnsureComp<SolutionContainerManagerComponent>(newUid);
+
+                foreach (var solutionId in construction.Solutions)
+                {
+                    if (!_solution.TryGetSolution(uid, solutionId, out var solutionEnt, out var solution))
+                        continue;
+
+                    if (!_solution.TryGetSolution(newUid, solutionId, out var otherSolutionEnt, out var otherSolution))
+                    {
+                        if (!_solution.EnsureSolutionEntity(newUid, solutionId, out otherSolutionEnt, solution.MaxVolume))
+                            continue;
+                        otherSolution = otherSolutionEnt.Value.Comp.Solution;
+                    }
+
+                    _solution.TryTransferSolution(otherSolutionEnt.Value, solution, solution.Volume);
                 }
             }
 
