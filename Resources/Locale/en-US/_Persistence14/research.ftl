@@ -121,6 +121,9 @@ reagent-name-essence-santa = essence of santa
 reagent-desc-essence-santa = The concentrated essence of a santa anomaly.
 reagent-physdesc-essence-santa = jolly
 
+construction-graph-tag-core-mold = Anomaly Core Mold
+construction-graph-tag-hot-plant = Hot Plant
+
 anomaly-core-construction-target-unstable = Unstable
 
 anomaly-core-construction-target-energetic = Energetic

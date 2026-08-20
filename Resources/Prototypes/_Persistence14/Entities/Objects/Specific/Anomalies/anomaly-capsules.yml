@@ -81,34 +81,34 @@
       loc: anomaly-core-construction-target-pyroclastic
     - target: ice
       loc: anomaly-core-construction-target-ice
-    - target: electric
-      loc: anomaly-core-construction-target-electric
+    #- target: electric
+    #  loc: anomaly-core-construction-target-electric
 
     - target: massive
       loc: anomaly-core-construction-target-massive
-    - target: gravity
-      loc: anomaly-core-construction-target-gravity
+    #- target: gravity
+    #  loc: anomaly-core-construction-target-gravity
     - target: rock
       loc: anomaly-core-construction-target-rock
-    - target: liquid
-      loc: anomaly-core-construction-target-liquid
-    - target: gas
-      loc: anomaly-core-construction-target-gas
+    #- target: liquid
+    #  loc: anomaly-core-construction-target-liquid
+    #- target: gas
+    #  loc: anomaly-core-construction-target-gas
 
-    - target: living
-      loc: anomaly-core-construction-target-living
-    - target: plant
-      loc: anomaly-core-construction-target-flora
-    - target: flesh
-      loc: anomaly-core-construction-target-flesh
-    - target: shadow
-      loc: anomaly-core-construction-target-shadow
+    #- target: living
+    #  loc: anomaly-core-construction-target-living
+    #- target: plant
+    #  loc: anomaly-core-construction-target-flora
+    #- target: flesh
+    #  loc: anomaly-core-construction-target-flesh
+    #- target: shadow
+    #  loc: anomaly-core-construction-target-shadow
 
-    - target: strange
-      loc: anomaly-core-construction-target-strange
-    - target: tech
-      loc: anomaly-core-construction-target-tech
-    - target: polymorph
-      loc: anomaly-core-construction-target-polymorph
-    - target: eye
-      loc: anomaly-core-construction-target-eye
+    #- target: strange
+    #  loc: anomaly-core-construction-target-strange
+    #- target: tech
+    #  loc: anomaly-core-construction-target-tech
+    #- target: polymorph
+    #  loc: anomaly-core-construction-target-polymorph
+    #- target: eye
+    #  loc: anomaly-core-construction-target-eye

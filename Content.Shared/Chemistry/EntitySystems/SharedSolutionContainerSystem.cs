@@ -825,7 +825,7 @@ public abstract partial class SharedSolutionContainerSystem : EntitySystem
 
     #region Event Handlers
 
-    private void OnComponentInit(Entity<SolutionComponent> entity, ref ComponentInit args)
+    protected virtual void OnComponentInit(Entity<SolutionComponent> entity, ref ComponentInit args)
     {
         entity.Comp.Solution.ValidateSolution();
     }

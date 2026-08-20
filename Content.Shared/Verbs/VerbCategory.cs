@@ -90,6 +90,6 @@ namespace Content.Shared.Verbs
             new("verb-categories-adjust", "/Textures/Interface/VerbIcons/screwdriver.png");
 
         // Persistence14 categories
-        public static readonly VerbCategory SetTarget = new ("verb-categories-set-target", null);
+        public static readonly VerbCategory SetTarget = new("verb-categories-set-target", null);
     }
 }

@@ -12,13 +12,6 @@ public sealed partial class SolutionContainerSystem : SharedSolutionContainerSys
 {
     [Dependency] private readonly ConstructionSystem _constructionSystem = default!;
 
-    public override void Initialize()
-    {
-        base.Initialize();
-
-        SubscribeLocalEvent<SolutionContainerManagerComponent, ComponentInit>(OnInit);
-    }
-
     [Obsolete("This is being depreciated. Use the ensure methods in SharedSolutionContainerSystem instead!")]
     public Solution EnsureSolution(Entity<MetaDataComponent?> entity, string name)
         => EnsureSolution(entity, name, out _);
@@ -51,8 +44,10 @@ public sealed partial class SolutionContainerSystem : SharedSolutionContainerSys
     }
 
     // Added for Persistence14. Needed to store reagents between construction steps.
-    private void OnInit(Entity<SolutionContainerManagerComponent> entity, ref ComponentInit args)
+    protected override void OnComponentInit(Entity<SolutionComponent> entity, ref ComponentInit args)
     {
+        base.OnComponentInit(entity, ref args);
+
         if (TryComp<ConstructionComponent>(entity.Owner, out var construction))
         {
             foreach (var (id, _) in EnumerateSolutions(entity.Owner, true))

@@ -11,6 +11,8 @@ public sealed partial class ConstructionTargetSpecifierComponent : Component
 
     [DataField("index"), AutoNetworkedField]
     public int CurrentTargetIndex { get; set; } = 0;
+
+    public ConstructionTargetSpecifier CurrentTarget => ValidTargets[CurrentTargetIndex];
 }
 
 [DataDefinition, Serializable, NetSerializable]

@@ -24,9 +24,32 @@
 
   - node: unstable
     entity: AnomalyCapsuleCoreUnstable
+    actions:
+    - !type:SpecifyTarget
+      store: mold
+    edges:
+    - to: energetic
+      steps:
+      - tool: Welding
+        doAfter: 1
+    - to: massive
+      steps:
+      - tool: Screwing
+        doAfter: 1
+    - to: living
+      steps:
+      - tool: Pulsing
+        doAfter: 1
+    - to: Strange
+      steps:
+      - tool: Prying
+        doAfter: 1
 
   - node: energetic
     entity: AnomalyCapsuleCoreEnergetic
+    actions:
+    - !type:SpecifyTarget
+      store: mold
     edges:
     - to: fire-heated
       steps:
@@ -40,6 +63,7 @@
     - to: fire-filled-1
       steps:
       - tag: HotPlant
+        name: construction-graph-tag-hot-plant
         store: ingredients
         doAfter: 1
     - to: energetic
@@ -51,6 +75,7 @@
     - to: fire-filled-2
       steps:
       - tag: HotPlant
+        name: construction-graph-tag-hot-plant
         store: ingredients
         doAfter: 1
     - to: energetic
@@ -68,6 +93,7 @@
     - to: fire-filled
       steps:
       - tag: HotPlant
+        name: construction-graph-tag-hot-plant
         store: ingredients
         doAfter: 1
     - to: energetic
@@ -163,45 +189,47 @@
   - node: ice
     entity: AnomalyCapsuleCoreIce
 
-  - node: electric-cabeled
-    steps:
+  #- node: electric-cabeled
 
   - node: electric
     entity: AnomalyCapsuleCoreElectric
 
   - node: massive
     entity: AnomalyCapsuleCoreMassive
+    actions:
+    - !type:SpecifyTarget
+      store: mold
     edges:
     - to: rock-ore
       steps:
-      - material: RawIron
+      - material: SteelOre
         amount: 10
         store: mats
-      - material: RawQuartz
+      - material: SpaceQuartz
         amount: 10
         store: mats
-      - material: RawCopper
+      - material: CopperOre
         amount: 10
         store: mats
-      - material: RawTin
+      - material: TinOre
         amount: 10
         store: mats
-      - material: RawTitanium
+      - material: TitaniumOre
         amount: 10
         store: mats
-      - material: RawSilver
+      - material: SilverOre
         amount: 10
         store: mats
-      - material: RawGold
+      - material: GoldOre
         amount: 10
         store: mats
-      - material: RawUranium
+      - material: UraniumOre
         amount: 10
         store: mats
-      - material: RawPlasma
+      - material: PlasmaOre
         amount: 10
         store: mats
-      - material: RawBananium
+      - material: BananiumOre
         amount: 10
         store: mats
         doAfter: 5
@@ -235,6 +263,9 @@
   
   - node: living
     entity: AnomalyCapsuleCoreLiving
+    actions:
+    - !type:SpecifyTarget
+      store: mold
 
   - node: plant
     entity: AnomalyCapsuleCoreFlora
@@ -247,6 +278,9 @@
 
   - node: strange
     entity: AnomalyCapsuleCoreStrange
+    actions:
+    - !type:SpecifyTarget
+      store: mold
 
   - node: tech
     entity: AnomalyCapsuleCoreTech
