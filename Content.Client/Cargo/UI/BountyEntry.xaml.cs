@@ -46,7 +46,7 @@ public sealed partial class BountyEntry : BoxContainer
             ("reward", bountyPrototype.Reward.ToString("F2")),
             ("hasPricePer", hasPricePer),
             ("pricePer", pricePer.ToString("F2")),
-            ("unit", unitName)
+            ("unit", unitName ?? "")
             ));
         LevelBar.MaxValue = 1f;
         LevelBar.Value = bounty.PercentCompleted;

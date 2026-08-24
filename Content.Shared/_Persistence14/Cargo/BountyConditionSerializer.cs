@@ -85,6 +85,6 @@ public sealed class BountyConditionSequenceSerializer : ITypeReader<BountyCondit
         IDependencyCollection dependencies,
         ISerializationContext? context = null)
     {
-        return serializationManager.ValidateNode<BountyConditionAll>(node, context);
+        return serializationManager.ValidateNode<List<BountyCondition>>(node, context);
     }
 }
