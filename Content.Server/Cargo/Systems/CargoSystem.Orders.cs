@@ -302,17 +302,11 @@ namespace Content.Server.Cargo.Systems
                 //             order.Approved = true;
                 //             _audio.PlayPvs(ApproveSound, uid);
 
-<<<<<<< HEAD
                 //             if (!_emag.CheckFlag(uid, EmagType.Interaction))
                 //             {
                 //                 var tryGetIdentityShortInfoEvent = new TryGetIdentityShortInfoEvent(uid, player);
                 //                 RaiseLocalEvent(tryGetIdentityShortInfoEvent);
                 //                 order.SetApproverData(tryGetIdentityShortInfoEvent.Title);
-=======
-            if (!_emag.CheckFlag(uid, EmagType.Interaction))
-            {
-                order.SetApproverData(_identity.GetIdentityShortInfo(player, uid));
->>>>>>> a101582144
 
                 //                 var message = Loc.GetString("cargo-console-unlock-approved-order-broadcast",
                 //                     ("productName", Loc.GetString(product.Name)),

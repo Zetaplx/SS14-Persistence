@@ -244,9 +244,11 @@ public sealed partial class CrewManifestSystem : EntitySystem
             if (!crewRecords.TryGetRecord(name, out var record) || record == null) continue;
             if (!crewAssignments.TryGetAssignment(record.AssignmentID, out var assignment) || assignment == null) continue;
 
-            var entry = new CrewManifestEntry(name, assignment.Name, "JobIconUnknown", "Passenger");
+            var passengerProtoId = "Passenger";
 
-            _prototypeManager.TryIndex(PassengerProtoID, out JobPrototype? job);
+            var entry = new CrewManifestEntry(name, assignment.Name, "JobIconUnknown", passengerProtoId);
+
+            _prototypeManager.TryIndex(passengerProtoId, out JobPrototype? job);
             entriesSort.Add((job, entry));
         }
 
