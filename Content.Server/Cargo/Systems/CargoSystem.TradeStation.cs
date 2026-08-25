@@ -202,9 +202,7 @@ public sealed partial class CargoSystem
 
         return outList;
     }
-
     #endregion
-
     #region Station
 
     private bool SellPallets(EntityUid gridUid, EntityUid? station, out HashSet<(EntityUid, OverrideSellComponent?, double)> goods)
