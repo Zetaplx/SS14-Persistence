@@ -5,6 +5,8 @@ namespace Content.Shared._Persistence14.PersistentIdentifier.Reference;
 [DataDefinition, NetSerializable, Serializable]
 public partial record struct PersistentEntityReference
 {
+    public static string EmptyId => PersistentIdentifierSystem.EmptyId;
+
     [DataField("targetId", readOnly: true)] private string? _targetId;
     public string TargetId => _targetId ?? PersistentIdentifierSystem.EmptyId;
 
@@ -20,4 +22,9 @@ public partial record struct PersistentEntityReference
 
     public static implicit operator PersistentEntityReference(string targetId) => new(targetId);
     public static implicit operator string(PersistentEntityReference reference) => reference.TargetId;
-};
+
+    public override int GetHashCode()
+    {
+        return TargetId.GetHashCode();
+    }
+}
