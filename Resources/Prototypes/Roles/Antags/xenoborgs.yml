@@ -8,15 +8,6 @@
   - !type:RoleTimeRequirement
     role: JobBorg
     time: 18000  # 5 hrs
-  guides: [ Xenoborgs ]
-
-- type: antagSpecifier
-  parent: RestrictedAntag
-  id: MothershipCore
-  prefRoles: [ MothershipCore ]
-  spawnerPrototype: SpawnPointGhostRoleMothershipCore
-  mindRoles:
-  - MindRoleMothershipCore
 
 - type: antagSpecifier
   parent: RestrictedAntag
