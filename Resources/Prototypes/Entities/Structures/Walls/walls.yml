@@ -140,8 +140,9 @@
   - type: Construction
     graph: Girder
     node: bronzeWall
-  - type: Damageable
+  - type: Injurable
     damageContainer: StructuralInorganic
+  - type: Damageable
     damageModifierSet: StructuralMetallic
   - type: Destructible
     thresholds:
@@ -712,8 +713,9 @@
   - type: Construction
     graph: Girder
     node: titaniumWall
-  - type: Damageable
+  - type: Injurable
     damageContainer: StructuralInorganic
+  - type: Damageable
     damageModifierSet: StructuralMetallicStrong
   - type: IconSmooth
     key: walls

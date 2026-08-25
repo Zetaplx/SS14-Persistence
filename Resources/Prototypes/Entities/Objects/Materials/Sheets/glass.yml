@@ -45,6 +45,7 @@
     materialComposition:
       Glass: 100
   - type: Stack
+    count: 50
     stackType: Glass
     baseLayer: base
     layerStates:
@@ -69,8 +70,6 @@
       reagents:
       - ReagentId: Silicon
         Quantity: 10
-  - type: Stack
-    count: 50
 
 - type: entity
   parent: SheetGlass

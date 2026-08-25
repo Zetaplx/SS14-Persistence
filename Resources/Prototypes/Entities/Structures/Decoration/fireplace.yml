@@ -79,8 +79,9 @@
       enum.HolidayVisuals.Holiday:
         christmas:
           festive: { visible: true }
-  - type: Damageable
+  - type: Injurable
     damageContainer: StructuralInorganic
+  - type: Damageable
     damageModifierSet: Metallic
   - type: Destructible
     thresholds:

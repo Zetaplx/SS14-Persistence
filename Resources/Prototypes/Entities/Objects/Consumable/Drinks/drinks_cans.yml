@@ -14,14 +14,9 @@
   - type: Openable
     opened: true
     closeable: true
-  - type: SolutionContainerManager
+  - type: SolutionManager
     solutions:
-      drink:
-        maxVol: 30
-      grindable: &emptyCanGrindable
-        reagents:
-        - ReagentId: Aluminium
-          Quantity: 5
+    - SolutionCanComposite
   - type: SolutionTransfer
     canChangeTransferAmount: true
     maxTransferAmount: 15
@@ -54,16 +49,9 @@
   id: DrinkCanBase
   components:
   - type: Solution
+    id: drink
     solution:
       maxVol: 40 # Cans are about 330ml which translates to about 40u
-  - type: SolutionManager
-    solutions:
-      drink:
-        maxVol: 30
-      grindable: &grindable
-        reagents: # 5u aluminium per can
-        - ReagentId: Aluminium
-          Quantity: 5
   - type: SolutionTransfer
     canChangeTransferAmount: true
     maxTransferAmount: 15

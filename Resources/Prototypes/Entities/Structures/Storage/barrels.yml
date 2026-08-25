@@ -68,17 +68,17 @@
   table: !type:GroupSelector
     children:
     - id: BarrelChemFilledIodine
-    - id: BarrelChemFilledRandom
+    #- id: BarrelChemFilledRandom
     - id: BarrelChemFilledFluorine
     - id: BarrelChemFilledChlorine
     - id: BarrelChemFilledEthanol
-    - id: BarrelChemFilledRandom
+    #- id: BarrelChemFilledRandom
     - id: BarrelChemFilledPhosphorus
     - id: BarrelChemFilledSilicon
     - id: BarrelChemFilledMercury
     - id: BarrelChemFilledLube # oiled up...
-    - id: BarrelChemFilledRandom # adding this multiple times.
-      weight: 0.1
+    #- id: BarrelChemFilledRandom # adding this multiple times.
+    #  weight: 0.1
 
 - type: entityTable
   id: RandomChemicalBarrelRadioactive

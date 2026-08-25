@@ -350,7 +350,7 @@
   categories: [ HideSpawnMenu ]
   components:
   - type: Solution
-    id: Lung
+    id: lung
     solution:
       maxVol: 100.0
       canReact: false

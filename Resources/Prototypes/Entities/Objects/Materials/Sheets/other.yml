@@ -13,7 +13,7 @@
     tags:
     - Sheet
     - ConstructionMaterial
-  - type: Damageable
+  - type: Injurable
     damageContainer: Inorganic
   - type: Destructible
     thresholds:
@@ -23,10 +23,6 @@
       behaviors:
       - !type:DoActsBehavior
         acts: [ "Destruction" ]
-  - type: SolutionManager
-    solutions:
-      paper:
-        canReact: false
   - type: Stack
     count: 50
 

@@ -66,15 +66,6 @@
       path: /Audio/Ambience/Objects/drain.ogg
 
 - type: entity
-  name: sink
-  id: SinkEmpty # Separated from BaseSink to prevent warnings
-  parent: BaseSink
-  components:
-  - type: Construction
-    graph: SinkEmpty
-    node: sinkempty
-
-- type: entity
   parent: SinkEmpty
   id: Sink
   suffix: Water
@@ -103,20 +94,15 @@
     maxFillLevels: 1
     fillBaseName: sink_wide-fill-
     solutionName: drainBuffer
-
-- type: entity
-  name: wide sink
-  id: SinkWide
-  parent: BaseSinkWide
-  components:
   - type: Construction
     graph: SinkWide
     node: sinkwide
 
+
 - type: entity
   name: wide sink
   id: SinkWideWater
-  parent: BaseSinkWide
+  parent: SinkWide
   suffix: Water
   components:
   - type: SolutionContainerManager
@@ -133,7 +119,7 @@
 - type: entity
   name: sink
   id: BaseSinkStemless
-  parent: BaseSink
+  parent: SinkEmpty
   abstract: true
   components:
   - type: Sprite

@@ -23,10 +23,6 @@
       behaviors:
       - !type:DoActsBehavior
         acts: [ "Destruction" ]
-  - type: SolutionContainerManager
-    solutions:
-      steel:
-        canReact: false
   - type: Stack
     count: 50
   - type: GuideHelp

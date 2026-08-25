@@ -493,8 +493,9 @@
           collection: MetalBreak
       - !type:ChangeConstructionNodeBehavior
         node: machineFrame
-  - type: Damageable
+  - type: Injurable
     damageContainer: StructuralInorganic
+  - type: Damageable
     damageModifierSet: Electronic
   - type: SubFloorHide
   - type: CollideOnAnchor

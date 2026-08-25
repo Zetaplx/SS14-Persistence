@@ -174,34 +174,10 @@ public sealed partial class DamageableSystem
     /// </summary>
     private void DamageableInit(Entity<DamageableComponent> ent, ref ComponentInit _)
     {
-        if (
-            ent.Comp.DamageContainerID is null ||
-            !_prototypeManager.Resolve(ent.Comp.DamageContainerID, out var damageContainerPrototype)
-        )
+        // InjurableComponent now handles damage type matching, damageable should support all damage types.
+        foreach (var type in _prototypeManager.EnumeratePrototypes<DamageTypePrototype>())
         {
-            // No DamageContainerPrototype was given. So we will allow the container to support all damage types
-            foreach (var type in _prototypeManager.EnumeratePrototypes<DamageTypePrototype>())
-            {
-                ent.Comp.Damage.DamageDict.TryAdd(type.ID, FixedPoint2.Zero);
-            }
-        }
-        else
-        {
-            // Initialize damage dictionary, using the types and groups from the damage
-            // container prototype
-            foreach (var type in damageContainerPrototype.SupportedTypes)
-            {
-                ent.Comp.Damage.DamageDict.TryAdd(type, FixedPoint2.Zero);
-            }
-
-            foreach (var groupId in damageContainerPrototype.SupportedGroups)
-            {
-                var group = _prototypeManager.Index(groupId);
-                foreach (var type in group.DamageTypes)
-                {
-                    ent.Comp.Damage.DamageDict.TryAdd(type, FixedPoint2.Zero);
-                }
-            }
+            ent.Comp.Damage.DamageDict.TryAdd(type.ID, FixedPoint2.Zero);
         }
 
         ent.Comp.Damage.GetDamagePerGroup(_prototypeManager, ent.Comp.DamagePerGroup);

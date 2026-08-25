@@ -233,16 +233,10 @@ namespace Content.Server.Atmos.Piping.Binary.EntitySystems
 
         private void OnContainerRemoved(Entity<GasRecyclerComponent> ent, ref EntRemovedFromContainerMessage args)
         {
-            if (TryComp<SolutionContainerManagerComponent>(args.Entity, out var solMgr))
-            {
-                foreach (var solutionName in solMgr.Containers)
-                {
-                    if (_solutionContainer.TryGetSolution((args.Entity, solMgr), solutionName, out var solutionEnt, out var solution))
-                    {
-                        Dirty(solutionEnt.Value);
-                    }
-                }
-            }
+            if (!_solutionContainer.TryGetFitsInDispenser(args.Entity, out var solution, out _))
+                return;
+
+            Dirty(solution.Value);
         }
     }
 }

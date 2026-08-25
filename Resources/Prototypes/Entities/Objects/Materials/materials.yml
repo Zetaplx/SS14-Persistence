@@ -390,16 +390,17 @@
   - type: Item
     heldPrefix: phoron
   - type: Solution
-    reagents:
-    - ReagentId: Plasma
-    Quantity: 18
-    - ReagentId: Bananium
-    Quantity: 18
-    - ReagentId: Titanium
-    Quantity: 9
-    - ReagentId: Phoron
-    Quantity: .5 # 1 phoron alloy to 1u Phoron reagent, with phoron-synthesis reaction you can get up to 2.3 per alloy
-        canReact: false
+    solution:
+      reagents:
+      - ReagentId: Plasma
+        Quantity: 18
+      - ReagentId: Bananium
+        Quantity: 18
+      - ReagentId: Titanium
+        Quantity: 9
+      - ReagentId: Phoron
+        Quantity: .5 # 1 phoron alloy to 1u Phoron reagent, with phoron-synthesis reaction you can get up to 2.3 per alloy
+      canReact: false
   - type: Material
   - type: PhysicalComposition
     materialComposition:
