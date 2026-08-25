@@ -23,14 +23,6 @@ public sealed partial class DamageableComponent : Component
 {
 
     /// <summary>
-    ///     This <see cref="DamageContainerPrototype"/> specifies what damage types are supported by this component.
-    ///     If null, all damage types will be supported.
-    /// </summary>
-    [DataField("damageContainer")]
-    // ReSharper disable once InconsistentNaming - This is wrong but fixing it is potentially annoying for downstreams.
-    public ProtoId<DamageContainerPrototype>? DamageContainerID;
-
-    /// <summary>
     ///     This <see cref="DamageModifierSetPrototype"/> will be applied to any damage that is dealt to this container,
     ///     unless the damage explicitly ignores resistances.
     /// </summary>
@@ -101,13 +93,9 @@ public sealed partial class DamageableComponent : Component
 [Serializable, NetSerializable]
 public sealed class DamageableComponentState(
     DamageSpecifier damage,
-    ProtoId<DamageContainerPrototype>? damageContainerId,
-    ProtoId<DamageModifierSetPrototype>? modifierSetId,
-    FixedPoint2? healthBarThreshold)
+    ProtoId<DamageModifierSetPrototype>? modifierSetId)
     : ComponentState
 {
     public readonly DamageSpecifier Damage = damage;
-    public readonly ProtoId<DamageContainerPrototype>? DamageContainerId = damageContainerId;
     public readonly ProtoId<DamageModifierSetPrototype>? ModifierSetId = modifierSetId;
-    public readonly FixedPoint2? HealthBarThreshold = healthBarThreshold;
 }

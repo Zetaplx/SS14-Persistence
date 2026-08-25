@@ -1,10 +1,10 @@
-using Content.Server.Speech.Components;
-using Content.Shared.Speech;
+using System.Text;
+using Content.Shared.Drunk;
+using Content.Shared.Speech.Components;
 using Content.Shared.Speech.EntitySystems;
 using Content.Shared.StatusEffectNew;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
-using System.Text;
 
 namespace Content.Server.Speech.EntitySystems;
 
@@ -24,13 +24,6 @@ public sealed class SlurredSystem : SharedSlurredSystem
     /// </summary>
     private const float SlurredThreshold = 80f;
 
-    public override void Initialize()
-    {
-        SubscribeLocalEvent<SlurredAccentComponent, AccentGetEvent>(OnAccent);
-
-        SubscribeLocalEvent<SlurredAccentComponent, StatusEffectRelayedEvent<AccentGetEvent>>(OnAccentRelayed);
-    }
-
     /// <summary>
     ///     Slur chance scales with the time remaining on any status effect with the SlurredAccentComponent.
     ///     Typically, this is equivalent to "drunkenness" on the DrunkStatusEffect
@@ -46,21 +39,10 @@ public sealed class SlurredSystem : SharedSlurredSystem
         return Math.Clamp(magic / SlurredModifier, 0f, 1f);
     }
 
-    private void OnAccent(Entity<SlurredAccentComponent> entity, ref AccentGetEvent args)
-    {
-        GetAccent(entity, ref args);
-    }
-
-    private void OnAccentRelayed(Entity<SlurredAccentComponent> entity, ref StatusEffectRelayedEvent<AccentGetEvent> args)
-    {
-        var ev = args.Args;
-        GetAccent(args.Args.Entity, ref ev);
-    }
-
-    private void GetAccent(EntityUid uid, ref AccentGetEvent args)
+    protected override string AccentuateInternal(EntityUid uid, SlurredAccentComponent comp, string message)
     {
         var scale = GetProbabilityScale(uid);
-        args.Message = Accentuate(args.Message, scale);
+        return Accentuate(message, scale);
     }
 
     private string Accentuate(string message, float scale)

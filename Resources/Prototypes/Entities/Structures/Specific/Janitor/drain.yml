@@ -1,4 +1,5 @@
 - type: entity
+  parent: [SolutionDrain, SolutionGinormous]
   id: FloorDrain
   name: drain
   description: Drains puddles around it. Useful for dumping mop buckets or keeping certain rooms clean.
@@ -34,13 +35,58 @@
       maxFillLevels: 1
       fillBaseName: fill-
       solutionName: drainBuffer
-    - type: SolutionContainerManager
-      solutions:
-        drainBuffer:
-          maxVol: 1000
     - type: Damageable
-      damageContainer: StructuralInorganic
       damageModifierSet: StructuralMetallic
+    - type: Destructible
+      thresholds:
+        - trigger:
+            !type:DamageTrigger
+            damage: 200
+          behaviors:
+            - !type:DoActsBehavior
+              acts: [ "Destruction" ]
+        - trigger:
+            !type:DamageTrigger
+            damage: 100
+          behaviors:
+            - !type:DoActsBehavior
+              acts: [ "Destruction" ]
+            - !type:PlaySoundBehavior
+              sound:
+                collection: MetalBreak
+
+- type: entity
+  parent: [SolutionDrain, SolutionNormal]
+  id: SolutionDrainNormal
+  categories: [ HideSpawnMenu ]
+
+- type: entity
+  id: UnfinishedFloorDrain
+  name: unfinished drain
+  description: The promising beginning of a beautiful new drain.
+  placement:
+    mode: SnapgridCenter
+  components:
+    - type: Sprite
+      drawdepth: FloorObjects
+      sprite: Objects/Specific/Janitorial/drain.rsi
+      layers:
+      - state: icon
+      - map: [ "enum.SolutionContainerLayers.Fill" ]
+        state: fill-1
+        visible: false
+    - type: InteractionOutline
+    - type: Clickable
+    - type: Transform
+      anchored: true
+    - type: Physics
+      bodyType: Static
+      canCollide: false
+    - type: Appearance
+    - type: Damageable
+      damageModifierSet: StructuralMetallic
+    - type: Injurable
+      damageContainer: StructuralInorganic
     - type: Construction
       graph: FloorDrain
       node: drain
