@@ -14,7 +14,7 @@ using Robust.Server.GameObjects;
 namespace Content.Server.Atmos.EntitySystems;
 
 [UsedImplicitly]
-public sealed class GasAnalyzerSystem : EntitySystem
+public sealed partial class GasAnalyzerSystem : EntitySystem
 {
     [Dependency] private readonly PopupSystem _popup = default!;
     [Dependency] private readonly AtmosphereSystem _atmo = default!;

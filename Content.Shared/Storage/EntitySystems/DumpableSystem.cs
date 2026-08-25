@@ -12,7 +12,7 @@ using System.Linq;
 
 namespace Content.Shared.Storage.EntitySystems;
 
-public sealed class DumpableSystem : EntitySystem
+public sealed partial class DumpableSystem : EntitySystem
 {
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
@@ -21,7 +21,7 @@ public sealed class DumpableSystem : EntitySystem
     [Dependency] private readonly SharedDoAfterSystem _doAfterSystem = default!;
     [Dependency] private readonly SharedTransformSystem _transformSystem = default!;
 
-    [Dependency] private readonly EntityQuery<ItemComponent> _itemQuery = default!;
+    [Dependency] private EntityQuery<ItemComponent> _itemQuery = default!;
 
     public override void Initialize()
     {

@@ -22,7 +22,7 @@ using System.Linq;
 namespace Content.Server.Atmos.Piping.Binary.EntitySystems
 {
     [UsedImplicitly]
-    public sealed class GasRecyclerSystem : EntitySystem
+    public sealed partial class GasReyclerSystem : EntitySystem
     {
         [Dependency] private readonly AppearanceSystem _appearance = default!;
         [Dependency] private readonly AtmosphereSystem _atmosphereSystem = default!;

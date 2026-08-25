@@ -4,11 +4,11 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Content.Shared.Whitelist;
 
-public sealed class EntityWhitelistSystem : EntitySystem
+public sealed partial class EntityWhitelistSystem : EntitySystem
 {
-    [Dependency] private readonly TagSystem _tag = default!;
+    [Dependency] private TagSystem _tag = default!;
 
-    [Dependency] private readonly EntityQuery<ItemComponent> _itemQuery = default!;
+    [Dependency] private EntityQuery<ItemComponent> _itemQuery = default!;
 
     /// <inheritdoc cref="IsValid(Content.Shared.Whitelist.EntityWhitelist,Robust.Shared.GameObjects.EntityUid)"/>
     public bool IsValid(EntityWhitelist list, [NotNullWhen(true)] EntityUid? uid)

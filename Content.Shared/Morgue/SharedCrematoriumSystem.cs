@@ -19,7 +19,7 @@ using Content.Shared.Damage.Systems; // Persistence 14: Deal damage to entities 
 
 namespace Content.Shared.Morgue;
 
-public abstract class SharedCrematoriumSystem : EntitySystem
+public abstract partial class SharedCrematoriumSystem : EntitySystem
 {
     [Dependency] protected readonly SharedEntityStorageSystem EntityStorage = default!;
     [Dependency] protected readonly SharedPopupSystem Popup = default!;

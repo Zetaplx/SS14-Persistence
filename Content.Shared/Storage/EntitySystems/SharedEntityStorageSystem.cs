@@ -27,7 +27,7 @@ using System.Numerics;
 
 namespace Content.Shared.Storage.EntitySystems;
 
-public abstract class SharedEntityStorageSystem : EntitySystem
+public abstract partial class SharedEntityStorageSystem : EntitySystem
 {
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly INetManager _net = default!;

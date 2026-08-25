@@ -14,7 +14,7 @@ using Robust.Shared.Utility;
 
 namespace Content.Server.CharacterInfo;
 
-public sealed class CharacterInfoSystem : EntitySystem
+public sealed partial class CharacterInfoSystem : EntitySystem
 {
     [Dependency] private readonly JobSystem _jobs = default!;
     [Dependency] private readonly MindSystem _minds = default!;

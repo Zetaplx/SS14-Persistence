@@ -14,7 +14,7 @@ using System.Numerics;
 
 namespace Content.Shared.Physics.Controllers;
 
-public abstract class SharedConveyorController : VirtualController
+public abstract partial class SharedConveyorController : VirtualController
 {
     [Dependency] protected readonly IMapManager MapManager = default!;
     [Dependency] private readonly IParallelManager _parallel = default!;
@@ -29,10 +29,10 @@ public abstract class SharedConveyorController : VirtualController
 
     private ConveyorJob _job;
 
-    [Dependency] private readonly EntityQuery<ConveyorComponent> _conveyorQuery = default!;
-    [Dependency] private readonly EntityQuery<ConveyedComponent> _conveyedQuery = default!;
-    [Dependency] protected readonly EntityQuery<PhysicsComponent> PhysicsQuery = default!;
-    [Dependency] protected readonly EntityQuery<TransformComponent> XformQuery = default!;
+    [Dependency] private EntityQuery<ConveyorComponent> _conveyorQuery = default!;
+    [Dependency] private EntityQuery<ConveyedComponent> _conveyedQuery = default!;
+    [Dependency] protected EntityQuery<PhysicsComponent> PhysicsQuery = default!;
+    [Dependency] protected EntityQuery<TransformComponent> XformQuery = default!;
 
     protected HashSet<EntityUid> Intersecting = new();
 

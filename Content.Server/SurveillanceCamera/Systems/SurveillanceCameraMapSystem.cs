@@ -5,9 +5,9 @@ using System.Numerics;
 
 namespace Content.Server.SurveillanceCamera;
 
-public sealed class SurveillanceCameraMapSystem : EntitySystem
+public sealed partial class SurveillanceCameraMapSystem : EntitySystem
 {
-    [Dependency] private readonly SharedTransformSystem _transform = default!;
+    [Dependency] private SharedTransformSystem _transform = default!;
 
     public override void Initialize()
     {

@@ -5,6 +5,7 @@ using Robust.Shared.Audio.Systems;
 using Robust.Shared.Map;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
+using Content.Shared._Persistence14.PersistentIdentifier;
 
 namespace Content.Server.NPC.Systems;
 
@@ -13,7 +14,7 @@ namespace Content.Server.NPC.Systems;
 /// </summary>
 public sealed partial class NPCCombatSystem : EntitySystem
 {
-    [Dependency] private readonly Content.Shared._Persistence14.PersistentIdentifier.PersistentIdentifierSystem _pid = default!;
+    [Dependency] private readonly PersistentIdentifierSystem _pid = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly IMapManager _mapManager = default!;
     [Dependency] private readonly IRobustRandom _random = default!;

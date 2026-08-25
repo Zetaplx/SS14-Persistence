@@ -33,9 +33,9 @@ public abstract partial class SharedActionsSystem : EntitySystem
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
 
-    [Dependency] private readonly EntityQuery<ActionComponent> _actionQuery = default!;
-    [Dependency] private readonly EntityQuery<ActionsComponent> _actionsQuery = default!;
-    [Dependency] private readonly EntityQuery<MindComponent> _mindQuery = default!;
+    [Dependency] private EntityQuery<ActionComponent> _actionQuery = default!;
+    [Dependency] private EntityQuery<ActionsComponent> _actionsQuery = default!;
+    [Dependency] private EntityQuery<MindComponent> _mindQuery = default!;
 
     public override void Initialize()
     {

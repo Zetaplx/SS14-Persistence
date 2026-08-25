@@ -11,11 +11,11 @@ using InternalsComponent = Content.Shared.Body.Components.InternalsComponent;
 
 namespace Content.Shared.Atmos.EntitySystems;
 
-public abstract class SharedGasTankSystem : GasMaxPressureSystem<GasTankComponent>
+public abstract partial class SharedGasTankSystem : GasMaxPressureSystem<GasTankComponent>
 {
-    [Dependency] private   readonly SharedActionsSystem _actions = default!;
-    [Dependency] private   readonly SharedContainerSystem _containers = default!;
-    [Dependency] private   readonly SharedInternalsSystem _internals = default!;
+    [Dependency] private readonly SharedActionsSystem _actions = default!;
+    [Dependency] private readonly SharedContainerSystem _containers = default!;
+    [Dependency] private readonly SharedInternalsSystem _internals = default!;
     [Dependency] protected readonly SharedUserInterfaceSystem UI = default!;
     [Dependency] private readonly UseDelaySystem _delay = default!;
 

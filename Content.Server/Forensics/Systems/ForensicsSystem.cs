@@ -27,13 +27,13 @@ using Robust.Shared.Utility;
 
 namespace Content.Server.Forensics
 {
-    public sealed class ForensicsSystem : SharedForensicsSystem
+    public sealed partial class ForensicsSystem : SharedForensicsSystem
     {
-        [Dependency] private readonly IRobustRandom _random = default!;
-        [Dependency] private readonly InventorySystem _inventory = default!;
-        [Dependency] private readonly DoAfterSystem _doAfterSystem = default!;
-        [Dependency] private readonly PopupSystem _popupSystem = default!;
-        [Dependency] private readonly SharedSolutionContainerSystem _solutionContainerSystem = default!;
+        [Dependency] private IRobustRandom _random = default!;
+        [Dependency] private InventorySystem _inventory = default!;
+        [Dependency] private DoAfterSystem _doAfterSystem = default!;
+        [Dependency] private PopupSystem _popupSystem = default!;
+        [Dependency] private SharedSolutionContainerSystem _solutionContainerSystem = default!;
 
         [Dependency] private readonly IConfigurationManager _configurationManager = default!;
 

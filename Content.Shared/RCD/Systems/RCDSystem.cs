@@ -26,7 +26,7 @@ using System.Linq;
 
 namespace Content.Shared.RCD.Systems;
 
-public sealed class RCDSystem : EntitySystem
+public sealed partial class RCDSystem : EntitySystem
 {
     [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly ISharedAdminLogManager _adminLogger = default!;

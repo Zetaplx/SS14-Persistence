@@ -24,8 +24,8 @@ public sealed partial class StatusEffectsSystem : EntitySystem
     [Dependency] private readonly IPrototypeManager _proto = default!;
     [Dependency] private readonly SharedJobNetSystem _jobNetSystem = default!;
 
-    [Dependency] private readonly EntityQuery<StatusEffectContainerComponent> _containerQuery = default!;
-    [Dependency] private readonly EntityQuery<StatusEffectComponent> _effectQuery = default!;
+    [Dependency] private EntityQuery<StatusEffectContainerComponent> _containerQuery = default!;
+    [Dependency] private EntityQuery<StatusEffectComponent> _effectQuery = default!;
 
     public readonly HashSet<string> StatusEffectPrototypes = [];
 

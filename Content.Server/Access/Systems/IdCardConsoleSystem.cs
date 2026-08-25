@@ -32,7 +32,7 @@ using static Content.Shared.Access.Components.IdCardConsoleComponent;
 namespace Content.Server.Access.Systems;
 
 [UsedImplicitly]
-public sealed class IdCardConsoleSystem : SharedIdCardConsoleSystem
+public sealed partial class IdCardConsoleSystem : SharedIdCardConsoleSystem
 {
     [Dependency] private readonly IConfigurationManager _cfgManager = default!;
     [Dependency] private readonly IPrototypeManager _prototype = default!;

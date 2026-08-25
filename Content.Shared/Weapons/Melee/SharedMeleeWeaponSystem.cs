@@ -44,7 +44,7 @@ using ItemToggleMeleeWeaponComponent = Content.Shared.Item.ItemToggle.Components
 
 namespace Content.Shared.Weapons.Melee;
 
-public abstract class SharedMeleeWeaponSystem : EntitySystem
+public abstract partial class SharedMeleeWeaponSystem : EntitySystem
 {
     [Dependency] protected readonly IGameTiming Timing = default!;
     [Dependency] protected readonly IMapManager MapManager = default!;
@@ -67,7 +67,7 @@ public abstract class SharedMeleeWeaponSystem : EntitySystem
     [Dependency] private readonly SharedStaminaSystem _stamina = default!;
     [Dependency] private readonly DamageExamineSystem _damageExamine = default!;
 
-    [Dependency] private readonly EntityQuery<DamageableComponent> _damageQuery = default!;
+    [Dependency] private EntityQuery<DamageableComponent> _damageQuery = default!;
 
     private const int AttackMask = (int)(CollisionGroup.MobMask | CollisionGroup.Opaque);
 
