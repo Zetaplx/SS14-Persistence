@@ -14,9 +14,46 @@ public sealed partial class ResearchTreeClientBoundUserInterfaceState : BoundUse
     public required int Points;
 
     public required bool Connected;
+    public required List<ResearchTreeSourceSpecifier> ValidSources;
+
+    public static ResearchTreeClientBoundUserInterfaceState Disconnected => new ResearchTreeClientBoundUserInterfaceState
+    {
+        Nodes = new(),
+        UnlockedTechnologies = new(),
+        RecipeUnlockTimers = new(),
+        MaxResearch = 0,
+        Points = 0,
+
+        Connected = false,
+        ValidSources = new()
+    };
 }
 
-public enum ResearchTreeClientUiStateKey
+[NetSerializable, Serializable]
+public sealed class ResearchTreeSourceSpecifier
+{
+    public required NetEntity SourceNetId;
+    public required string SourceName;
+    public required bool AlreadyConnected;
+}
+
+[ByRefEvent, NetSerializable, Serializable]
+public record struct ResearchTreeClientConnectMessage(NetEntity Client, NetEntity Source);
+
+[ByRefEvent, NetSerializable, Serializable]
+public record struct ResearchTreeClientDisconnectMessage(NetEntity Client, NetEntity Source);
+
+[ByRefEvent, NetSerializable, Serializable]
+public record struct ResearchTreeSourceClearClientsMessage(NetEntity Client, NetEntity Source);
+
+[ByRefEvent, NetSerializable, Serializable]
+public record struct ResearchTreeStartResearchMessage(NetEntity Client, ProtoId<TechnologyPrototype> TechnologyId);
+
+[ByRefEvent, NetSerializable, Serializable]
+public record struct ResearchTreeCancelResearchMessage(NetEntity Client, ProtoId<TechnologyPrototype> TechnologyId);
+
+[Serializable, NetSerializable]
+public enum ResearchTreeClientUiKey
 {
     Tree
 }

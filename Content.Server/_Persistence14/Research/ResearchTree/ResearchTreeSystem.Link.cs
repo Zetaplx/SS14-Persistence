@@ -1,11 +1,85 @@
 using System.Linq;
+using System.Numerics;
 using Content.Shared._Persistence14.PersistentIdentifier.Reference;
 using Content.Shared._Persistence14.Research.ResearchTree;
+using Robust.Server.GameObjects;
 
 namespace Content.Server._Persistence14.Research.ResearchTree;
 
 public sealed partial class ResearchTreeSystem
 {
+    [Dependency] private readonly TransformSystem _transform = default!;
+
+    private void InitializeLink()
+    {
+        SubscribeLocalEvent<ResearchTreeClientComponent, ComponentStartup>(OnComponentStartup);
+    }
+
+    private void OnComponentStartup(Entity<ResearchTreeClientComponent> client, ref ComponentStartup args)
+    {
+        ClientLinkNearest(client.AsNullable());
+    }
+
+    private void ClientLinkNearest(Entity<ResearchTreeClientComponent?> client)
+    {
+        if (!Resolve(client, ref client.Comp) ||
+            client.Comp.SourceId != PersistentEntityReference.EmptyId)
+            return;
+
+        var validSources = GetAllValidSources(client);
+        if (validSources.Count() <= 0)
+            return;
+
+        var nearestSquareDist = -1f;
+        var nearest = validSources.First();
+
+        foreach (var source in validSources)
+        {
+            var squareDist = Vector2.DistanceSquared(_transform.GetWorldPosition(source), _transform.GetWorldPosition(client));
+            if (nearestSquareDist < 0 || squareDist < nearestSquareDist)
+            {
+                nearest = source;
+                nearestSquareDist = squareDist;
+            }
+        }
+
+        TryLink(nearest.AsNullable(), client);
+    }
+
+
+    /// <summary>
+    /// Attempt to retrieve the source for a particular client.
+    /// </summary>
+    public bool TryGetClientSource(Entity<ResearchTreeClientComponent?> client, out Entity<ResearchTreeSourceComponent> source)
+    {
+        source = default!;
+        if (!Resolve(client, ref client.Comp) ||
+            !_pid.TryResolveId(client.Comp.SourceId, out var sourceIdEnt) ||
+            !TryComp<ResearchTreeSourceComponent>(sourceIdEnt, out var sourceComp))
+            return false;
+
+        source = (sourceIdEnt.Owner, sourceComp);
+        return true;
+    }
+
+    /// <summary>
+    /// Gets all active clients of the provided research tree source.
+    /// </summary>
+    public IEnumerable<Entity<ResearchTreeClientComponent>> GetSourceClients(Entity<ResearchTreeSourceComponent?> source)
+    {
+        if (!Resolve(source, ref source.Comp))
+            yield break;
+
+        foreach (var clientPid in source.Comp.Clients)
+        {
+            if (!_pid.TryResolveId(clientPid, out var clientIdEnt) ||
+                !TryComp<ResearchTreeClientComponent>(clientIdEnt, out var clientComp))
+                continue;
+
+            yield return (clientIdEnt.Owner, clientComp);
+        }
+    }
+
     public bool TryLink(Entity<ResearchTreeSourceComponent?> source, Entity<ResearchTreeClientComponent?> client)
     {
         if (!Resolve(source, ref source.Comp) || !Resolve(client, ref client.Comp))

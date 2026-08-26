@@ -17,7 +17,7 @@ public sealed partial class ResearchTreeSourceComponent : Component
     [DataField(readOnly: true), AutoNetworkedField]
     public HashSet<ProtoId<TechnologyPrototype>> UnlockedTechnologies = new();
 
-    [DataField, AutoNetworkedField]
+    [DataField(readOnly: true), AutoNetworkedField]
     public Dictionary<ProtoId<TechnologyPrototype>, ResearchEndTime> ResearchUnlockTimes = new();
 
     [DataField, AutoNetworkedField]

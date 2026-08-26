@@ -13,7 +13,7 @@ public sealed partial class ResearchTreePrototype : IPrototype
     [IdDataField]
     public string ID { get; set; } = default!;
 
-    [DataField("node", required: true)]
+    [DataField("nodes", required: true)]
     private List<ResearchNode> _nodes = new();
 
     public Dictionary<ProtoId<TechnologyPrototype>, ResearchNode> GetNodes()

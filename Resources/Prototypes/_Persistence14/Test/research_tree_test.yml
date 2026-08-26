@@ -1,0 +1,56 @@
+- type: researchTree
+  id: EvaTestResearchTree
+  nodes:
+  - technology: EVAManufacturing
+    unlockTime: 5
+    position: 0, 1
+  
+  - technology: SpecializedEVA
+    unlockTime: 5
+    position: 1, 0
+    prerequisites:
+    - EVAManufacturing
+  
+  - technology: SecurityEVA
+    unlockTime: 5
+    position: 1, 2
+    prerequisites:
+    - EVAManufacturing
+  
+  - technology: LuxuryEVA
+    unlockTime: 5
+    position: 2, 1
+    prerequisites:
+    - SpecializedEVA
+    - SecurityEVA
+
+
+- type: entity
+  id: DebugResearchServer
+  name: debug research server
+  parent: BaseMachine
+  description: A debug research server for testing research trees!
+  components:
+  - type: Sprite
+    sprite: Structures/Machines/server.rsi
+    layers:
+    - state: server
+    - state: variant-research
+  - type: ResearchTreeSource
+    tree: EvaTestResearchTree
+    maxResearch: 3
+    researchPoints: 100000
+  
+- type: entity
+  id: DebugResearchClient
+  name: debug research client
+  parent: BaseComputer
+  description: A debug research client for testing research trees!
+  components:
+  - type: ResearchTreeClient
+  - type: ActivatableUI
+    key: enum.ResearchTreeClientUiKey.Tree
+  - type: UserInterface
+    interfaces:
+      enum.ResearchTreeClientUiKey.Tree:
+        type: ResearchTreeClientBoundUserInterface

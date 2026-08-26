@@ -19,7 +19,7 @@ public sealed partial class ResearchNode
     /// <summary>
     /// All required technologies. If empty, tech is always available.
     /// </summary>
-    [DataField]
+    [DataField("prerequisites")]
     public HashSet<ProtoId<TechnologyPrototype>> Prerequisites = new();
 
     /// <summary>

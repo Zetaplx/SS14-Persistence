@@ -19,6 +19,7 @@ public sealed partial class ResearchTreeSystem : EntitySystem
         base.Initialize();
 
         InitializeUI();
+        InitializeLink();
     }
 
     /// <inheritdoc/>
@@ -32,39 +33,12 @@ public sealed partial class ResearchTreeSystem : EntitySystem
         }
     }
 
-    /// <summary>
-    /// Attempt to retrieve the source for a particular client.
-    /// </summary>
-    public bool TryGetClientSource(Entity<ResearchTreeClientComponent?> client, out Entity<ResearchTreeSourceComponent> source)
+    public bool TryStartTechnologyUnlock(Entity<ResearchTreeSourceComponent?> source, ProtoId<TechnologyPrototype> technologyId)
     {
-        source = default!;
-        if (!Resolve(client, ref client.Comp) ||
-            !_pid.TryResolveId(client.Comp.SourceId, out var sourceIdEnt) ||
-            !TryComp<ResearchTreeSourceComponent>(sourceIdEnt, out var sourceComp))
+        if (!TryGetNode(source, technologyId, out var node))
             return false;
-
-        source = (sourceIdEnt.Owner, sourceComp);
-        return true;
+        return TryStartTechnologyUnlock(source, technologyId);
     }
-
-    /// <summary>
-    /// Gets all active clients of the provided research tree source.
-    /// </summary>
-    public IEnumerable<Entity<ResearchTreeClientComponent>> GetSourceClients(Entity<ResearchTreeSourceComponent?> source)
-    {
-        if (!Resolve(source, ref source.Comp))
-            yield break;
-
-        foreach (var clientPid in source.Comp.Clients)
-        {
-            if (!_pid.TryResolveId(clientPid, out var clientIdEnt) ||
-                !TryComp<ResearchTreeClientComponent>(clientIdEnt, out var clientComp))
-                continue;
-
-            yield return (clientIdEnt.Owner, clientComp);
-        }
-    }
-
     public bool TryStartTechnologyUnlock(Entity<ResearchTreeSourceComponent?> source, ResearchNode node)
     {
         if (!Resolve(source, ref source.Comp) ||
@@ -91,6 +65,21 @@ public sealed partial class ResearchTreeSystem : EntitySystem
         source.Comp.ResearchUnlockTimes.Add(node.Technology, _time.CurTime + node.UnlockTime);
         source.Comp.ResearchPoints -= tech.Cost;
         UpdateUserInterfaceState(source);
+        Dirty(source);
+        return true;
+    }
+
+    /// <summary>
+    /// Cancels an actively unlocking technology, refunding the tech cost.
+    /// </summary>
+    public bool TryCancelTechnologyUnlock(Entity<ResearchTreeSourceComponent?> source, ProtoId<TechnologyPrototype> technologyId)
+    {
+        if (!Resolve(source, ref source.Comp) ||
+            !_prototypeManager.TryIndex(technologyId, out var tech) ||
+            !source.Comp.ResearchUnlockTimes.Remove(technologyId))
+            return false;
+
+        source.Comp.ResearchPoints += tech.Cost;
         Dirty(source);
         return true;
     }
@@ -202,5 +191,20 @@ public sealed partial class ResearchTreeSystem : EntitySystem
         foreach (var tech in toRemove)
             source.Comp.ResearchUnlockTimes.Remove(tech);
         Dirty(source);
+    }
+
+    /// <summary>
+    /// Aggregates the valid sources for a given client.
+    /// </summary>
+    private IEnumerable<Entity<ResearchTreeSourceComponent>> GetAllValidSources(Entity<ResearchTreeClientComponent?> client)
+    {
+        if (!Resolve(client, ref client.Comp))
+            yield break;
+
+        var sourceQuery = EntityQueryEnumerator<ResearchTreeSourceComponent>();
+        while (sourceQuery.MoveNext(out var uid, out var sourceComponent))
+        {
+            yield return (uid, sourceComponent);
+        }
     }
 }
