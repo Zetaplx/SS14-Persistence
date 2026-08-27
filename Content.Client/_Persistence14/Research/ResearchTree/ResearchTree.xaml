@@ -1,0 +1,8 @@
+<PanelContainer xmlns="https://spacestation14.io"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                x:Class="Content.Client._Persistence14.Research.ResearchTree.ResearchTree"
+                HorizontalExpand="True"
+                VerticalExpand="True"
+                MinSize="600 400">
+    <Control Name="NodeCanvas"/>
+</PanelContainer>

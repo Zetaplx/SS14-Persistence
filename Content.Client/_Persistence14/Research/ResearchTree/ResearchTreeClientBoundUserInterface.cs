@@ -5,7 +5,7 @@ namespace Content.Client._Persistence14.Research.ResearchTree;
 
 public sealed partial class ResearchTreeClientBoundUserInterface : BoundUserInterface
 {
-    private ResearchTreeWindow? _window = null;
+    private ResearchClientWindow? _window = null;
 
     public ResearchTreeClientBoundUserInterface(EntityUid owner, Enum uiKey) : base(owner, uiKey) { }
 
@@ -13,7 +13,7 @@ public sealed partial class ResearchTreeClientBoundUserInterface : BoundUserInte
     {
         base.Open();
 
-        _window = this.CreateWindow<ResearchTreeWindow>();
+        _window = this.CreateWindow<ResearchClientWindow>();
     }
 
     protected override void UpdateState(BoundUserInterfaceState state)

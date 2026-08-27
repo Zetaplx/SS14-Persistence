@@ -1,7 +1,8 @@
 <controls:FancyWindow xmlns="https://spacestation14.io"
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:controls="clr-namespace:Content.Client.UserInterface.Controls"
-                      x:Class="Content.Client._Persistence14.Research.ResearchTree.ResearchTreeWindow"
+                      xmlns:research="clr-namespace:Content.Client._Persistence14.Research.ResearchTree"
+                      x:Class="Content.Client._Persistence14.Research.ResearchTree.ResearchClientWindow"
                       Title="Research Console"
                       MinSize="1000 600"
                       SetSize="1000 600">
@@ -14,11 +15,7 @@
         <BoxContainer Orientation="Horizontal"
                       HorizontalExpand="True"
                       VerticalExpand="True">
-            <ScrollContainer>
-                <PanelContainer Name="TreeContainer"
-                                HorizontalExpand="True"
-                                VerticalExpand="True"/>
-            </ScrollContainer>
+            <research:ResearchTree Name="Tree"/>
             <BoxContainer Orientation="Vertical"
                           MinWidth="200"
                           VerticalExpand="True">

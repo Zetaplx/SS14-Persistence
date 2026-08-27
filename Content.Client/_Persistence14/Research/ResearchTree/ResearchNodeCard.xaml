@@ -1,0 +1,16 @@
+<PanelContainer xmlns="https://spacestation14.io"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                x:Class="Content.Client._Persistence14.Research.ResearchTree.ResearchNodeCard"
+                MinSize="100 100"
+                MaxSize="100 100">
+
+    <BoxContainer Orientation="Vertical"
+                  HorizontalExpand="True"
+                  VerticalExpand="True"
+                  Margin="5 5 5 5">
+
+        <Label Name="NameLabel"
+               HorizontalAlignment="Center"/>
+
+    </BoxContainer>
+</PanelContainer>

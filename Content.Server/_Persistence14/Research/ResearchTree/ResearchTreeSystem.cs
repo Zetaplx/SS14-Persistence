@@ -37,7 +37,7 @@ public sealed partial class ResearchTreeSystem : EntitySystem
     {
         if (!TryGetNode(source, technologyId, out var node))
             return false;
-        return TryStartTechnologyUnlock(source, technologyId);
+        return TryStartTechnologyUnlock(source, node);
     }
     public bool TryStartTechnologyUnlock(Entity<ResearchTreeSourceComponent?> source, ResearchNode node)
     {
@@ -112,6 +112,7 @@ public sealed partial class ResearchTreeSystem : EntitySystem
 
         source.Comp.UnlockedTechnologies.Add(node.Technology);
         Dirty(source);
+        UpdateUserInterfaceState(source);
         return true;
     }
 

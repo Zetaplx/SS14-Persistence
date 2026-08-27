@@ -6,9 +6,9 @@ using Robust.Client.UserInterface.XAML;
 namespace Content.Client._Persistence14.Research.ResearchTree;
 
 [GenerateTypedNameReferences]
-public sealed partial class ResearchTreeWindow : FancyWindow
+public sealed partial class ResearchClientWindow : FancyWindow
 {
-    public ResearchTreeWindow()
+    public ResearchClientWindow()
     {
         RobustXamlLoader.Load(this);
 
@@ -18,5 +18,7 @@ public sealed partial class ResearchTreeWindow : FancyWindow
     public void UpdateState(ResearchTreeClientBoundUserInterfaceState state)
     {
         PointsLabel.Text = state.Points.ToString();
+
+        Tree.SetTree(state.Nodes);
     }
 }
