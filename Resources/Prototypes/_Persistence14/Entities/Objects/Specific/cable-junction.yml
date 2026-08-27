@@ -1,0 +1,42 @@
+- type: entity
+  id: CableJunction
+  name: cable junction
+  description: Allows power cables to cross without electrically connecting.
+  placement:
+    mode: SnapgridCenter
+  components:
+  - type: Transform
+    anchored: true
+  - type: Clickable
+  - type: InteractionOutline
+  - type: SubFloorHide
+
+  - type: Sprite
+    sprite: _Persistence14/Objects/Specific/junction.rsi
+    state: junction
+  
+  - type: NodeContainer
+    nodes: 
+      hvVertical: !type:CableJunctionNode
+        nodeGroupID: HVPower
+        axis: NorthSouth
+      
+      hvHorizontal: !type:CableJunctionNode
+        nodeGroupID: HVPower
+        axis: EastWest
+
+      mvVertical: !type:CableJunctionNode
+        nodeGroupID: MVPower
+        axis: NorthSouth
+      
+      mvHorizontal: !type:CableJunctionNode
+        nodeGroupID: MVPower
+        axis: EastWest
+
+      lvVertical: !type:CableJunctionNode
+        nodeGroupID: Apc
+        axis: NorthSouth
+      
+      lvHorizontal: !type:CableJunctionNode
+        nodeGroupID: Apc
+        axis: EastWest
