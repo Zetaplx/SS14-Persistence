@@ -1,14 +1,20 @@
 {
     "version": 1,
     "license": "CC-BY-SA-3.0",
-    "copyright": "Made by Zetaplx... its temporary. For Persistence14.",
+    "copyright": "Sprites made by Zetaplx for SS14",
     "size": {
         "x": 32,
         "y": 32
     },
     "states": [
         {
-            "name": "junction"
+            "name": "lv"
+        },
+        {
+            "name": "mv"
+        },
+        {
+            "name": "hv"
         }
     ]
 }

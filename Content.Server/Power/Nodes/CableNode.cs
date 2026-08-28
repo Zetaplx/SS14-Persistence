@@ -33,7 +33,7 @@ namespace Content.Server.Power.Nodes
                     nodeDirs.Add((dir, node));
                 }
 
-                if (node is CableJunctionNode junction && dir != Direction.Invalid)
+                if (node is CableJunctionNode junction)
                 {
                     if (junction.MatchesAxis(dir))
                         nodeDirs.Add((dir, node));
