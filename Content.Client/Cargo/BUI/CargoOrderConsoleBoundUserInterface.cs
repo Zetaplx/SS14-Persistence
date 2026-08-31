@@ -14,9 +14,10 @@ using static Robust.Client.UserInterface.Controls.BaseButton;
 
 namespace Content.Client.Cargo.BUI
 {
-    public sealed class CargoOrderConsoleBoundUserInterface : BoundUserInterface
+    public sealed partial class CargoOrderConsoleBoundUserInterface(EntityUid owner, Enum uiKey) : BoundUserInterface(owner, uiKey)
     {
-        private readonly SharedCargoSystem _cargoSystem;
+        [Dependency] private SharedCargoSystem _cargoSystem = default!;
+        [Dependency] private IdentitySystem _identity = default!;
 
         [ViewVariables]
         private CargoConsoleMenu? _menu;
@@ -45,11 +46,6 @@ namespace Content.Client.Cargo.BUI
         [ViewVariables]
         private CargoProductPrototype? _product;
 
-        public CargoOrderConsoleBoundUserInterface(EntityUid owner, Enum uiKey) : base(owner, uiKey)
-        {
-            _cargoSystem = EntMan.System<SharedCargoSystem>();
-        }
-
         protected override void Open()
         {
             base.Open();
@@ -60,12 +56,9 @@ namespace Content.Client.Cargo.BUI
             var localPlayer = dependencies.Resolve<IPlayerManager>().LocalEntity;
             var description = new FormattedMessage();
 
-            string orderRequester;
-
+            var orderRequester = Loc.GetString("cargo-console-paper-approver-default");
             if (EntMan.EntityExists(localPlayer))
-                orderRequester = Identity.Name(localPlayer.Value, EntMan);
-            else
-                orderRequester = string.Empty;
+                orderRequester = _identity.GetIdentityShortInfo(localPlayer.Value, Owner) ?? orderRequester;
 
             _orderMenu = new CargoConsoleOrderMenu();
 
