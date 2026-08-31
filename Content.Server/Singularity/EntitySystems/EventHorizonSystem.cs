@@ -36,17 +36,15 @@ public sealed partial class EventHorizonSystem : SharedEventHorizonSystem
     [Dependency] private readonly SharedMapSystem _mapSystem = default!;
     [Dependency] private readonly TagSystem _tagSystem = default!;
     [Dependency] private readonly WhiteHoleSystem _whiteHole = default!;
+
+    [Dependency] private EntityQuery<PhysicsComponent> _physicsQuery = default!;
     #endregion Dependencies
 
     private static readonly ProtoId<TagPrototype> HighRiskItemTag = "HighRiskItem";
 
-    private EntityQuery<PhysicsComponent> _physicsQuery;
-
     public override void Initialize()
     {
         base.Initialize();
-
-        _physicsQuery = GetEntityQuery<PhysicsComponent>();
 
         SubscribeLocalEvent<MapGridComponent, EventHorizonAttemptConsumeEntityEvent>(PreventConsume);
         SubscribeLocalEvent<StationDataComponent, EventHorizonAttemptConsumeEntityEvent>(PreventConsume);

@@ -1,3 +1,5 @@
+using System.Numerics;
+using System.Threading.Tasks;
 using Content.Server.Atmos.EntitySystems;
 using Content.Server.Decals;
 using Content.Server.Ghost.Roles.Components;
@@ -26,8 +28,6 @@ using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Threading;
 using Robust.Shared.Utility;
-using System.Numerics;
-using System.Threading.Tasks;
 using ChunkIndicesEnumerator = Robust.Shared.Map.Enumerators.ChunkIndicesEnumerator;
 
 namespace Content.Server.Parallax;
@@ -49,10 +49,10 @@ public sealed partial class BiomeSystem : SharedBiomeSystem
     [Dependency] private ShuttleSystem _shuttles = default!;
     [Dependency] private TagSystem _tags = default!;
 
-    private EntityQuery<BiomeComponent> _biomeQuery;
-    private EntityQuery<FixturesComponent> _fixturesQuery;
-    private EntityQuery<GhostComponent> _ghostQuery;
-    private EntityQuery<TransformComponent> _xformQuery;
+    [Dependency] private EntityQuery<BiomeComponent> _biomeQuery = default!;
+    [Dependency] private EntityQuery<FixturesComponent> _fixturesQuery = default!;
+    [Dependency] private EntityQuery<GhostComponent> _ghostQuery = default!;
+    [Dependency] private EntityQuery<TransformComponent> _xformQuery = default!;
 
     private readonly HashSet<EntityUid> _handledEntities = new();
     private const float DefaultLoadRange = 16f;
@@ -81,10 +81,6 @@ public sealed partial class BiomeSystem : SharedBiomeSystem
     {
         base.Initialize();
         Log.Level = LogLevel.Debug;
-        _biomeQuery = GetEntityQuery<BiomeComponent>();
-        _fixturesQuery = GetEntityQuery<FixturesComponent>();
-        _ghostQuery = GetEntityQuery<GhostComponent>();
-        _xformQuery = GetEntityQuery<TransformComponent>();
         SubscribeLocalEvent<BiomeComponent, MapInitEvent>(OnBiomeMapInit);
         SubscribeLocalEvent<FTLStartedEvent>(OnFTLStarted);
         SubscribeLocalEvent<ShuttleFlattenEvent>(OnShuttleFlatten);
@@ -920,11 +916,9 @@ public sealed partial class BiomeSystem : SharedBiomeSystem
         // Ideally any entities that aren't modified just get deleted and re-generated later
         // This is because if we want to save the map (e.g. persistent server) it makes the file much smaller
         // and also if the map is enormous will make stuff like physics broadphase much faster
-        var xformQuery = GetEntityQuery<TransformComponent>();
-
         foreach (var (ent, tile) in component.LoadedEntities[chunk])
         {
-            if (Deleted(ent) || !xformQuery.TryGetComponent(ent, out var xform))
+            if (Deleted(ent) || !TryComp(ent, out TransformComponent? xform))
             {
                 modified.Add(tile);
                 continue;

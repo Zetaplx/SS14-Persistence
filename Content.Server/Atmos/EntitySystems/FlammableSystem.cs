@@ -55,8 +55,8 @@ namespace Content.Server.Atmos.EntitySystems
         [Dependency] private readonly IGameTiming _timing = default!;
         [Dependency] private readonly ContainerSystem _container = default!;
 
-        private EntityQuery<InventoryComponent> _inventoryQuery;
-        private EntityQuery<PhysicsComponent> _physicsQuery;
+        [Dependency] private EntityQuery<InventoryComponent> _inventoryQuery = default!;
+        [Dependency] private EntityQuery<PhysicsComponent> _physicsQuery = default!;
 
         private static readonly TimeSpan UpdateTime = TimeSpan.FromSeconds(1);
 
@@ -65,9 +65,6 @@ namespace Content.Server.Atmos.EntitySystems
         public override void Initialize()
         {
             UpdatesAfter.Add(typeof(AtmosphereSystem));
-
-            _inventoryQuery = GetEntityQuery<InventoryComponent>();
-            _physicsQuery = GetEntityQuery<PhysicsComponent>();
 
             SubscribeLocalEvent<FlammableComponent, MapInitEvent>(OnMapInit);
             SubscribeLocalEvent<FlammableComponent, InteractUsingEvent>(OnInteractUsing);

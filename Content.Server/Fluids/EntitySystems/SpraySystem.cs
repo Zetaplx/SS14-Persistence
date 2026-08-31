@@ -52,7 +52,7 @@ public sealed partial class SpraySystem : SharedSpraySystem
 
         args.Handled = true;
 
-        var targetMapPos = _transform.GetMapCoordinates(GetEntityQuery<TransformComponent>().GetComponent(args.Target));
+        var targetMapPos = _transform.GetMapCoordinates(Transform(args.Target));
 
         Spray(entity, targetMapPos, args.User);
     }
@@ -107,8 +107,7 @@ public sealed partial class SpraySystem : SharedSpraySystem
             return;
         }
 
-        var xformQuery = GetEntityQuery<TransformComponent>();
-        var sprayerXform = xformQuery.GetComponent(entity);
+        var sprayerXform = Transform(entity);
 
         var sprayerMapPos = _transform.GetMapCoordinates(sprayerXform);
         var clickMapPos = mapcoord;
@@ -162,7 +161,7 @@ public sealed partial class SpraySystem : SharedSpraySystem
             // Spawn the vapor cloud onto the grid/map the user is present on. Offset the start position based on how far the target destination is.
             var vaporPos = sprayerMapPos.Offset(distance < 1 ? quarter : threeQuarters);
             var vapor = Spawn(entity.Comp.SprayedPrototype, vaporPos);
-            var vaporXform = xformQuery.GetComponent(vapor);
+            var vaporXform = Transform(vapor);
 
             _transform.SetWorldRotation(vaporXform, rotation);
 

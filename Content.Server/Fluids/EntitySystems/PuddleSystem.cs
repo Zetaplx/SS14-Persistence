@@ -42,7 +42,8 @@ public sealed partial class PuddleSystem : SharedPuddleSystem
     [Dependency] private readonly TurfSystem _turf = default!;
     [Dependency] private readonly InventorySystem _inventory = default!; // Funky: Footprints & Stains
 
-    private EntityQuery<PuddleComponent> _puddleQuery;
+    [Dependency] private EntityQuery<PuddleComponent> _puddleQuery = default!;
+    [Dependency] private EntityQuery<EvaporationSparkleComponent> _evaporationSparklesQuery = default!;
 
     /*
      * TODO: Need some sort of way to do blood slash / vomit solution spill on its own
@@ -53,8 +54,6 @@ public sealed partial class PuddleSystem : SharedPuddleSystem
     public override void Initialize()
     {
         base.Initialize();
-
-        _puddleQuery = GetEntityQuery<PuddleComponent>();
 
         SubscribeLocalEvent<PuddleComponent, SpreadNeighborsEvent>(OnPuddleSpread);
         SubscribeLocalEvent<PuddleComponent, SlipEvent>(OnPuddleSlip);
@@ -192,7 +191,7 @@ public sealed partial class PuddleSystem : SharedPuddleSystem
                     break;
             }
 
-            // If there is nothing left to overflow from our tile, then we'll stop this tile being a active spreader
+            // If there is nothing left to overflow from our tile, then we'll stop this tile being an active spreader
             if (overflow.Volume == FixedPoint2.Zero)
             {
                 RemCompDeferred<ActiveEdgeSpreaderComponent>(entity);
@@ -585,13 +584,16 @@ public sealed partial class PuddleSystem : SharedPuddleSystem
         while (anchored.MoveNext(out var ent))
         {
             // If there's existing sparkles then delete it
-            if (sparklesQuery.TryGetComponent(ent, out var sparkles))
+            if (_evaporationSparklesQuery.TryGetComponent(ent, out var sparkles))
             {
                 QueueDel(ent.Value);
                 continue;
             }
 
-            if (!puddleQuery.TryGetComponent(ent, out var puddle))
+            if (!_puddleQuery.TryGetComponent(ent, out var puddle))
+                continue;
+
+            if (footprintQuery.HasComponent(ent.Value)) // Funky: Footprints & Stains
                 continue;
 
             if (footprintQuery.HasComponent(ent.Value)) // Funky: Footprints & Stains
@@ -630,12 +632,11 @@ public sealed partial class PuddleSystem : SharedPuddleSystem
             return false;
 
         var anc = _map.GetAnchoredEntitiesEnumerator(tile.GridUid, grid, tile.GridIndices);
-        var puddleQuery = GetEntityQuery<PuddleComponent>();
         var footprintQuery = GetEntityQuery<FootprintComponent>(); // Funky: Footprints & Stains
 
         while (anc.MoveNext(out var ent))
         {
-            if (!puddleQuery.HasComponent(ent.Value))
+            if (!_puddleQuery.HasComponent(ent.Value))
                 continue;
 
             if (footprintQuery.HasComponent(ent.Value)) // Funky: Footprints & Stains

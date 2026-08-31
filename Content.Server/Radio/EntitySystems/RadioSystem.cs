@@ -39,21 +39,18 @@ public sealed partial class RadioSystem : EntitySystem
     [Dependency] private readonly HeadsetSystem _headset = default!;
     [Dependency] private readonly StationSystem _station = default!;
     [Dependency] private readonly SharedTransformSystem _xform = default!;
-    [Dependency] private readonly IChatManager _chatManager = default!; // Persistence: Chat stacking from RMC14 - pull/7587
+    [Dependency] private readonly IChatManager _chatManager = default!; // Persistence: Chat stacking from RMC14 - pull/7587    [Dependency] private EntityQuery<TelecomExemptComponent> _exemptQuery = default!;
+
+    [Dependency] private EntityQuery<TelecomExemptComponent> _exemptQuery = default!;
+
     // set used to prevent radio feedback loops.
     private readonly HashSet<string> _messages = new();
-
-    private EntityQuery<TelecomExemptComponent> _exemptQuery;
 
     public override void Initialize()
     {
         base.Initialize();
         SubscribeLocalEvent<IntrinsicRadioReceiverComponent, RadioReceiveEvent>(OnIntrinsicReceive);
         SubscribeLocalEvent<IntrinsicRadioTransmitterComponent, EntitySpokeEvent>(OnIntrinsicSpeak);
-
-        SubscribeLocalEvent<TelecomServerComponent, ExaminedEvent>(OnServerExamined);
-
-        _exemptQuery = GetEntityQuery<TelecomExemptComponent>();
     }
 
     private void OnServerExamined(Entity<TelecomServerComponent> ent, ref ExaminedEvent args)

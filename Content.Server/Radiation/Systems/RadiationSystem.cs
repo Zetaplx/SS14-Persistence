@@ -23,6 +23,7 @@ public sealed partial class RadiationSystem : SharedRadiationSystem
     [Dependency] private readonly IParallelManager _parallel = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
 
+    [Dependency] private EntityQuery<RadiationReceiverComponent> _receiverQuery = default!;
     [Dependency] private EntityQuery<RadiationBlockingContainerComponent> _blockerQuery = default!;
     [Dependency] private EntityQuery<RadiationGridResistanceComponent> _resistanceQuery = default!;
     [Dependency] private EntityQuery<MapGridComponent> _gridQuery = default!;

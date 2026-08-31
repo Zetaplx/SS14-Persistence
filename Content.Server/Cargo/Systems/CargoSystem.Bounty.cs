@@ -39,11 +39,12 @@ public sealed partial class CargoSystem
     [Dependency] private readonly EntityWhitelistSystem _whitelistSys = default!;
     [Dependency] private readonly SharedSolutionContainerSystem _sharedSolutionContainer = default!;
     [Dependency] private readonly JobNetSystem _jobNet = default!;
-    private static readonly ProtoId<NameIdentifierGroupPrototype> BountyNameIdentifierGroup = "Bounty";
 
-    private EntityQuery<StackComponent> _stackQuery;
-    private EntityQuery<ContainerManagerComponent> _containerQuery;
-    private EntityQuery<CargoBountyLabelComponent> _bountyLabelQuery;
+    [Dependency] private EntityQuery<StackComponent> _stackQuery = default!;
+    [Dependency] private EntityQuery<ContainerManagerComponent> _containerManagerQuery = default!;
+    [Dependency] private EntityQuery<CargoBountyLabelComponent> _cargoBountyLabelQuery = default!;
+
+    private static readonly ProtoId<NameIdentifierGroupPrototype> BountyNameIdentifierGroup = "Bounty";
 
     private void InitializeBounty()
     {
@@ -54,10 +55,6 @@ public sealed partial class CargoSystem
         SubscribeLocalEvent<CargoBountyLabelComponent, PriceCalculationEvent>(OnGetBountyPrice);
         SubscribeLocalEvent<EntitySoldEvent>(OnSold);
         SubscribeLocalEvent<StationCargoBountyDatabaseComponent, MapInitEvent>(OnMapInit);
-
-        _stackQuery = GetEntityQuery<StackComponent>();
-        _containerQuery = GetEntityQuery<ContainerManagerComponent>();
-        _bountyLabelQuery = GetEntityQuery<CargoBountyLabelComponent>();
     }
 
     public int GetSectorDevelopment()
@@ -377,7 +374,7 @@ public sealed partial class CargoSystem
     {
         labelEnt = null;
         labelComp = null;
-        if (!_containerQuery.TryGetComponent(uid, out var containerMan))
+        if (!_containerManagerQuery.TryGetComponent(uid, out var containerMan))
             return false;
 
         // make sure this label was actually applied to a crate.
@@ -385,7 +382,7 @@ public sealed partial class CargoSystem
             return false;
 
         if (container.ContainedEntities.FirstOrNull() is not { } label ||
-            !_bountyLabelQuery.TryGetComponent(label, out var component))
+            !_cargoBountyLabelQuery.TryGetComponent(label, out var component))
             return false;
 
         labelEnt = label;
