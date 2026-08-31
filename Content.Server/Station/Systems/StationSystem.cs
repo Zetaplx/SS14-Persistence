@@ -6,6 +6,7 @@ using Content.Server.GameTicking;
 using Content.Server.Station.Components;
 using Content.Server.Station.Events;
 using Content.Server.Worldgen.Components.Debris;
+using Content.Shared.Cargo.Components;
 using Content.Shared.CrewAssignments.Components;
 using Content.Shared.CrewRecords.Components;
 using Content.Shared.GridControl.Components;

@@ -1,6 +1,6 @@
 - type: entity
   abstract: true
-  parent: Clothing
+  parent: [SolutionFood, SolutionToolNormal, Clothing]
   id: ClothingShoesBase
   components:
   - type: Clothing

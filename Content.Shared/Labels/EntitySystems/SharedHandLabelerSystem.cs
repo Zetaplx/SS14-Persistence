@@ -13,7 +13,7 @@ using Robust.Shared.Network;
 
 namespace Content.Shared.Labels.EntitySystems;
 
-public abstract class SharedHandLabelerSystem : EntitySystem
+public abstract partial class SharedHandLabelerSystem : EntitySystem
 {
     [Dependency] protected readonly SharedUserInterfaceSystem UserInterfaceSystem = default!;
     [Dependency] private readonly SharedPopupSystem _popupSystem = default!;

@@ -1,6 +1,6 @@
 - type: entity
   abstract: true
-  parent: Clothing
+  parent: [SolutionFood, SolutionToolSmall, Clothing]
   id: ClothingHandsBase
   components:
   - type: Sprite

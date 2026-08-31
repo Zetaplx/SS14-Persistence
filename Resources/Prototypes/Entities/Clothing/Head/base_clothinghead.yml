@@ -1,6 +1,6 @@
 - type: entity
   abstract: true
-  parent: Clothing
+  parent: [SolutionFood, SolutionToolSmall, Clothing]
   id: ClothingHeadBase
   components:
   - type: Clothing
@@ -72,7 +72,7 @@
     equippedPrefix: off
   - type: Item
     heldPrefix: off
-    size: Normal
+    size: Normal # I'm not updating the solution because these probably shouldn't be edible...
   - type: ToggleableVisuals
     spriteLayer: light
   - type: ItemTogglePointLight

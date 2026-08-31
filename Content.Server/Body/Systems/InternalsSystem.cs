@@ -8,11 +8,11 @@ using Content.Shared.Roles;
 
 namespace Content.Server.Body.Systems;
 
-public sealed class InternalsSystem : SharedInternalsSystem
+public sealed partial class InternalsSystem : SharedInternalsSystem
 {
-    [Dependency] private readonly AlertsSystem _alerts = default!;
-    [Dependency] private readonly GasTankSystem _gasTank = default!;
-    [Dependency] private readonly RespiratorSystem _respirator = default!;
+    [Dependency] private AlertsSystem _alerts = default!;
+    [Dependency] private GasTankSystem _gasTank = default!;
+    [Dependency] private RespiratorSystem _respirator = default!;
 
     private EntityQuery<InternalsComponent> _internalsQuery;
 
@@ -54,8 +54,9 @@ public sealed class InternalsSystem : SharedInternalsSystem
         if (AreInternalsWorking(ent))
         {
             var gasTank = Comp<GasTankComponent>(ent.Comp.GasTankEntity!.Value);
-            args.Gas = _gasTank.RemoveAirVolume((ent.Comp.GasTankEntity.Value, gasTank), args.Respirator.BreathVolume);
-            // TODO: Should listen to gas tank updates instead I guess?
+            // TODO ATMOS: TODO BODY: This is an incredibly stupid workaround to stop Urist McHands from horfing all 5 litres of the gas tank in 10 seconds.
+            args.Gas = _gasTank.RemoveAirOutput((ent.Comp.GasTankEntity.Value, gasTank), args.Respirator.BreathVolume);
+            // TODO ATMOS: Should listen to gas tank updates instead I guess?
             _alerts.ShowAlert(ent.Owner, ent.Comp.InternalsAlert, GetSeverity(ent));
         }
     }

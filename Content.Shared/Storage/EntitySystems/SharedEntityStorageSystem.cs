@@ -27,7 +27,7 @@ using System.Numerics;
 
 namespace Content.Shared.Storage.EntitySystems;
 
-public abstract class SharedEntityStorageSystem : EntitySystem
+public abstract partial class SharedEntityStorageSystem : EntitySystem
 {
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly INetManager _net = default!;
@@ -373,12 +373,8 @@ public abstract class SharedEntityStorageSystem : EntitySystem
         if (containerAttemptEvent.Cancelled)
             return false;
 
-        // Consult the whitelist. The whitelist ignores the default assumption about how entity storage works.
-        if (component.Whitelist != null)
-            return _whitelistSystem.IsValid(component.Whitelist, toInsert);
-
-        // The inserted entity must be a mob or an item.
-        return HasComp<MobStateComponent>(toInsert) || HasComp<ItemComponent>(toInsert);
+        // Check the whitelist/blacklist.
+        return _whitelistSystem.CheckBoth(toInsert, component.Blacklist, component.Whitelist);
     }
 
     public bool TryOpenStorage(EntityUid user, EntityUid target, bool silent = false)

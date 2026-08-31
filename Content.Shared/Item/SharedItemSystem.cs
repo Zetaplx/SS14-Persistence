@@ -11,7 +11,7 @@ using Robust.Shared.Utility;
 
 namespace Content.Shared.Item;
 
-public abstract class SharedItemSystem : EntitySystem
+public abstract partial class SharedItemSystem : EntitySystem
 {
     [Dependency] private readonly IPrototypeManager _prototype = default!;
     [Dependency] private readonly SharedHandsSystem _handsSystem = default!;

@@ -11,14 +11,16 @@ using System.Linq;
 
 namespace Content.Shared.DeviceLinking;
 
-public abstract class SharedDeviceLinkSystem : EntitySystem
+public abstract partial class SharedDeviceLinkSystem : EntitySystem
 {
-    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
-    [Dependency] private readonly SharedPopupSystem _popupSystem = default!;
-    [Dependency] private readonly ISharedAdminLogManager _adminLogger = default!;
-    [Dependency] private readonly SharedTransformSystem _transform = default!;
-    [Dependency] private readonly IGameTiming _gameTiming = default!;
+    [Dependency] private IPrototypeManager _prototypeManager = default!;
+    [Dependency] private SharedPopupSystem _popupSystem = default!;
+    [Dependency] private ISharedAdminLogManager _adminLogger = default!;
+    [Dependency] private SharedTransformSystem _transform = default!;
+    [Dependency] private IGameTiming _gameTiming = default!;
     [Dependency] protected readonly PersistentIdentifierSystem Pid = default!;
+
+    [Dependency] private EntityQuery<DeviceLinkSinkComponent> _deviceLinkSinkQuery = default!;
 
     public const string InvokedPort = "link_port";
 
@@ -87,12 +89,11 @@ public abstract class SharedDeviceLinkSystem : EntitySystem
     /// </summary>
     private void OnSourceRemoved(Entity<DeviceLinkSourceComponent> source, ref ComponentRemove args)
     {
-        var query = GetEntityQuery<DeviceLinkSinkComponent>();
         foreach (var sinkId in source.Comp.LinkedPorts.Keys)
         {
             if (!Pid.TryResolveId(source, sinkId, out var sinkEnt))
                 continue;
-            if (query.TryGetComponent(sinkEnt, out var sink))
+            if (_deviceLinkSinkQuery.TryGetComponent(sinkEnt, out var sink))
                 RemoveSinkFromSourceInternal(source, sinkEnt, source, sink);
             else
                 Log.Error($"Device source {ToPrettyString(source)} links to invalid entity: {ToPrettyString(sinkEnt.Owner)}");

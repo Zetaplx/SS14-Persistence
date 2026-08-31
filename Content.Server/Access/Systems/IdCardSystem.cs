@@ -21,7 +21,7 @@ using System.Linq;
 
 namespace Content.Server.Access.Systems;
 
-public sealed class IdCardSystem : SharedIdCardSystem
+public sealed partial class IdCardSystem : SharedIdCardSystem
 {
     [Dependency] private readonly PopupSystem _popupSystem = default!;
     [Dependency] private readonly IRobustRandom _random = default!;

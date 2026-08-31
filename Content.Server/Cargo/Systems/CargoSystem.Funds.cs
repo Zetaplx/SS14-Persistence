@@ -2,7 +2,6 @@ using Content.Shared.Cargo.Components;
 using Content.Shared.CCVar;
 using Content.Shared.Database;
 using Content.Shared.Emag.Systems;
-using Content.Shared.IdentityManagement;
 using Content.Shared.UserInterface;
 using System.Linq;
 
@@ -54,10 +53,9 @@ public sealed partial class CargoSystem
         }
         _audio.PlayPvs(ApproveSound, ent);
 
-        var tryGetIdentityShortInfoEvent = new TryGetIdentityShortInfoEvent(ent, args.Actor);
-        RaiseLocalEvent(tryGetIdentityShortInfoEvent);
-
         var ourAccount = _protoMan.Index(ent.Comp.Account);
+        var name = _identity.GetIdentityShortInfo(args.Actor, ent)
+                   ?? Loc.GetString("cargo-console-fund-transfer-user-unknown");
         if (args.Account == null)
         {
             var stackPrototype = _protoMan.Index(ent.Comp.CashType);
@@ -66,7 +64,7 @@ public sealed partial class CargoSystem
             if (!_emag.CheckFlag(ent, EmagType.Interaction))
             {
                 var msg = Loc.GetString("cargo-console-fund-withdraw-broadcast",
-                    ("name", tryGetIdentityShortInfoEvent.Title ?? Loc.GetString("cargo-console-fund-transfer-user-unknown")),
+                    ("name", name),
                     ("amount", args.Amount),
                     ("name1", Loc.GetString(ourAccount.Name)),
                     ("code1", Loc.GetString(ourAccount.Code)));
@@ -81,7 +79,7 @@ public sealed partial class CargoSystem
             if (!_emag.CheckFlag(ent, EmagType.Interaction))
             {
                 var msg = Loc.GetString("cargo-console-fund-transfer-broadcast",
-                    ("name", tryGetIdentityShortInfoEvent.Title ?? Loc.GetString("cargo-console-fund-transfer-user-unknown")),
+                    ("name", name),
                     ("amount", args.Amount),
                     ("name1", Loc.GetString(ourAccount.Name)),
                     ("code1", Loc.GetString(ourAccount.Code)),

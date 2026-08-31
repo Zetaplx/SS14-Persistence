@@ -32,7 +32,7 @@ using static Content.Shared.Access.Components.IdCardConsoleComponent;
 namespace Content.Server.Access.Systems;
 
 [UsedImplicitly]
-public sealed class IdCardConsoleSystem : SharedIdCardConsoleSystem
+public sealed partial class IdCardConsoleSystem : SharedIdCardConsoleSystem
 {
     [Dependency] private readonly IConfigurationManager _cfgManager = default!;
     [Dependency] private readonly IPrototypeManager _prototype = default!;
@@ -398,7 +398,7 @@ public sealed class IdCardConsoleSystem : SharedIdCardConsoleSystem
         string newFullName,
         string newJobTitle,
         List<ProtoId<AccessLevelPrototype>> newAccessList,
-        ProtoId<JobPrototype> newJobProto,
+        ProtoId<JobPrototype>? newJobProto,
         EntityUid player,
         IdCardConsoleComponent? component = null)
     {
@@ -421,7 +421,7 @@ public sealed class IdCardConsoleSystem : SharedIdCardConsoleSystem
         _idCard.TryChangeFullName(targetId, newFullName, player: player);
         _idCard.TryChangeJobTitle(targetId, newJobTitle, player: player);
 
-        if (_prototype.Resolve(newJobProto, out var job)
+        if (_prototype.TryIndex(newJobProto, out var job)
             && _prototype.Resolve(job.Icon, out var jobIcon))
         {
             _idCard.TryChangeJobIcon(targetId, jobIcon, player: player);

@@ -15,7 +15,7 @@ namespace Content.Server.Speech.EntitySystems
     /// <summary>
     /// Replaces text in messages, either with full replacements or word replacements.
     /// </summary>
-    public sealed class ReplacementAccentSystem : EntitySystem
+    public sealed partial class ReplacementAccentSystem : EntitySystem
     {
         [Dependency] private readonly IConfigurationManager _configurationManager = default!; // Persistence: Full replacement accent preserves punctuation
         [Dependency] private readonly IPrototypeManager _proto = default!;

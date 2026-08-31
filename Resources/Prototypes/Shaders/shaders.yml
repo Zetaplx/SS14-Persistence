@@ -131,3 +131,8 @@
   id: SectorEventTint
   kind: source
   path: "/Textures/Shaders/sector_event_tint.swsl"
+  
+- type: shader
+  id: HeatBlur
+  kind: source
+  path: "/Textures/Shaders/heatBlur.swsl"

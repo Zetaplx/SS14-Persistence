@@ -7,7 +7,6 @@ using Content.Shared.Cargo.Events;
 using Content.Shared.Cargo.Prototypes;
 using Content.Shared.Database;
 using Content.Shared.Emag.Systems;
-using Content.Shared.IdentityManagement;
 using Content.Shared.Interaction;
 using Content.Shared.Labels.Components;
 using Content.Shared.Paper;
@@ -475,8 +474,8 @@ namespace Content.Server.Cargo.Systems
                     PlayDenySound(uid, component);
                     return;
                 }
-                
-                
+
+
 
 
                 var amount = GetOutstandingOrderCount((station.Value, orderDatabase), order.Account);
@@ -545,9 +544,7 @@ namespace Content.Server.Cargo.Systems
 
                 if (!_emag.CheckFlag(uid, EmagType.Interaction))
                 {
-                    var tryGetIdentityShortInfoEvent = new TryGetIdentityShortInfoEvent(uid, player);
-                    RaiseLocalEvent(tryGetIdentityShortInfoEvent);
-                    order.SetApproverData(tryGetIdentityShortInfoEvent.Title);
+                    order.SetApproverData(_identity.GetIdentityShortInfo(player, uid));
 
                     var message = Loc.GetString("cargo-console-unlock-approved-order-broadcast",
                         ("productName", Loc.GetString(product.Name)),

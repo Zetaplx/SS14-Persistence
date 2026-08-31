@@ -45,9 +45,9 @@
     event: !type:ToggleMaskEvent
 
 - type: entity
-  id: ClothingMaskBaseButcherable
-  parent: ClothingMaskBase
   abstract: true
+  parent: [SolutionFood, SolutionToolSmall, ClothingMaskBase]
+  id: ClothingMaskBaseButcherable
   components:
   - type: Butcherable
     butcheringType: Knife
