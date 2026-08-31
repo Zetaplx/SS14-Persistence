@@ -524,7 +524,7 @@ public sealed partial class NPCUtilitySystem : EntitySystem
                     if (compQueryAny.Components.Count == 0)
                         return;
 
-                    var mapPos = _transform.GetMapCoordinates(owner, xform: _xformQuery.GetComponent(owner));
+                    var mapPos = _transform.GetMapCoordinates(owner, xform: Transform(owner));
                     _compTypes.Clear();
                     _entitySet.Clear();
                     foreach (var comp in compQueryAny.Components.Values)

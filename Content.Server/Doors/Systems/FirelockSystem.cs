@@ -78,7 +78,7 @@ namespace Content.Server.Doors.Systems
                     && _appearanceQuery.TryGetComponent(uid, out var appearance))
                 {
                     // Start Funky: Reagent fires
-                    var (pressure, fire) = CheckPressureAndFire(uid, firelock, xform, airtight, airtightQuery, door.State == DoorState.Open);
+                    var (pressure, fire) = CheckPressureAndFire(uid, firelock, airtight, door.State == DoorState.Open);
 
                     if (door.State == DoorState.Open)
                     {
