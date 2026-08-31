@@ -1034,8 +1034,9 @@
   - type: Icon
     sprite: Structures/Furniture/Tables/counterpharma.rsi
     state: full
-  - type: Damageable
+  - type: Injurable
     damageContainer: StructuralInorganic
+  - type: Damageable
     damageModifierSet: Metallic
   - type: Destructible
     thresholds:

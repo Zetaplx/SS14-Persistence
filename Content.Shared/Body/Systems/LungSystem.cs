@@ -2,6 +2,7 @@ using Content.Shared.Atmos;
 using Content.Shared.Atmos.EntitySystems;
 using Content.Shared.Body.Components;
 using Content.Shared.Chemistry.Components;
+using Content.Shared.Chemistry.Components.SolutionManager;
 using Content.Shared.Chemistry.EntitySystems;
 using Content.Shared.Inventory.Events;
 using BreathToolComponent = Content.Shared.Atmos.Components.BreathToolComponent;
@@ -46,8 +47,7 @@ public sealed partial class LungSystem : EntitySystem
     {
         _solutionContainerSystem.EnsureSolution(entity.Owner, entity.Comp.SolutionName, out var solution);
 
-        solution.Comp.Solution.MaxVolume = 100.0f;
-        solution.Comp.Solution.CanReact = false; // No dexalin lungs
+        _solutionContainerSystem.SetCanReact(solution, false);
     }
 
     // TODO: JUST METABOLIZE GASES DIRECTLY DON'T CONVERT TO REAGENTS!!! (Needs Metabolism refactor :B)
