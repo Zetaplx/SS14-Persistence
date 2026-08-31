@@ -102,7 +102,7 @@
         - Structure
     - type: GuideHelp
       guides:
-      - GasMining
+      - ThresholdGasMining # Persistence
 
     - type: SubFloorHide
       visibleLayers:

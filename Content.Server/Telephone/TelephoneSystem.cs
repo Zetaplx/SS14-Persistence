@@ -1,8 +1,10 @@
 using Content.Server.Access.Systems;
 using Content.Server.Administration.Logs;
+using Content.Server.Chat.Managers; // Persistence: Chat stacking from RMC14 - pull/7587
 using Content.Server.Chat.Systems;
 using Content.Server.Interaction;
 using Content.Server.Power.EntitySystems;
+using Content.Shared._RMC14.Chat; // Persistence: Chat stacking from RMC14 - pull/7587
 using Content.Shared.Chat;
 using Content.Shared.Database;
 using Content.Shared.Labels.Components;
@@ -15,6 +17,7 @@ using Content.Shared.Speech.Components;
 using Content.Shared.Telephone;
 using Robust.Server.GameObjects;
 using Robust.Shared.Audio.Systems;
+using Robust.Shared.Player; // Persistence: Chat stacking from RMC14 - pull/7587
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Replays;
@@ -26,16 +29,17 @@ namespace Content.Server.Telephone;
 
 public sealed partial class TelephoneSystem : SharedTelephoneSystem
 {
-    [Dependency] private AppearanceSystem _appearanceSystem = default!;
-    [Dependency] private InteractionSystem _interaction = default!;
-    [Dependency] private IdCardSystem _idCardSystem = default!;
-    [Dependency] private SharedAudioSystem _audio = default!;
-    [Dependency] private ChatSystem _chat = default!;
-    [Dependency] private IPrototypeManager _prototype = default!;
-    [Dependency] private IGameTiming _timing = default!;
-    [Dependency] private IRobustRandom _random = default!;
-    [Dependency] private IAdminLogManager _adminLogger = default!;
-    [Dependency] private IReplayRecordingManager _replay = default!;
+    [Dependency] private readonly AppearanceSystem _appearanceSystem = default!;
+    [Dependency] private readonly InteractionSystem _interaction = default!;
+    [Dependency] private readonly IdCardSystem _idCardSystem = default!;
+    [Dependency] private readonly SharedAudioSystem _audio = default!;
+    [Dependency] private readonly ChatSystem _chat = default!;
+    [Dependency] private readonly IPrototypeManager _prototype = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
+    [Dependency] private readonly IAdminLogManager _adminLogger = default!;
+    [Dependency] private readonly IReplayRecordingManager _replay = default!;
+    [Dependency] private readonly IChatManager _chatManager = default!; // Persistence: Chat stacking from RMC14 - pull/7587
 
     // Has set used to prevent telephone feedback loops
     private HashSet<(EntityUid, string, Entity<TelephoneComponent>)> _recentChatMessages = new();
@@ -361,8 +365,9 @@ public sealed partial class TelephoneSystem : SharedTelephoneSystem
             ChatChannel.Local,
             message,
             wrappedMessage,
-            NetEntity.Invalid,
-            null);
+            GetNetEntity(messageSource), // Persistence: Chat stacking from RMC14 - pull/7587
+            _chatManager.EnsurePlayer(CompOrNull<ActorComponent>(messageSource)?.PlayerSession.UserId)?.Key, // Persistence: Chat stacking from RMC14 - pull/7587
+            repeatCheckSender: !HasComp<ChatRepeatIgnoreSenderComponent>(source)); // Persistence: Chat stacking from RMC14 - pull/7587
 
         var chatMsg = new MsgChatMessage { Message = chat };
 

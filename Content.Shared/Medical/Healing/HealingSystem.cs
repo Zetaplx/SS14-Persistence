@@ -6,6 +6,7 @@ using Content.Shared.Damage.Components;
 using Content.Shared.Damage.Systems;
 using Content.Shared.Database;
 using Content.Shared.DoAfter;
+using Content.Shared.EntityConditions;
 using Content.Shared.IdentityManagement;
 using Content.Shared.Interaction;
 using Content.Shared.Interaction.Events;
@@ -20,16 +21,17 @@ namespace Content.Shared.Medical.Healing;
 
 public sealed partial class HealingSystem : EntitySystem
 {
-    [Dependency] private SharedAudioSystem _audio = default!;
-    [Dependency] private ISharedAdminLogManager _adminLogger = default!;
-    [Dependency] private DamageableSystem _damageable = default!;
-    [Dependency] private SharedBloodstreamSystem _bloodstreamSystem = default!;
-    [Dependency] private SharedDoAfterSystem _doAfter = default!;
-    [Dependency] private SharedStackSystem _stacks = default!;
-    [Dependency] private SharedInteractionSystem _interactionSystem = default!;
-    [Dependency] private MobThresholdSystem _mobThresholdSystem = default!;
-    [Dependency] private SharedPopupSystem _popupSystem = default!;
-    [Dependency] private SharedSolutionContainerSystem _solutionContainerSystem = default!;
+    [Dependency] private readonly SharedAudioSystem _audio = default!;
+    [Dependency] private readonly ISharedAdminLogManager _adminLogger = default!;
+    [Dependency] private readonly DamageableSystem _damageable = default!;
+    [Dependency] private readonly SharedBloodstreamSystem _bloodstreamSystem = default!;
+    [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
+    [Dependency] private readonly SharedStackSystem _stacks = default!;
+    [Dependency] private readonly SharedInteractionSystem _interactionSystem = default!;
+    [Dependency] private readonly MobThresholdSystem _mobThresholdSystem = default!;
+    [Dependency] private readonly SharedPopupSystem _popupSystem = default!;
+    [Dependency] private readonly SharedSolutionContainerSystem _solutionContainerSystem = default!;
+    [Dependency] private readonly SharedEntityConditionsSystem _entityConditions = default!;
 
     public override void Initialize()
     {
@@ -110,9 +112,9 @@ public sealed partial class HealingSystem : EntitySystem
         }
 
         _audio.PlayPredicted(healing.HealingEndSound, target.Owner, args.User);
-
+        //New for Persistence
         // Logic to determine the whether or not to repeat the healing action
-        args.Repeat = HasDamage((args.Used.Value, healing), target) && !dontRepeat;
+        args.Repeat = !dontRepeat && HasDamage((args.Used.Value, healing), target) && TryConditions((args.Used.Value, healing), target);
         args.Handled = true;
 
         if (!args.Repeat)
@@ -202,6 +204,11 @@ public sealed partial class HealingSystem : EntitySystem
             _popupSystem.PopupClient(Loc.GetString("medical-item-cant-use", ("item", healing.Owner)), healing, user);
             return false;
         }
+        if (!TryConditions(healing, target))
+        {
+            _popupSystem.PopupClient(Loc.GetString("topical-isnt-appropriate", ("item", healing.Owner)), healing, user);
+            return false;
+        }
 
         _audio.PlayPredicted(healing.Comp.HealingBeginSound, healing, user);
 
@@ -228,6 +235,15 @@ public sealed partial class HealingSystem : EntitySystem
             };
 
         _doAfter.TryStartDoAfter(doAfterEventArgs);
+        return true;
+    }
+    /// New for Persistence
+
+    private bool TryConditions(Entity<HealingComponent> healing, EntityUid target)
+    {
+        if (healing.Comp.Conditions != null && !_entityConditions.TryConditions(target, healing.Comp.Conditions))
+            return false;
+
         return true;
     }
 

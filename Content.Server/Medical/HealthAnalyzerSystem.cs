@@ -2,11 +2,14 @@ using Content.Server.Body.Systems;
 using Content.Server.Medical.Components;
 using Content.Shared.Body.Components;
 using Content.Shared.Chemistry.EntitySystems;
+using Content.Shared.Chemistry.Reagent; // Persistence: Display bloodstream contents in health analyzers
 using Content.Shared.Damage.Components;
 using Content.Shared.DoAfter;
+using Content.Shared.Hands.Components;
 using Content.Shared.IdentityManagement;
 using Content.Shared.Interaction;
 using Content.Shared.Interaction.Events;
+using Content.Shared.Inventory;
 using Content.Shared.Item.ItemToggle;
 using Content.Shared.Item.ItemToggle.Components;
 using Content.Shared.MedicalScanner;
@@ -24,16 +27,17 @@ namespace Content.Server.Medical;
 
 public sealed partial class HealthAnalyzerSystem : EntitySystem
 {
-    [Dependency] private IGameTiming _timing = default!;
-    [Dependency] private PowerCellSystem _cell = default!;
-    [Dependency] private SharedAudioSystem _audio = default!;
-    [Dependency] private SharedDoAfterSystem _doAfterSystem = default!;
-    [Dependency] private ItemToggleSystem _toggle = default!;
-    [Dependency] private SharedSolutionContainerSystem _solutionContainerSystem = default!;
-    [Dependency] private UserInterfaceSystem _uiSystem = default!;
-    [Dependency] private TransformSystem _transformSystem = default!;
-    [Dependency] private SharedPopupSystem _popupSystem = default!;
-    [Dependency] private BloodstreamSystem _bloodstreamSystem = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly PowerCellSystem _cell = default!;
+    [Dependency] private readonly SharedAudioSystem _audio = default!;
+    [Dependency] private readonly SharedDoAfterSystem _doAfterSystem = default!;
+    [Dependency] private readonly ItemToggleSystem _toggle = default!;
+    [Dependency] private readonly SharedSolutionContainerSystem _solutionContainerSystem = default!;
+    [Dependency] private readonly UserInterfaceSystem _uiSystem = default!;
+    [Dependency] private readonly TransformSystem _transformSystem = default!;
+    [Dependency] private readonly SharedPopupSystem _popupSystem = default!;
+    [Dependency] private readonly BloodstreamSystem _bloodstreamSystem = default!;
+    [Dependency] private readonly InventorySystem _inventory = default!;
 
     public override void Initialize()
     {
@@ -42,6 +46,7 @@ public sealed partial class HealthAnalyzerSystem : EntitySystem
         SubscribeLocalEvent<HealthAnalyzerComponent, EntGotInsertedIntoContainerMessage>(OnInsertedIntoContainer);
         SubscribeLocalEvent<HealthAnalyzerComponent, ItemToggledEvent>(OnToggled);
         SubscribeLocalEvent<HealthAnalyzerComponent, DroppedEvent>(OnDropped);
+
     }
 
     public override void Update(float frameTime)
@@ -120,6 +125,12 @@ public sealed partial class HealthAnalyzerSystem : EntitySystem
     /// </summary>
     private void OnInsertedIntoContainer(Entity<HealthAnalyzerComponent> uid, ref EntGotInsertedIntoContainerMessage args)
     {
+        if (_inventory.InSlotWithAnyFlags(uid.Owner, uid.Comp.StableFlags))
+            return;
+
+        if (HasComp<HandsComponent>(args.Container.Owner))
+            return;
+
         if (uid.Comp.ScannedEntity is { } patient)
             _toggle.TryDeactivate(uid.Owner);
     }
@@ -236,11 +247,13 @@ public sealed partial class HealthAnalyzerSystem : EntitySystem
         var bloodAmount = float.NaN;
         var bleeding = false;
         var unrevivable = false;
+        var bloodContents = new List<ReagentQuantity>(); // Persistence: Display bloodstream contents in health analyzers
 
         if (TryComp<BloodstreamComponent>(entity, out var bloodstream) &&
             _solutionContainerSystem.ResolveSolution(entity, bloodstream.BloodSolutionName,
                 ref bloodstream.BloodSolution, out var bloodSolution))
         {
+            bloodContents = bloodSolution.Contents; // Persistence: Display bloodstream contents in health analyzers
             bloodAmount = _bloodstreamSystem.GetBloodLevel(entity);
             bleeding = bloodstream.BleedAmount > 0;
         }
@@ -254,7 +267,8 @@ public sealed partial class HealthAnalyzerSystem : EntitySystem
             bloodAmount,
             null,
             bleeding,
-            unrevivable
+            unrevivable,
+            bloodContents // Persistence: Display bloodstream contents in health analyzers
         );
     }
 }

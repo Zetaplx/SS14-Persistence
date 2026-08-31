@@ -105,6 +105,7 @@ public partial class InventorySystem
         SubscribeLocalEvent<InventoryComponent, GetVerbsEvent<EquipmentVerb>>(OnGetEquipmentVerbs);
         SubscribeLocalEvent<InventoryComponent, GetVerbsEvent<InnateVerb>>(OnGetInnateVerbs);
 
+        SubscribeLocalEvent<InventoryComponent, Content.Shared._Funkystation.Fluids.SpilledOnEvent>(RelayInventoryEvent); // Funky: Footprints & Stains
     }
 
     protected void RefRelayInventoryEvent<T>(EntityUid uid, InventoryComponent component, ref T args) where T : IInventoryRelayEvent
@@ -192,6 +193,14 @@ public sealed class InventoryRelayedEvent<TEvent> : EntityEventArgs
         Args = args;
         Owner = owner;
     }
+
+    // Start Funky: Footprints & Stains
+    public InventoryRelayedEvent(TEvent args)
+    {
+        Args = args;
+        Owner = EntityUid.Invalid;
+    }
+    // End Funky
 }
 
 public interface IClothingSlots

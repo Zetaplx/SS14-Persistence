@@ -146,6 +146,7 @@
     - CassetteTape
     - ReligionStatic
     - HydroponicsStatic
+    - GasMasksStatic # Persi14
   - type: EmagLatheRecipes
     emagStaticPacks:
     - SecurityAmmoStatic
@@ -206,6 +207,7 @@
     staticPacks:
     - ChemistryStatic
     - SurgeryStatic
+    - PlasticBottlesPack
     dynamicPacks:
     - AdvancedTools
     - ScienceEquipment

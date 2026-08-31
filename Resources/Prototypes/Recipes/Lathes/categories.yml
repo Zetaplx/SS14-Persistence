@@ -236,3 +236,7 @@
 - type: latheCategory
   id: Pouches
   name: lathe-category-pouches
+
+- type: latheCategory
+  id: PlasticBottles
+  name: lathe-category-plasticbottles

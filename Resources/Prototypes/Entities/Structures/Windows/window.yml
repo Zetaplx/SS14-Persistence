@@ -140,6 +140,7 @@
   - type: Tag
     tags:
       - Window
+      - DirectionalWindow # Funky: Footprints & Stains
   - type: MeleeSound
     soundGroups:
       Brute:

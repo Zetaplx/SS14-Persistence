@@ -191,6 +191,7 @@
   - AdvMopItem
   - MegaSprayBottle
   - BorgModuleAdvancedCleaning
+  - WashingMachineCircuitboard # Funky: Footprints & Stains
 
 - type: technology
   id: HONKMech
