@@ -639,7 +639,7 @@
   - type: Solution
     solution:
       reagents:
-      - ReagentId: Omnizine
+      - ReagentId: Ichor
         Quantity: 25
       - ReagentId: TranexamicAcid
         Quantity: 5

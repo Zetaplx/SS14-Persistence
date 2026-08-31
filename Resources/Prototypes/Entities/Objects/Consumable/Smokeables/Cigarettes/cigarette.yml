@@ -63,7 +63,7 @@
       - Cigarette
       - Trash
       - Burnt
-
+#new for Persistance 14 switched to ichor due to omni changes
 - type: entity
   id: CigaretteSyndicate
   suffix: syndicate
@@ -75,9 +75,9 @@
       reagents:
         - ReagentId: Nicotine
           Quantity: 10
-        - ReagentId: Omnizine
+        - ReagentId: Ichor
           Quantity: 20
-
+#new for Persistance 14 switched to ichor due to omni changes
 - type: entity
   id: CigaretteOmnizine
   parent: SoakedCigarette
@@ -88,7 +88,7 @@
       reagents:
       - ReagentId: Nicotine
         Quantity: 10
-      - ReagentId: Omnizine
+      - ReagentId: Ichor
         Quantity: 10
 
 - type: entity
