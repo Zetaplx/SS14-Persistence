@@ -23,6 +23,12 @@ Small fixes/refactors are exempt. Media may be used in SS14 progress reports wit
 <!-- List any breaking changes, including namespaces, public class/method/field changes, prototype renames; and provide instructions for fixing them.
 This will be posted in #codebase-changes. -->
 
+## Disclaimers
+<!-- Mark any necessary disclaimers by placing an X in the brackes without spaces inside as for Requirements -->
+- [ ] This PR uses generative AI as an aid in debuging, testing, planning and/or brainstorming.
+- [ ] This PR uses generative AI to generate assets and/or code directly used within the PR.
+
+## Changelog
 **Changelog**
 <!-- Add a Changelog entry to make players aware of new features or changes that could affect gameplay.
 Make sure to read the guidelines and take this Changelog template out of the comment block in order for it to show up.
