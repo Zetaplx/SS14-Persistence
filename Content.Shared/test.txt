@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-TEST_VALUE = "unstable"
-=======
 TEST_VALUE = "stable"
->>>>>>> origin/staging-stable
