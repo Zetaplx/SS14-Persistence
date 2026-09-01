@@ -115,7 +115,6 @@
   - type: Construction
     graph: MorgueGraph
     node: cables
-    price: 200
 
 - type: entity
   id: Crematorium

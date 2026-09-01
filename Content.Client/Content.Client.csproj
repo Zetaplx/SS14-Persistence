@@ -15,6 +15,7 @@
     <PackageReference Include="SixLabors.ImageSharp" />
     <PackageReference Include="Pidgin" />
     <PackageReference Include="Robust.Shared.AuthLib" />
+    <PackageReference Include="System.Numerics.Tensors" />
   </ItemGroup>
 
   <Import Project="..\RobustToolbox\Imports\Lidgren.props" />
