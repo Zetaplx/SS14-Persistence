@@ -58,10 +58,19 @@ public sealed partial class RecipeRelaySourceWindow : FancyWindow
             HorizontalAlignment = HAlignment.Right,
             ToggleMode = true,
             Pressed = state.Connected,
+            Disabled = !state.CanChangeState,
             Margin = new Thickness(2, 1),
             MinSize = new Vector2(60, 0),
             Text = $"{(state.Connected ? "Unlink" : "Link")}"
         };
+
+
+#pragma warning disable CS0618 // Type or member is obsolete
+        if (state.BlockedTooltip is not null && Loc.TryGetString(state.BlockedTooltip, out var loc))
+            button.ToolTip = loc;
+        else
+            button.ToolTip = state.BlockedTooltip;
+#pragma warning restore CS0618
 
         button.OnPressed += _ =>
         {
