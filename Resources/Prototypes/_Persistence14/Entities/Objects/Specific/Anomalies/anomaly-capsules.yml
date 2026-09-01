@@ -7,7 +7,7 @@
   - type: Sprite
     sprite: _Persistence14/Objects/Misc/anomaly-capsule.rsi
     layers: 
-    - state: icon-seed
+    - state: core-anim
       visible: false
       map: ["enum.AnomalyCapsuleVisualLayers.Core"]
     - state: icon

@@ -11,7 +11,7 @@
   - type: AnomalyCapsuleCoreVisualizer
     core:
       sprite: _Persistence14/Objects/Misc/anomaly-capsule.rsi
-      state: icon-seed
+      state: core-anim
 
 - type: entity
   id: AnomalyCapsuleCoreUnstable
