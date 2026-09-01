@@ -2689,11 +2689,6 @@
   - type: SolutionManager
     solutions:
     - SolutionVenomSpider
-  - type: SolutionRegeneration
-    generated:
-      reagents:
-      - ReagentId: Mechanotoxin
-        Quantity: 1
   - type: MeleeChemicalInjector
     transferAmount: 0.75
     solution: melee
@@ -2754,6 +2749,12 @@
   parent: [SolutionWeapon, SolutionTiny]
   id: SolutionVenomSpider
   categories: [ HideSpawnMenu ]
+  components:
+  - type: SolutionRegeneration
+    generated:
+      reagents:
+      - ReagentId: Mechanotoxin
+        Quantity: 1
 
 - type: entity
   parent: MobSpiderBase
