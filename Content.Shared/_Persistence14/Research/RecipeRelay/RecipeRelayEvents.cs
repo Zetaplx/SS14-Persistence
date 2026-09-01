@@ -12,6 +12,8 @@ public sealed partial class RecipeRelayLinkAttemptEvent : CancellableEntityEvent
     public required Entity<RecipeRelayReceiverComponent> Receiver;
     public EntityUid? User = null;
     public string CancelMessage = "default-link-fail";
+    public bool AllowDisplay = true;
+    public string? BlockedTooltip = null;
 }
 
 /// <summary>
@@ -24,6 +26,8 @@ public sealed partial class RecipeRelayUnlinkAttemptEvent : CancellableEntityEve
     public required Entity<RecipeRelayReceiverComponent> Receiver;
     public EntityUid? User = null;
     public string CancelMessage = "default-unlink-fail";
+    public bool AllowDisplay = true;
+    public string? BlockedTooltip = null;
 }
 
 /// <summary>
@@ -58,7 +62,7 @@ public sealed partial class RecipeRelaySourceBoundUserInterfaceState : BoundUser
 }
 
 [Serializable, NetSerializable]
-public readonly record struct RecipeRelayReceiverState(NetEntity Entity, string Name, bool Connected);
+public readonly record struct RecipeRelayReceiverState(NetEntity Entity, string Name, bool Connected, bool CanChangeState, string? BlockedTooltip);
 
 [Serializable, NetSerializable]
 public sealed class RecipeRelayToggleReceieverMessage : BoundUserInterfaceMessage

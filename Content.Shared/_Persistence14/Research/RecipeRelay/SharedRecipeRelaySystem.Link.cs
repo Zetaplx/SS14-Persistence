@@ -17,18 +17,18 @@ public sealed partial class SharedRecipeRelaySystem
         if (CreatesRecursiveLoop(sourceEnt, receiverEnt))
         {
             if (user is null)
-                _popup.PopupEntity(Loc.GetString("creates-loop-link-fail", ("receiver", ToPrettyString(receiverEnt.Owner))), sourceEnt);
+                _popup.PopupEntity(Loc.GetString("creates-loop-link-fail", ("receiver", Name(receiverEnt.Owner))), sourceEnt);
             else
-                _popup.PopupEntity(Loc.GetString("creates-loop-link-fail", ("receiver", ToPrettyString(receiverEnt.Owner))), sourceEnt, user.Value);
+                _popup.PopupEntity(Loc.GetString("creates-loop-link-fail", ("receiver", Name(receiverEnt.Owner))), sourceEnt, user.Value);
             return false;
         }
 
         if (receiverEnt.Comp.HasSource)
         {
             if (user is null)
-                _popup.PopupEntity(Loc.GetString("already-linked-link-fail", ("receiver", ToPrettyString(receiverEnt.Owner))), sourceEnt);
+                _popup.PopupEntity(Loc.GetString("already-linked-link-fail", ("receiver", Name(receiverEnt.Owner))), sourceEnt);
             else
-                _popup.PopupEntity(Loc.GetString("already-linked-link-fail", ("receiver", ToPrettyString(receiverEnt.Owner))), sourceEnt, user.Value);
+                _popup.PopupEntity(Loc.GetString("already-linked-link-fail", ("receiver", Name(receiverEnt.Owner))), sourceEnt, user.Value);
             return false;
         }
 
@@ -44,7 +44,7 @@ public sealed partial class SharedRecipeRelaySystem
 
         if (ev.Cancelled)
         {
-            var msg = Loc.TryGetString(ev.CancelMessage, out var message, ("source", ToPrettyString(sourceEnt.Owner)), ("receiver", ToPrettyString(receiverEnt.Owner)))
+            var msg = Loc.TryGetString(ev.CancelMessage, out var message, ("source", Name(sourceEnt.Owner)), ("receiver", Name(receiverEnt.Owner)))
                         ? message : ev.CancelMessage;
             if (user is null)
                 _popup.PopupEntity(msg, sourceEnt.Owner);
@@ -67,7 +67,7 @@ public sealed partial class SharedRecipeRelaySystem
         };
         RaiseLocalEvent(sourceEnt, successEv);
         RaiseLocalEvent(receiverEnt, successEv);
-        UpdateSourceUI(sourceEnt);
+        UpdateSourceUI(sourceEnt, user);
         return true;
     }
 
@@ -114,7 +114,7 @@ public sealed partial class SharedRecipeRelaySystem
         };
         RaiseLocalEvent(sourceEnt, successEv);
         RaiseLocalEvent(receiverEnt, successEv);
-        UpdateSourceUI(sourceEnt);
+        UpdateSourceUI(sourceEnt, user);
         return true;
     }
 
