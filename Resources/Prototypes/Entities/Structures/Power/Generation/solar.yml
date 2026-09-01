@@ -226,15 +226,6 @@
     state: solar_panel_glass_broken
   - type: Destructible
     thresholds:
-    - trigger: # Excess damage, don't spawn entities
-        !type:DamageTrigger
-        damage: 100
-      behaviors:
-      - !type:PlaySoundBehavior
-        sound:
-          collection: GlassBreak
-      - !type:DoActsBehavior
-        acts: ["Destruction"]
     - trigger:
         !type:DamageTrigger
         damage: 50
@@ -264,15 +255,6 @@
     state: solar_panel_plasma_broken
   - type: Destructible
     thresholds:
-    - trigger:
-        !type:DamageTrigger
-        damage: 100
-      behaviors:
-      - !type:PlaySoundBehavior
-        sound:
-          collection: GlassBreak
-      - !type:DoActsBehavior
-        acts: ["Destruction"]
     - trigger:
         !type:DamageTrigger
         damage: 50
@@ -330,6 +312,35 @@
     node: solarpanelphoron_broken
 
 - type: entity
+  id: SolarPanelPhoronBroken
+  parent: SolarPanelBasePhysSprite
+  name: phoron solar panel
+  description: A broken phoron solar panel.
+  suffix: Broken
+  components:
+  - type: Sprite
+    state: solar_panel_phoron_broken
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 50
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: GlassBreak
+      - !type:SpawnEntitiesBehavior
+        spawn:
+          ShardGlassPlasma:
+            min: 1
+            max: 2
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+  - type: Construction
+    graph: SolarPanel
+    node: solarpanelphoron_broken
+
+- type: entity
   id: SolarPanelUraniumBroken
   parent: SolarPanelBasePhysSprite
   name: uranium solar panel
@@ -340,15 +351,6 @@
     state: solar_panel_uranium_broken
   - type: Destructible
     thresholds:
-    - trigger: # Excess damage, don't spawn entities
-        !type:DamageTrigger
-        damage: 100
-      behaviors:
-      - !type:PlaySoundBehavior
-        sound:
-          collection: GlassBreak
-      - !type:DoActsBehavior
-        acts: ["Destruction"]
     - trigger:
         !type:DamageTrigger
         damage: 50
@@ -401,7 +403,7 @@
     damageContainer: StructuralInorganic
   - type: Destructible
     thresholds:
-    - trigger: # Excess damage, don't spawn entities
+    - trigger:
         !type:DamageTrigger
         damage: 200
       behaviors:
