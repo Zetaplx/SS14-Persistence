@@ -1,9 +1,10 @@
+using System.Numerics.Tensors;
+using System.Runtime.CompilerServices;
 using Content.Shared.Atmos.Prototypes;
 using Content.Shared.Atmos.Reactions;
 using Content.Shared.CCVar;
 using JetBrains.Annotations;
 using Robust.Shared.Maths;
-using System.Runtime.CompilerServices;
 
 namespace Content.Shared.Atmos.EntitySystems;
 
@@ -111,7 +112,117 @@ public abstract partial class SharedAtmosphereSystem
     [PublicAPI]
     public void GetFlammableMoles(GasMixture mixture, float[] buffer)
     {
-        NumericsHelpers.Multiply(mixture.Moles, GasOxidiserFuelMask, buffer);
+        TensorPrimitives.Multiply(mixture.Moles, GasOxidiserFuelMask, buffer);
+    }
+
+    /// <summary>
+    /// Computes the blended fire color for a gas mixture based on the proportional
+    /// moles of each reactive gas present (fuels and oxidizers with burn colors).
+    /// Mixing is performed in Oklab perceptual color space for smooth, natural blends.
+    /// </summary>
+    [PublicAPI]
+    public Color GetFuelBurnColor(GasMixture mixture)
+    {
+        var defaultColor = Color.FromHex("#FFB733");
+        var totalMoles = 0f;
+        var labL = 0f;
+        var labA = 0f;
+        var labB = 0f;
+        var alpha = 0f;
+
+        for (var i = 0; i < Atmospherics.TotalNumberOfGases; i++)
+        {
+            if (GasFuelMask[i] == 0 && GasOxidizerMask[i] == 0)
+                continue;
+
+            var moles = mixture.GetMoles(i);
+            if (moles <= Atmospherics.Epsilon)
+                continue;
+
+            var burnColor = GasPrototypes[i].BurnColor;
+            if (burnColor == defaultColor)
+                continue;
+
+            SrgbToOklab(burnColor, out var gL, out var gA, out var gB);
+            totalMoles += moles;
+            labL += gL * moles;
+            labA += gA * moles;
+            labB += gB * moles;
+            alpha += burnColor.A * moles;
+        }
+
+        if (totalMoles <= Atmospherics.Epsilon)
+            return defaultColor;
+
+        var result = OklabToSrgb(labL / totalMoles, labA / totalMoles, labB / totalMoles);
+        result.A = alpha / totalMoles;
+        return result;
+    }
+
+    /// <summary>
+    /// Converts an sRGB <see cref="Color"/> (0-1 floats) to Oklab (L, a, b).
+    /// </summary>
+    private static void SrgbToOklab(Color c, out float L, out float a, out float b)
+    {
+        // sRGB → linear
+        var lr = SrgbToLinear(c.R);
+        var lg = SrgbToLinear(c.G);
+        var lb = SrgbToLinear(c.B);
+
+        // Linear RGB → LMS
+        var l = 0.4122214708f * lr + 0.5363325363f * lg + 0.0514459929f * lb;
+        var m = 0.2119034982f * lr + 0.6806995451f * lg + 0.1073969566f * lb;
+        var s = 0.0883024619f * lr + 0.2817188376f * lg + 0.6299787005f * lb;
+
+        // Cube root
+        var lc = MathF.Cbrt(l);
+        var mc = MathF.Cbrt(m);
+        var sc = MathF.Cbrt(s);
+
+        // LMS → Oklab
+        L = 0.2104542553f * lc + 0.7936177850f * mc - 0.0040720468f * sc;
+        a = 1.9779984951f * lc - 2.4285922050f * mc + 0.4505937099f * sc;
+        b = 0.0259040371f * lc + 0.7827717662f * mc - 0.8086757660f * sc;
+    }
+
+    /// <summary>
+    /// Converts Oklab (L, a, b) back to an sRGB <see cref="Color"/>.
+    /// </summary>
+    private static Color OklabToSrgb(float L, float a, float b)
+    {
+        // Oklab → LMS (cube-root space)
+        var lc = L + 0.3963377774f * a + 0.2158037573f * b;
+        var mc = L - 0.1055613458f * a - 0.0638541728f * b;
+        var sc = L - 0.0894841775f * a - 1.2914855480f * b;
+
+        // Undo cube root
+        var l = lc * lc * lc;
+        var m = mc * mc * mc;
+        var s = sc * sc * sc;
+
+        // LMS → linear RGB
+        var lr = +4.0767416621f * l - 3.3077115913f * m + 0.2309699292f * s;
+        var lg = -1.2684380046f * l + 2.6097574011f * m - 0.3413193965f * s;
+        var lb = -0.0041960863f * l - 0.7034186147f * m + 1.7076147010f * s;
+
+        // linear → sRGB, clamped
+        return new Color(
+            LinearToSrgb(lr),
+            LinearToSrgb(lg),
+            LinearToSrgb(lb));
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static float SrgbToLinear(float c)
+    {
+        return c <= 0.04045f ? c / 12.92f : MathF.Pow((c + 0.055f) / 1.055f, 2.4f);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static float LinearToSrgb(float c)
+    {
+        c = Math.Clamp(c, 0f, 1f);
+        return c <= 0.0031308f ? c * 12.92f : 1.055f * MathF.Pow(c, 1f / 2.4f) - 0.055f;
     }
 
     /// <summary>
@@ -324,7 +435,7 @@ public abstract partial class SharedAtmosphereSystem
             }
         }
 
-        NumericsHelpers.Add(receiver.Moles, giver.Moles);
+        TensorPrimitives.Add(receiver.Moles, giver.Moles, receiver.Moles);
     }
 
     /// <summary>
