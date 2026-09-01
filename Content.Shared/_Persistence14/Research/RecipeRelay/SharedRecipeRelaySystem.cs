@@ -4,6 +4,7 @@ using Content.Shared._Persistence14.PersistentIdentifier.Reference;
 using Content.Shared.Popups;
 using Content.Shared.Power;
 using Content.Shared.Power.Components;
+using Robust.Shared.Player;
 
 namespace Content.Shared._Persistence14.Research.RecipeRelay;
 
@@ -119,10 +120,10 @@ public sealed partial class SharedRecipeRelaySystem : EntitySystem
             !TryComp<RecipeRelayReceiverComponent>(receiverUid, out var receiverComp))
             return;
 
-        ToggleRelayLink((sourceUid, sourceComp), (receiverUid, receiverComp));
+        ToggleRelayLink((sourceUid, sourceComp), (receiverUid, receiverComp), message.Actor);
     }
 
-    public void UpdateSourceUI(Entity<RecipeRelaySourceComponent> sourceEnt)
+    public void UpdateSourceUI(Entity<RecipeRelaySourceComponent> sourceEnt, EntityUid? user)
     {
         var (uid, comp) = sourceEnt;
         var sourceKey = _pid.EnsureId(uid, out var sourceIdEnt);
@@ -138,11 +139,11 @@ public sealed partial class SharedRecipeRelaySystem : EntitySystem
         while (query.MoveNext(out var receiverUid, out var receiverComp, out var receiverTransform))
         {
             var receiver = (receiverUid, receiverComp, receiverTransform);
-            if (!IsValidReceiver(source, receiver))
+            if (!IsValidReceiver(source, receiver, user, out var canChangeState, out var tooltip))
                 continue;
 
             var connected = receiverComp.Source == sourceKey;
-            validReceivers.Add(new RecipeRelayReceiverState(GetNetEntity(receiverUid), Name(receiverUid), connected));
+            validReceivers.Add(new RecipeRelayReceiverState(GetNetEntity(receiverUid), Name(receiverUid), connected, canChangeState, tooltip));
         }
 
         var state = new RecipeRelaySourceBoundUserInterfaceState(validReceivers);
@@ -151,10 +152,49 @@ public sealed partial class SharedRecipeRelaySystem : EntitySystem
 
     private bool IsValidReceiver(
         Entity<RecipeRelaySourceComponent, TransformComponent, PersistentIdentifierComponent> source,
-        Entity<RecipeRelayReceiverComponent, TransformComponent> receiver)
+        Entity<RecipeRelayReceiverComponent, TransformComponent> receiver, EntityUid? user, out bool canChangeState, out string? blockedTooltip)
     {
-        return source.Comp2.MapID == receiver.Comp2.MapID &&    // Same Map
-            (!receiver.Comp1.HasSource || receiver.Comp1.Source == source.Comp3.Id); // Either unlinked or linked to eachother
+        canChangeState = true;
+        blockedTooltip = null;
+        if (source.Comp2.MapID != receiver.Comp2.MapID)
+            return false; // Can never link across maps.
+
+        // TODO: It feels very odd that this is duplicated twice... these events are too similar.
+
+        // Receiver and source are already connected
+        if (receiver.Comp1.Source == source.Comp3.Id)
+        {
+            var args = new RecipeRelayUnlinkAttemptEvent
+            {
+                Source = source,
+                Receiver = receiver,
+                User = user
+            };
+            RaiseLocalEvent(source, ref args);
+            RaiseLocalEvent(receiver, ref args);
+            canChangeState = !args.Cancelled;
+            blockedTooltip = args.BlockedTooltip;
+            return args.AllowDisplay;
+        }
+
+        // Receiver and source are already
+        if (!receiver.Comp1.HasSource)
+        {
+            var args = new RecipeRelayLinkAttemptEvent
+            {
+                Source = source,
+                Receiver = receiver,
+                User = user
+            };
+            RaiseLocalEvent(source, ref args);
+            RaiseLocalEvent(receiver, ref args);
+            canChangeState = !args.Cancelled;
+            blockedTooltip = args.BlockedTooltip;
+            return args.AllowDisplay;
+        }
+
+        // Reaching this point implies that receiver is already connected and that it is not connected to this source.
+        return false;
     }
 
     private void OnPowerChanged(Entity<RecipeRelaySourceComponent> source, ref PowerChangedEvent args)
@@ -167,6 +207,6 @@ public sealed partial class SharedRecipeRelaySystem : EntitySystem
 
     private void OnUiOpened(Entity<RecipeRelaySourceComponent> source, ref BoundUIOpenedEvent args)
     {
-        UpdateSourceUI(source);
+        UpdateSourceUI(source, args.Actor);
     }
 }
