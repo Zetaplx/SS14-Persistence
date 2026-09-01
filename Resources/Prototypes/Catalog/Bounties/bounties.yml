@@ -18,11 +18,43 @@
     name: bounty-item-knife
     amount: 20
     whitelist:
-      components:
-      - Sharp
       tags:
       - UtilityKnife
+      - Knife
 
+- type: cargoBounty
+  id: BountyLemon
+  reward: 10000
+  description: bounty-description-lemon
+  entries:
+  - name: bounty-item-lemon
+    amount: 7
+    whitelist:
+      tags:
+      - Lemon
+
+- type: cargoBounty
+  id: BountyLime
+  reward: 10000
+  description: bounty-description-lime
+  idPrefix: CC
+  entries:
+  - name: bounty-item-lime
+    amount: 7
+    whitelist:
+      tags:
+      - Lime
+
+- type: cargoBounty
+  id: BountyLung
+  reward: 2000
+  description: bounty-description-lung
+  entries:
+  - name: bounty-item-lung
+    amount: 3
+    whitelist:
+      components:
+      - Lung
 
 - type: cargoBounty
   id: BountyMonkeyCube
@@ -160,6 +192,7 @@
     blacklist:
       components:
       - PowerCell
+
 
 - type: cargoBounty
   id: BountyBedsheet
