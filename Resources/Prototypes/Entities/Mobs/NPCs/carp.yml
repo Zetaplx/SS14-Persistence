@@ -1,13 +1,7 @@
 - type: entity
   id: BaseMobCarp
-  name: space carp
-  id: BaseMobCarp
   parent: [ SimpleSpaceMobBase, FlyingMobBase, MobCombat, BaseSlicingRefinable ]
   description: It's a space carp.
-  parent:
-  - SimpleSpaceMobBase
-  - FlyingMobBase
-  - MobCombat
   abstract: true
   components:
   - type: InputMover
@@ -57,8 +51,8 @@
       Dead:
         Base: dead
         BaseUnshaded: dead_mouth
-  - type: Butcherable
-    spawned:
+  - type: ToolRefinable
+    refineResult:
     - id: FoodMeatFish
       amount: 2
     - id: MaterialToothSpaceCarp1
@@ -191,6 +185,7 @@
     - type: Temperature
     - type: TemperatureDamage
       heatDamageThreshold: 1200
+
 - type: entity
   id: MobCarpDungeon
   parent: MobCarp
@@ -247,8 +242,8 @@
         Dead:
           Base: dead
           BaseUnshaded: dead_mouth
-    - type: Butcherable
-      spawned:
+    - type: ToolRefinable
+      refineResult:
         - id: FoodMeatFish
           amount: 4
         - id: MaterialToothSharkminnow1

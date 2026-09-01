@@ -217,7 +217,7 @@
       amount: 2
 
 - type: entity
-  parent: [ProduceBase, BaseSlicingRefinable]
+  parent: ProduceBase # Persistence14: Removed BaseSlicingRefinable component since we aren't using ToolRefinable
   id: SteelLog
   name: steel-cap log
   description: Steel doesn't grow on trees! It grows on mushrooms, of course.
@@ -230,8 +230,8 @@
     damage:
       types:
         Blunt: 12
-# - type: Produce
-#   seedId: steelcap
+  - type: Produce
+    seedId: steelcap
 # - type: ToolRefinable
 #   qualityNeeded: Sawing
 #   refineResult:
