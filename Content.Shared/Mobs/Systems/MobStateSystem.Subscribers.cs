@@ -18,6 +18,7 @@ using Content.Shared.Standing;
 using Content.Shared.Strip.Components;
 using Content.Shared.Throwing;
 using Content.Shared.Tools.Systems;
+using Content.Shared.Movement.Pulling.Components;
 
 namespace Content.Shared.Mobs.Systems;
 
@@ -129,11 +130,11 @@ public partial class MobStateSystem
             case MobState.Critical:
             case MobState.SoftCritical: // funky
             case MobState.HardCritical: // funky
-            {
-                Down(target);
-                _appearance.SetData(target, MobStateVisuals.State, MobState.Critical);
-                break;
-            }
+                {
+                    Down(target);
+                    _appearance.SetData(target, MobStateVisuals.State, MobState.Critical);
+                    break;
+                }
             case MobState.Dead:
                 {
                     EnsureComp<CollisionWakeComponent>(target);
