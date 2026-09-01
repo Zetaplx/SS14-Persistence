@@ -144,7 +144,6 @@
 - type: entity
   id: XenoArtifactToolDrill
   parent: BaseOneTimeXenoArtifactEffect
-  id: XenoArtifactDrill
   description: Obtains ability of drill
   components:
   - type: XAEApplyComponents
@@ -1650,58 +1649,6 @@
     range: 7.5
     messages:
     - shuffle-artifact-popup
-
-- type: entity
-  id: XenoArtifactHealBrute
-  parent: BaseXenoArtifactEffect
-  description: Mends brute injuries
-  components:
-  - type: XAEDamageInArea
-    damageChance: 1
-    radius: 8
-    whitelist:
-      components:
-      - MobState
-    damage:
-      types:
-        Blunt: -50
-        Piercing: -50
-        Slash: -50
-
-- type: entity
-  id: XenoArtifactHealBurn
-  parent: BaseXenoArtifactEffect
-  description: Soothes burn injuries
-  components:
-  - type: XAEDamageInArea
-    damageChance: 1
-    radius: 8
-    whitelist:
-      components:
-      - MobState
-    damage:
-      types:
-        Heat: -50
-        Cold: -50
-        Shock: -50
-
-- type: entity
-  id: XenoArtifactHealRare
-  parent: BaseXenoArtifactEffect
-  description: Cures uncommon injuries
-  components:
-  - type: XAEDamageInArea
-    damageChance: 1
-    radius: 8
-    whitelist:
-      components:
-      - MobState
-    damage:
-      types:
-        Caustic: -50
-        Poison: -50
-        Radiation: -50
-        Cellular: -50
 
 - type: entity
   id: XenoArtifactHealBrute

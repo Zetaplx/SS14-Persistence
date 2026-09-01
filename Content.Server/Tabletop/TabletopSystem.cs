@@ -6,7 +6,7 @@ using Content.Shared.Tabletop.Events;
 using Robust.Server.GameObjects;
 using Robust.Shared.Enums;
 using Robust.Shared.Player;
-using Content.Server.Tabletop.Components;
+using Content.Server.Tabletop;
 
 namespace Content.Server.Tabletop;
 

@@ -6,8 +6,8 @@
   <Import Project="../MSBuild/Content.props" />
   <ItemGroup>
     <PackageReference Include="JetBrains.Annotations" PrivateAssets="All" />
-    <PackageReference Include="System.Numerics.Tensors" />
     <PackageReference Include="YamlDotNet" />
+    <PackageReference Include="System.Numerics.Tensors" />
   </ItemGroup>
 
   <Import Project="..\RobustToolbox\Imports\Lidgren.props" />

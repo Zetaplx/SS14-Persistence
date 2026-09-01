@@ -1,5 +1,4 @@
 using System.Numerics;
-using Content.Server.Tabletop.Components;
 using Content.Shared.Tabletop;
 using Content.Shared.Tabletop.Components;
 using Content.Shared.Tabletop.Events;

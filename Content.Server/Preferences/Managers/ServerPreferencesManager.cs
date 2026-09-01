@@ -4,6 +4,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Content.Server.Afk;
+using Content.Server.CrewRecords.Systems;
 using Content.Server.Database;
 using Content.Server.GameTicking;
 using Content.Shared.Body;
