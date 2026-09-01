@@ -33,7 +33,7 @@
         mask:
         - MachineMask
         layer:
-        - HalfWallLayer
+        - MachineLayer
   - type: EntityStorage
     isCollidableWhenOpen: true
     showContents: false
@@ -76,6 +76,7 @@
     graph: MorgueGraph
     node: morgue
   - type: Label
+  - type: RequireProjectileTarget
 
 - type: entity
   id: MorgueAssembly
@@ -114,6 +115,7 @@
   - type: Construction
     graph: MorgueGraph
     node: cables
+    price: 200
 
 - type: entity
   id: Crematorium
@@ -187,6 +189,7 @@
   - type: Construction
     graph: CrematoriumGraph
     node: crematorium
+  - type: RequireProjectileTarget
 
 - type: entity
   id: CrematoriumAssembly
