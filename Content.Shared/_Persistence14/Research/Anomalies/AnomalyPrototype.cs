@@ -77,13 +77,15 @@ public sealed partial class AnomalyPrototype : IPrototype
     }
 
 
-    public bool TryGetSpawnableProtoId(IRobustRandom random, out EntProtoId spawnable)
+    public bool TryGetSpawnableProtoId(IRobustRandom random, out EntProtoId spawnable, AnomalySpawnType type = AnomalySpawnType.Random)
     {
         spawnable = default!;
         if (!HasEnvironmental && !HasInfectious) return false;
 
-        if (!HasInfectious) return TrySpawnEnvironmental(random, out spawnable);
-        if (!HasEnvironmental) return TrySpawnInfectious(random, out spawnable);
+        if (!HasInfectious || type == AnomalySpawnType.Environmental)
+            return TrySpawnEnvironmental(random, out spawnable);
+        if (!HasEnvironmental || type == AnomalySpawnType.Infectious)
+            return TrySpawnInfectious(random, out spawnable);
 
         var total = EnvironmentalWeight + InfectiousWeight;
         var pick = random.Next(total);
@@ -139,4 +141,11 @@ public sealed partial class AnomalyPrototype : IPrototype
         }
         return variants.Last().Key;
     }
+}
+
+public enum AnomalySpawnType
+{
+    Environmental,
+    Infectious,
+    Random
 }
