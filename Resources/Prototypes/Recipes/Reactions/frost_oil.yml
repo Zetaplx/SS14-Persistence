@@ -1,6 +1,3 @@
-#Persistence 14
-#Replacing some recipes with fresium
-
 - type: reaction
   id: SolidifyGold
   impact: Low
@@ -8,7 +5,7 @@
   reactants:
     Gold:
       amount: 10
-    Fresium:
+    FrostOil:
       amount: 5
   group: Precipitate
   effects:
@@ -22,7 +19,7 @@
   reactants:
     Silver:
       amount: 10
-    Fresium:
+    FrostOil:
       amount: 5
   group: Precipitate
   effects:
@@ -36,7 +33,7 @@
   reactants:
     Copper:
       amount: 10
-    Fresium:
+    FrostOil:
       amount: 5
   group: Precipitate
   effects:
@@ -50,7 +47,7 @@
   reactants:
     Tin:
       amount: 10
-    Fresium:
+    FrostOil:
       amount: 5
   group: Precipitate
   effects:
@@ -64,7 +61,7 @@
   reactants:
     Plasma:
       amount: 10
-    FrostOil:
+    Fresium:
       amount: 5
   group: Precipitate
   effects:
@@ -80,7 +77,7 @@
       amount: 9
     Carbon:
       amount: 1
-    Fresium:
+    FrostOil:
       amount: 5
   group: Precipitate
   effects:
@@ -161,7 +158,7 @@
   reactants:
     Aluminium:
       amount: 10
-    Fresium:
+    FrostOil:
       amount: 5
   group: Precipitate
   effects:
@@ -175,7 +172,7 @@
   reactants:
     Silicon:
       amount: 10
-    Fresium:
+    FrostOil:
       amount: 5
   group: Precipitate
   effects:
