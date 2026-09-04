@@ -1,3 +1,9 @@
+---
+name: Issue Template
+about: Report a bug, suggest a feature, or request a change.
+title: ""
+labels: []
+---
 <!-- This issue template provides an outline of what you should include in your issue. -->
 ## Overview
 <!-- Give a general summary of the feature/issue you would like to add to the project discussion. -->
