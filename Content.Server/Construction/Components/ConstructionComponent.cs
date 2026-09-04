@@ -3,7 +3,7 @@ using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototy
 
 namespace Content.Server.Construction.Components
 {
-    [RegisterComponent, Access(typeof(ConstructionSystem))]
+    [Access(typeof(ConstructionSystem))]
     public sealed partial class ConstructionComponent : Component
     {
         [DataField("graph", required: true, customTypeSerializer: typeof(PrototypeIdSerializer<ConstructionGraphPrototype>))]

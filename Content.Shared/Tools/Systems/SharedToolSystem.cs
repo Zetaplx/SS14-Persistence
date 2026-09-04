@@ -235,7 +235,8 @@ public abstract partial class SharedToolSystem : EntitySystem
         return Resolve(uid, ref tool, false) && tool.Qualities.ContainsAll(qualities);
     }
 
-    private bool CanStartToolUse(EntityUid tool, EntityUid user, EntityUid? target, float fuel, IEnumerable<string> toolQualitiesNeeded, ToolComponent? toolComponent = null)
+    // Made public for Persistence14, allows for use in Construction Steps
+    public bool CanStartToolUse(EntityUid tool, EntityUid user, EntityUid? target, float fuel, IEnumerable<string> toolQualitiesNeeded, ToolComponent? toolComponent = null)
     {
         if (!Resolve(tool, ref toolComponent))
             return false;
