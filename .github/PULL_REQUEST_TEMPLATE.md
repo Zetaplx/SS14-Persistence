@@ -1,4 +1,4 @@
-<!-- Guidelines: https://docs.spacestation14.io/en/getting-started/pr-guideline -->
+<!-- Guidelines: docs/github-guidelines.md -->
 
 ## About the PR
 <!-- What did you change? -->
