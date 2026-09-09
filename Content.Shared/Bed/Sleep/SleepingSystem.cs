@@ -1,6 +1,8 @@
 using Content.Shared.Actions;
 using Content.Shared.Actions.Components;
 using Content.Shared.Buckle.Components;
+using Content.Shared.Cuffs;
+using Content.Shared.Damage;
 using Content.Shared.Damage.Events;
 using Content.Shared.Damage.ForceSay;
 using Content.Shared.Damage.Systems;
@@ -202,6 +204,12 @@ public sealed partial class SleepingSystem : EntitySystem
     {
         // Shh the Urist McHands is sleeping...
         args.Cancelled = true;
+    }
+
+    [SubscribeLocalEvent]
+    private void OnIncapCuffCheck(Entity<SleepingComponent> ent, ref CheckIncapacitatedCuffEvent args)
+    {
+        args.Incapacitated = true;
     }
 
     private void OnExamined(Entity<SleepingComponent> ent, ref ExaminedEvent args)

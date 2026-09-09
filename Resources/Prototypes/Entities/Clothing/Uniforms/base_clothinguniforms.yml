@@ -73,7 +73,6 @@
     - sprite: _Funkystation/Effects/blood.rsi
       state: uniformbloodicon
 
-
 - type: entity
   abstract: true
   parent: UnsensoredClothingUniformBase
