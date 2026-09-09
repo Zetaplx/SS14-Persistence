@@ -46,6 +46,8 @@ public sealed partial class ShuttleNavControl : BaseShuttleControl
 
     public bool ShowIFF { get; set; } = true;
     public bool ShowDocks { get; set; } = true;
+    public bool ShowCargoDocks { get; set; } = true;
+    public bool ShowArrivalDocks { get; set; } = true;
     public bool RotateWithEntity { get; set; } = true;
     public IFFSortMode SortMode { get; set; } = IFFSortMode.Station | IFFSortMode.Ship | IFFSortMode.Other;
     public Vector2? WaypointCoords = null;
@@ -431,7 +433,7 @@ public sealed partial class ShuttleNavControl : BaseShuttleControl
 
     private void DrawDocks(DrawingHandleScreen handle, EntityUid uid, Matrix3x2 gridToView)
     {
-        if (!ShowDocks)
+        if (!ShowDocks && !ShowCargoDocks && !ShowArrivalDocks)
             return;
 
         const float dockScale = 0.6f;
@@ -471,7 +473,18 @@ public sealed partial class ShuttleNavControl : BaseShuttleControl
                 verts[2] = Vector2.Transform(position + bottomRight, gridToView);
                 verts[3] = Vector2.Transform(position + bottomLeft, gridToView);
 
-                handle.DrawPrimitives(DrawPrimitiveTopology.TriangleFan, verts, color.WithAlpha(0.8f));
+                switch (state.Category)
+                {
+                    case LegendCategory.Cargo when !ShowCargoDocks:
+                    case LegendCategory.Arrivals when !ShowArrivalDocks:
+                    case LegendCategory.General when !ShowDocks:
+                        continue;
+                }
+
+                if (state.GridDockedWith == null)
+                    handle.DrawPrimitives(DrawPrimitiveTopology.TriangleFan, verts, color.WithAlpha(0.8f));
+                else
+                    handle.DrawPrimitives(DrawPrimitiveTopology.TriangleFan, verts, color.WithAlpha(0.2f));
                 handle.DrawPrimitives(DrawPrimitiveTopology.LineStrip, verts, color);
             }
         }
