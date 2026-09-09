@@ -123,7 +123,7 @@ namespace Content.Client.Construction.UI
                     return;
                 if (b)
                     _placementManager.Clear();
-                _placementManager.ToggleEraserHijacked(new ConstructionPlacementHijack(_constructionSystem, null));
+                _placementManager.ToggleEraserHijacked(new ConstructionPlacementHijack(null));
                 _constructionView.EraseButtonPressed = b;
             };
 
@@ -303,7 +303,7 @@ namespace Content.Client.Construction.UI
                     IsTile = false,
                     PlacementOption = _selected.PlacementMode
                 },
-                    new ConstructionPlacementHijack(_constructionSystem, _selected));
+                new ConstructionPlacementHijack(_selected));
 
                 UpdateGhostPlacement();
             }
@@ -529,7 +529,7 @@ namespace Content.Client.Construction.UI
         /// </summary>
         private void TrySelectRecipeFromHistory(RecipeHistoryRecord record)
         {
-            if(!_prototypeManager.TryIndex(record.ConstructionProtoId, out var constructionProto))
+            if (!_prototypeManager.TryIndex(record.ConstructionProtoId, out var constructionProto))
                 return;
 
             _constructionView.TrySelectCategory(record.CategoryId);
@@ -548,7 +548,7 @@ namespace Content.Client.Construction.UI
                 _constructionView.TrySelectListViewButton(constructionProto.ID);
             }
 
-            OnViewRecipeSelected(this, constructionProto, appendToHistory:false);
+            OnViewRecipeSelected(this, constructionProto, appendToHistory: false);
             SyncRecipeHistoryButtons();
         }
 
@@ -580,7 +580,7 @@ namespace Content.Client.Construction.UI
                 case 0:
                     _recipeHistoryIndex = -1;
                     break;
-                case >0:
+                case > 0:
                     _recipeHistoryIndex = int.Clamp(_recipeHistoryIndex, 0, _recipeHistory.Count - 1);
                     break;
             }
@@ -610,7 +610,7 @@ namespace Content.Client.Construction.UI
                 IsTile = false,
                 PlacementOption = _selected.PlacementMode,
             },
-                new ConstructionPlacementHijack(constructSystem, _selected));
+            new ConstructionPlacementHijack( _selected));
 
             _constructionView.BuildButtonPressed = true;
         }
@@ -829,13 +829,13 @@ internal struct RecipeHistoryRecord : IEquatable<RecipeHistoryRecord>
     {
         return HashCode.Combine(ConstructionProtoId.GetHashCode(), CategoryId.GetHashCode());
     }
-    public static bool operator == (RecipeHistoryRecord left, RecipeHistoryRecord right)
+    public static bool operator ==(RecipeHistoryRecord left, RecipeHistoryRecord right)
     {
         return left.ConstructionProtoId.Equals(right.ConstructionProtoId)
-            &&  left.CategoryId == right.CategoryId;
+            && left.CategoryId == right.CategoryId;
     }
 
-    public static bool operator != (RecipeHistoryRecord left, RecipeHistoryRecord right)
+    public static bool operator !=(RecipeHistoryRecord left, RecipeHistoryRecord right)
     {
         return !left.ConstructionProtoId.Equals(right.ConstructionProtoId);
     }

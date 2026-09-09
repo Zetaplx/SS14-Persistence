@@ -59,9 +59,7 @@ public sealed class DockTest : GameTest
             };
 
             mapSystem.SetTiles(grid1.Owner, grid1.Comp, tiles1);
-            var dock1 = entManager.SpawnEntity("AirlockShuttle", new EntityCoordinates(grid1Ent, dock1Pos));
-            var dock1Xform = entManager.GetComponent<TransformComponent>(dock1);
-            dock1Xform.LocalRotation = dock1Angle;
+            var dock1 = entManager.SpawnAttachedTo("AirlockShuttle", new EntityCoordinates(grid1Ent, dock1Pos), rotation: dock1Angle);
 
             var tiles2 = new List<(Vector2i Index, Tile Tile)>()
             {
@@ -73,9 +71,7 @@ public sealed class DockTest : GameTest
             };
 
             mapSystem.SetTiles(grid2.Owner, grid2.Comp, tiles2);
-            var dock2 = entManager.SpawnEntity("AirlockShuttle", new EntityCoordinates(grid2Ent, dock2Pos));
-            var dock2Xform = entManager.GetComponent<TransformComponent>(dock2);
-            dock2Xform.LocalRotation = dock2Angle;
+            var dock2 = entManager.SpawnAttachedTo("AirlockShuttle", new EntityCoordinates(grid2Ent, dock2Pos), rotation: dock2Angle);
 
             var config = dockingSystem.GetDockingConfig(grid1Ent, grid2Ent);
 

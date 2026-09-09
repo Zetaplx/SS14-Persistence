@@ -482,24 +482,14 @@ public sealed partial class ContainmentFieldGeneratorSystem : EntitySystem
         while (currentOffset.Length() < stopDist)
         {
             var currentCoords = gen1Coords.Offset(currentOffset);
-            var newField = Spawn(firstGen.Comp.CreatedField, currentCoords);
-
-            // Mark source generator so ContainmentFieldSystem timeout logic can verify active links.
-            var fieldComp = EnsureComp<ContainmentFieldComponent>(newField);
-            fieldComp.GeneratorUid = firstGen.Owner;
-
-            var fieldXForm = Transform(newField);
-            _transformSystem.SetParent(newField, fieldXForm, firstGen);
-
-            // Preserve known-good layering and apply explicit cardinal orientation.
-            if (segmentDirection == Direction.East || segmentDirection == Direction.West)
+            var rotation = Angle.Zero;
+            if (dirVec.GetDir() == Direction.East || dirVec.GetDir() == Direction.West)
             {
-                fieldXForm.LocalRotation = Angle.FromDegrees(90);
+                var angle = currentOffset.ToAngle();
+                var rotateBy90 = angle.Degrees + 90;
+                rotation = Angle.FromDegrees(rotateBy90);
             }
-            else
-            {
-                fieldXForm.LocalRotation = Angle.Zero;
-            }
+            var newField = SpawnAttachedTo(firstGen.Comp.CreatedField, currentCoords, rotation: rotation);
 
             fieldList.Add(newField);
             currentOffset += dirVec;
