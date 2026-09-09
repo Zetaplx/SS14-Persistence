@@ -12,9 +12,10 @@ using Content.Shared.Mobs;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Mobs.Events;
 using Content.Shared.Mobs.Systems;
+using Content.Shared.Speech.Muting;
+using Content.Shared.StatusEffectNew;
 using Content.Shared.Players;
 using Content.Shared.Preferences;
-using Content.Shared.Speech.Muting;
 using Content.Shared.Tag;
 using Robust.Server.Console;
 using Robust.Server.GameObjects;
@@ -30,20 +31,22 @@ namespace Content.Server.Mobs;
 /// </summary>
 public sealed partial class CritMobActionsSystem : EntitySystem
 {
-    [Dependency] private readonly ChatSystem _chat = default!;
-    [Dependency] private readonly DeathgaspSystem _deathgasp = default!;
-    [Dependency] private readonly IServerConsoleHost _host = default!;
-    [Dependency] private readonly MobStateSystem _mobState = default!;
-    [Dependency] private readonly PopupSystem _popupSystem = default!;
-    [Dependency] private readonly QuickDialogSystem _quickDialog = default!;
-    [Dependency] private readonly GameTicker _ticker = default!;
-    [Dependency] private readonly IServerPreferencesManager _prefsManager = default!;
-    [Dependency] private readonly UserInterfaceSystem _ui = default!;
-    [Dependency] private readonly IGameTiming _timing = default!;
-    [Dependency] private readonly RadioSystem _radio = default!;
-    [Dependency] private readonly SharedTransformSystem _transform = default!;
-    [Dependency] private readonly IConfigurationManager _configurationManager = default!;
-    [Dependency] private readonly TagSystem _tag = default!;
+    [Dependency] private ChatSystem _chat = default!;
+    [Dependency] private DeathgaspSystem _deathgasp = default!;
+    [Dependency] private IServerConsoleHost _host = default!;
+    [Dependency] private MobStateSystem _mobState = default!;
+    [Dependency] private PopupSystem _popupSystem = default!;
+    [Dependency] private QuickDialogSystem _quickDialog = default!;
+    [Dependency] private GameTicker _ticker = default!;
+    [Dependency] private IServerPreferencesManager _prefsManager = default!;
+    [Dependency] private UserInterfaceSystem _ui = default!;
+    [Dependency] private IGameTiming _timing = default!;
+    [Dependency] private RadioSystem _radio = default!;
+    [Dependency] private SharedTransformSystem _transform = default!;
+    [Dependency] private IConfigurationManager _configurationManager = default!;
+    [Dependency] private TagSystem _tag = default!;
+    [Dependency] private StatusEffectsSystem _statusEffects = default!;
+
     private const int MaxLastWordsLength = 30;
     private static readonly ProtoId<TagPrototype> NoGibTag = "NoGib";
 
@@ -75,7 +78,7 @@ public sealed partial class CritMobActionsSystem : EntitySystem
         if (!_mobState.IsCritical(uid))
             return;
 
-        if (HasComp<MutedComponent>(uid))
+        if (_statusEffects.HasEffectComp<MutedStatusEffectComponent>(uid))
         {
             _popupSystem.PopupEntity(Loc.GetString("fake-death-muted"), uid, uid);
             return;
