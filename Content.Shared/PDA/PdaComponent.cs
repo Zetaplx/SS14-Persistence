@@ -1,7 +1,8 @@
+using Content.Shared.AlertLevel;
 using Content.Shared.Containers.ItemSlots;
 using Robust.Shared.GameStates;
-using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype;
+using Robust.Shared.Prototypes;
 
 namespace Content.Shared.PDA
 {
@@ -26,9 +27,9 @@ namespace Content.Shared.PDA
         [DataField("id", customTypeSerializer: typeof(PrototypeIdSerializer<EntityPrototype>))]
         public string? IdCard;
 
-        [DataField] public EntityUid? ContainedId;
-
-        [DataField] public bool FlashlightOn;
+        // TODO: Fix persistence
+        [ViewVariables] public EntityUid? ContainedId;
+        [ViewVariables] public bool FlashlightOn;
 
         [DataField] public string? OwnerName;
         // The Entity that "owns" the PDA, usually a player's character.
@@ -36,7 +37,8 @@ namespace Content.Shared.PDA
         // as well.
         [ViewVariables(VVAccess.ReadWrite)] public EntityUid? PdaOwner;
         [ViewVariables] public string? StationName;
-        [ViewVariables] public string? StationAlertLevel;
+        [ViewVariables]
+        public ProtoId<AlertLevelPrototype>? StationAlertLevel;
         [ViewVariables] public Color StationAlertColor = Color.White;
     }
 }

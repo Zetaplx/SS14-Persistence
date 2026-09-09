@@ -16,8 +16,7 @@ public sealed partial class LockComponent : Component
     /// <summary>
     /// Whether or not the lock is locked.
     /// </summary>
-    [DataField("locked"), ViewVariables(VVAccess.ReadWrite)]
-    [AutoNetworkedField]
+    [DataField, AutoNetworkedField]
     public bool Locked = true;
 
     /// <summary>
@@ -35,8 +34,7 @@ public sealed partial class LockComponent : Component
     /// <summary>
     /// Whether or not the lock is locked by simply clicking.
     /// </summary>
-    [DataField("lockOnClick"), ViewVariables(VVAccess.ReadWrite)]
-    [AutoNetworkedField]
+    [DataField, AutoNetworkedField]
     public bool LockOnClick;
 
     /// <summary>
@@ -80,7 +78,7 @@ public sealed partial class LockComponent : Component
     /// <summary>
     /// The sound played when unlocked.
     /// </summary>
-    [DataField("unlockingSound"), ViewVariables(VVAccess.ReadWrite)]
+    [DataField("unlockingSound")]
     public SoundSpecifier? UnlockSound = new SoundPathSpecifier("/Audio/Machines/door_lock_off.ogg")
     {
         Params = AudioParams.Default.AddVolume(-5f),
@@ -89,10 +87,10 @@ public sealed partial class LockComponent : Component
     /// <summary>
     /// The sound played when locked.
     /// </summary>
-    [DataField("lockingSound"), ViewVariables(VVAccess.ReadWrite)]
+    [DataField("lockingSound")]
     public SoundSpecifier? LockSound = new SoundPathSpecifier("/Audio/Machines/door_lock_on.ogg")
     {
-        Params = AudioParams.Default.WithVariation(-5f)
+        Params = AudioParams.Default.AddVolume(-5f)
     };
 
     /// <summary>
