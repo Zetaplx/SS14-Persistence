@@ -42,7 +42,7 @@ public sealed partial class HandTeleporterComponent : Component
     public SoundSpecifier NewPortalSound =
         new SoundPathSpecifier("/Audio/Machines/high_tech_confirm.ogg")
         {
-            Params = AudioParams.Default.WithVolume(-2f)
+            Params = AudioParams.Default.AddVolume(-2f)
         };
 
     [DataField("clearPortalsSound")]
