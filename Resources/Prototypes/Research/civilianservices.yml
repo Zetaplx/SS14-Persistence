@@ -191,6 +191,7 @@
   - AdvMopItem
   - MegaSprayBottle
   - BorgModuleAdvancedCleaning
+  - TrashBagHolding
   - WashingMachineCircuitboard # Funky: Footprints & Stains
 
 - type: technology
