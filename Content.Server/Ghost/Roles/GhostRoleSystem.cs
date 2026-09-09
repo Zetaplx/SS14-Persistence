@@ -34,6 +34,8 @@ using Robust.Shared.Random;
 using Robust.Shared.Timing;
 using Robust.Shared.Utility;
 using System.Linq;
+using Content.Shared.Ghost.Systems;
+using Content.Shared.Ghost.Components;
 
 namespace Content.Server.Ghost.Roles;
 

@@ -1,4 +1,5 @@
-using Content.Shared.Ghost;
+using System.Linq;
+using Content.Shared.Ghost.Components;
 using Content.Shared.Mind;
 using Robust.Server.Player;
 using Robust.Shared.GameObjects;
