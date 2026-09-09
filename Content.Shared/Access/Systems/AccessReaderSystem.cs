@@ -16,6 +16,8 @@ using Content.Shared.PDA;
 using Content.Shared.Station;
 using Content.Shared.Station.Components;
 using Content.Shared.StationRecords;
+using Content.Shared.StationRecords.Components;
+using Content.Shared.StationRecords.Systems;
 using Content.Shared.Tag;
 using Robust.Shared.Collections;
 using Robust.Shared.Containers;
@@ -38,8 +40,8 @@ public sealed partial class AccessReaderSystem : EntitySystem
     [Dependency] private SharedGameTicker _gameTicker = default!;
     [Dependency] private SharedHandsSystem _handsSystem = default!;
     [Dependency] private SharedContainerSystem _containerSystem = default!;
-    [Dependency] private SharedStationRecordsSystem _recordsSystem = default!;
     [Dependency] private SharedStationSystem _station = default!;
+    [Dependency] private StationRecordsSystem _recordsSystem = default!;
     [Dependency] private IdentitySystem _identity = default!;
 
     private static readonly ProtoId<TagPrototype> PreventAccessLoggingTag = "PreventAccessLogging";

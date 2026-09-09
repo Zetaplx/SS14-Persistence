@@ -6,7 +6,6 @@ using Content.Server.Hands.Systems;
 using Content.Server.Inventory;
 using Content.Server.Popups;
 using Content.Server.Station.Systems;
-using Content.Server.StationRecords.Systems;
 using Content.Shared.Access.Systems;
 using Content.Shared.Bed.Cryostorage;
 using Content.Shared.Chat;
@@ -18,9 +17,6 @@ using Content.Shared.Hands.Components;
 using Content.Shared.Mind.Components;
 using Content.Shared.StationRecords;
 using Content.Shared.UserInterface;
-using Robust.Server.Audio;
-using Robust.Server.Containers;
-using Robust.Server.GameObjects;
 using Robust.Server.Player;
 using Robust.Shared.Containers;
 using Robust.Shared.EntitySerialization.Systems;
@@ -29,6 +25,13 @@ using Robust.Shared.Network;
 using Robust.Shared.Player;
 using Robust.Shared.Utility;
 using System.Globalization;
+using Content.Shared.Hands.EntitySystems;
+using Content.Shared.Inventory;
+using Content.Shared.Popups;
+using Content.Shared.Station;
+using Content.Shared.StationRecords.Components;
+using Content.Shared.StationRecords.Systems;
+using Robust.Shared.Audio.Systems;
 
 namespace Content.Server.Bed.Cryostorage;
 
@@ -37,22 +40,22 @@ public sealed partial class CryostorageSystem : SharedCryostorageSystem
 {
     [Dependency] private IChatManager _chatManager = default!;
     [Dependency] private IPlayerManager _playerManager = default!;
-    [Dependency] private AudioSystem _audio = default!;
+    [Dependency] private SharedAudioSystem _audio = default!;
     [Dependency] private AccessReaderSystem _accessReader = default!;
-    [Dependency] private ChatSystem _chatSystem = default!;
+    [Dependency] private SharedChatSystem _chatSystem = default!;
     [Dependency] private ClimbSystem _climb = default!;
-    [Dependency] private ContainerSystem _container = default!;
+    [Dependency] private SharedContainerSystem _container = default!;
     [Dependency] private GhostSystem _ghostSystem = default!;
-    [Dependency] private HandsSystem _hands = default!;
-    [Dependency] private ServerInventorySystem _inventory = default!;
-    [Dependency] private PopupSystem _popup = default!;
-    [Dependency] private StationSystem _station = default!;
+    [Dependency] private SharedHandsSystem _hands = default!;
+    [Dependency] private InventorySystem _inventory = default!;
+    [Dependency] private SharedPopupSystem _popup = default!;
+    [Dependency] private SharedStationSystem _station = default!;
     [Dependency] private StationJobsSystem _stationJobs = default!;
     [Dependency] private StationRecordsSystem _stationRecords = default!;
     [Dependency] private TransformSystem _transform = default!;
     [Dependency] private UserInterfaceSystem _ui = default!;
-    [Dependency] private readonly MapLoaderSystem _loader = default!;
-    [Dependency] private readonly GameTicker _ticker = default!;
+    [Dependency] private MapLoaderSystem _loader = default!;
+    [Dependency] private GameTicker _ticker = default!;
 
     /// <inheritdoc/>
     public override void Initialize()

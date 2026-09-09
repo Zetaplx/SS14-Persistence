@@ -334,7 +334,7 @@ public abstract partial class SharedSuitSensorSystem : EntitySystem
         if (userUid != null)
         {
             var msg = Loc.GetString("suit-sensor-mode-state", ("mode", GetModeName(mode)));
-            _popupSystem.PopupClient(msg, sensors, userUid.Value);
+            _popupSystem.PopupEntity(msg, sensors, userUid.Value);
         }
     }
 

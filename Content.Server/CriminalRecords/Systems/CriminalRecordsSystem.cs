@@ -9,7 +9,12 @@ using Content.Shared.CriminalRecords;
 using Content.Shared.CriminalRecords.Systems;
 using Content.Shared.Security;
 using Content.Shared.StationRecords;
-using System.Linq;
+using Content.Server.GameTicking;
+using Content.Server.Station.Systems;
+using Content.Shared.CartridgeLoader;
+using Content.Shared.CartridgeLoader.Cartridges;
+using Content.Shared.StationRecords.Events;
+using Content.Shared.StationRecords.Systems;
 
 namespace Content.Server.CriminalRecords.Systems;
 
@@ -32,14 +37,14 @@ public sealed partial class CriminalRecordsSystem : SharedCriminalRecordsSystem
     {
         base.Initialize();
 
-        SubscribeLocalEvent<AfterGeneralRecordCreatedEvent>(OnGeneralRecordCreated);
+        SubscribeLocalEvent<GeneralRecordCreatedEvent>(OnGeneralRecordCreated);
         SubscribeLocalEvent<WantedListCartridgeComponent, CriminalRecordChangedEvent>(OnRecordChanged);
         SubscribeLocalEvent<WantedListCartridgeComponent, CartridgeUiReadyEvent>(OnCartridgeUiReady);
         SubscribeLocalEvent<WantedListCartridgeComponent, CriminalHistoryAddedEvent>(OnHistoryAdded);
         SubscribeLocalEvent<WantedListCartridgeComponent, CriminalHistoryRemovedEvent>(OnHistoryRemoved);
     }
 
-    private void OnGeneralRecordCreated(AfterGeneralRecordCreatedEvent ev)
+    private void OnGeneralRecordCreated(ref GeneralRecordCreatedEvent ev)
     {
         _records.AddRecordEntry(ev.Key, new CriminalRecord());
         _records.Synchronize(ev.Key);
