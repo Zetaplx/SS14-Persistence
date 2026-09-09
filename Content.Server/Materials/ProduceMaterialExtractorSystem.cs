@@ -1,6 +1,7 @@
-using Content.Server.Botany.Components;
+using System.Linq;
 using Content.Server.Materials.Components;
 using Content.Server.Power.EntitySystems;
+using Content.Shared.Botany.Items.Components;
 using Content.Shared.Chemistry.EntitySystems;
 using Content.Shared.Interaction;
 using Content.Shared.Popups;
@@ -31,12 +32,10 @@ public sealed partial class ProduceMaterialExtractorSystem : EntitySystem
         if (!this.IsPowered(ent, EntityManager))
             return;
 
-        if (!TryComp<ProduceComponent>(args.Used, out var produce) && !TryComp<OrganComponent>(args.Used, out var produce2))
+        if (!TryComp<ProduceComponent>(args.Used, out var produce))
             return;
 
-        // TODO The "food" string should be replaced with a variable from Produce at some point
-
-        if (!_solutionContainer.TryGetSolution(args.Used, "food", out var solution))
+        if (!_solutionContainer.TryGetSolution(args.Used, produce.TargetSolution, out var solution))
             return;
 
         // Can produce even have fractional amounts? Does it matter if they do?
