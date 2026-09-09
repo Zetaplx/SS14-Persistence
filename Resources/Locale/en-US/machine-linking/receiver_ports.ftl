@@ -31,6 +31,9 @@ signal-port-description-direct-drive = Switches the door to be directly driven b
 signal-port-name-trigger-receiver = Trigger
 signal-port-description-trigger-receiver = Triggers some mechanism on the device.
 
+signal-port-name-timer = Timer
+signal-port-description-timer = Starts the timer countdown of the device.
+
 signal-port-name-order-sender = Order sender
 signal-port-description-order-sender = Cargo console order sender
 

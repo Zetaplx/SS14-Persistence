@@ -3,7 +3,6 @@ using Content.Shared.Research.Prototypes;
 using Content.Shared.Research.Systems;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
-using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype;
 
 namespace Content.Shared.Research.Components;
 
@@ -13,13 +12,11 @@ public sealed partial class TechnologyDatabaseComponent : Component
     /// <summary>
     /// A main discipline that locks out other discipline technology past a certain tier.
     /// </summary>
-    [AutoNetworkedField]
-    [DataField("mainDiscipline", customTypeSerializer: typeof(PrototypeIdSerializer<TechDisciplinePrototype>))]
-    public string? MainDiscipline;
+    [DataField, AutoNetworkedField]
+    public ProtoId<TechDisciplinePrototype>? MainDiscipline;
 
-    [AutoNetworkedField]
-    [DataField("currentTechnologyCards")]
-    public List<ProtoId<TechnologyPrototype>> CurrentTechnologyCards = new();
+    [DataField, AutoNetworkedField]
+    public List<string> CurrentTechnologyCards = new();
 
     /// <summary>
     /// Which research disciplines are able to be unlocked
