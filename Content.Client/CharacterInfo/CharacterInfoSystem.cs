@@ -1,7 +1,9 @@
 using Content.Shared.CharacterInfo;
 using Content.Shared.Objectives;
+using Content.Shared.Roles;
 using Robust.Client.Player;
 using Robust.Client.UserInterface;
+using Robust.Shared.Prototypes;
 
 namespace Content.Client.CharacterInfo;
 

@@ -139,7 +139,6 @@ public sealed partial class CharacterUIController : UIController, IOnStateEntere
         _window.SpriteView.SetEntity(entity);
 
         UpdateRoleType();
-
         _window.NameLabel.Text = entityName;
         _window.SubText.Text = (faction != null) ? job + " | " + faction : job; // If off-duty don't show faction
         _window.SubTextBankBal.Text = bankBal;

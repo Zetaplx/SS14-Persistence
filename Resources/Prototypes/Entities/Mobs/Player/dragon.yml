@@ -146,7 +146,6 @@
       components:
       - MobState
       - Door
-      tags:
       - Wall
   - type: Tag
     tags:
@@ -246,7 +245,6 @@
       components:
       - MobState
       - Door
-      tags:
       - Wall
     event: !type:DevourActionEvent
 

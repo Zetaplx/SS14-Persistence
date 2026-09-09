@@ -9,9 +9,10 @@ using Content.Shared.DetailExaminable;
 using Content.Shared.Objectives;
 using Content.Shared.Objectives.Components;
 using Content.Shared.Objectives.Systems;
+using Content.Shared.Roles;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Configuration;
 using Robust.Shared.Utility;
-using Robust.Shared.Prototypes;
 
 namespace Content.Server.CharacterInfo;
 
@@ -50,6 +51,7 @@ public sealed partial class CharacterInfoSystem : EntitySystem
         _bank.TryGetBalance(entity, out var bankBal);
 
         string? briefing = null;
+        ProtoId<JobPrototype>? job = null;
         if (_minds.TryGetMind(entity, out var mindId, out var mind))
         {
             // Get objectives
@@ -72,8 +74,8 @@ public sealed partial class CharacterInfoSystem : EntitySystem
                 objectives[issuer].Add(info.Value);
             }
 
-            if (_jobs.MindTryGetJobName(mindId, out var jobName))
-                jobTitle = jobName;
+            if (_jobs.MindTryGetJob(mindId, out var j))
+                job = j;
 
             // Get briefing
             briefing = _roles.MindGetBriefing(mindId);
