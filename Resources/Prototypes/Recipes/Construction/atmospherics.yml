@@ -1,5 +1,4 @@
-# Base
-
+# region Base
 - type: construction
   abstract: true
   id: BaseAtmos
@@ -41,8 +40,9 @@
   parent: BaseGasDevice
   id: BaseGasTrinary
   graph: GasTrinary
+# endregion Base
 
-# Machines
+# region Machines
 - type: construction
   parent: BaseAtmos
   id: AirAlarmFixture
@@ -89,8 +89,9 @@
   id: GasPipeSensorAlt2
   hide: true
   targetNode: sensorAlt2
+# endregion Machines
 
-# ATMOS PIPES
+# region Pipes
 - type: construction
   parent: BaseGasPipe
   id: GasPipeHalf
@@ -205,8 +206,9 @@
   id: GasPipeManifold
   targetNode: manifold
   placementMode: SnapgridCenter
+# endregion Pipes
 
-# ATMOS UNARY
+# region Unary
 - type: construction
   parent: BaseGasUnary
   id: GasVentPump
@@ -391,7 +393,7 @@
   - GasOutletInjectorAlt1
   - GasOutletInjectorAlt2
 
-  # ATMOS BINARY
+# region Binary
 - type: construction
   parent: BaseGasBinary
   id: GasPressurePump
@@ -542,8 +544,9 @@
   name: construction-recipe-heat-exchanger-bend
   targetNode: bendradiator
   placementMode: SnapgridCenter
+# endregion Binary
 
-# ATMOS TRINARY
+# region Trinary
 - type: construction
   parent: BaseGasTrinary
   id: GasFilter
