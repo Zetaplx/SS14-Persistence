@@ -24,6 +24,27 @@
     group: XenoArtifactNode
 
 - type: entity
+  id: XenoArtifactBecomeLamp
+  parent: BaseOneTimeXenoArtifactEffect
+  description: Emits strange light
+  components:
+  - type: XAEApplyComponents
+    components:
+    - type: PointLight
+    - type: RandomPointLight
+
+- type: entity
+  id: XenoArtifactBecomeRainbowLamp
+  parent: BaseOneTimeXenoArtifactEffect
+  description: Emits shifting light
+  components:
+  - type: XAEApplyComponents
+    components:
+    - type: PointLight
+      radius: 3
+    - type: RgbLightController
+
+- type: entity
   parent: BaseOneTimeXenoArtifactEffect
   id: XenoArtifactEffectUniversalIntercom
   description: Obtains ability of long-distance communication device

@@ -4,7 +4,7 @@ using Robust.Shared.GameStates;
 using Robust.Shared.Serialization;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype.Set;
 
-namespace Content.Shared.VendingMachines;
+namespace Content.Shared.VendingMachines.Components;
 
 [RegisterComponent, NetworkedComponent, Access(typeof(SharedVendingMachineSystem))]
 public sealed partial class VendingMachineRestockComponent : Component

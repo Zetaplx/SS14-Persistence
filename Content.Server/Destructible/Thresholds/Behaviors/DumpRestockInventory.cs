@@ -1,7 +1,7 @@
-using Content.Shared.Prototypes;
+using Robust.Shared.Random;
 using Content.Shared.Stacks;
 using Content.Shared.VendingMachines;
-using Robust.Shared.Random;
+using Content.Shared.VendingMachines.Components;
 
 namespace Content.Server.Destructible.Thresholds.Behaviors;
 
