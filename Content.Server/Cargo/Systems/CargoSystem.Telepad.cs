@@ -103,8 +103,16 @@ public sealed partial class CargoSystem
             }
 
             var currentOrder = comp.CurrentOrders.First();
-            if (FulfillOrder(currentOrder, currentOrder.Account, xform.Coordinates, comp.PrinterOutput))
+            if (currentOrder.NumDispatched >= currentOrder.OrderQuantity)
             {
+                comp.CurrentOrders.Remove(currentOrder);
+            }
+            else if (FulfillOrder(currentOrder, currentOrder.Account, xform.Coordinates, comp.PrinterOutput))
+            {
+                currentOrder.NumDispatched++;
+                if (currentOrder.NumDispatched >= currentOrder.OrderQuantity)
+                    comp.CurrentOrders.Remove(currentOrder);
+
                 var teleportSound = comp.TeleportSound;
                 var audioParams = teleportSound?.Params ?? AudioParams.Default;
                 audioParams = audioParams.AddVolume(-8f);
@@ -113,7 +121,6 @@ public sealed partial class CargoSystem
                 if (_station.GetOwningStation(uid) is { } station)
                     UpdateOrders(station);
 
-                comp.CurrentOrders.Remove(currentOrder);
                 comp.CurrentState = CargoTelepadState.Teleporting;
                 _appearance.SetData(uid, CargoTelepadVisuals.State, CargoTelepadState.Teleporting, appearance);
             }

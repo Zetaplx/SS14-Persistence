@@ -539,7 +539,8 @@
             Heat: -0.033
             Shock: -0.033
             Cold: -0.033
-      - !type:SatiateThirst
+      - !type:Satiate
+        satiationType: Thirst
         factor: -10
         conditions:
         - !type:ReagentCondition
@@ -784,7 +785,8 @@
   metabolisms:
     Bloodstream:
       effects:
-        - !type:SatiateThirst
+        - !type:Satiate
+          satiationType: Thirst
           factor: 6
         - !type:ModifyBloodLevel
           amount: 6
@@ -921,7 +923,8 @@
     Bloodstream:
       effects:
       # what the hell, this isn't satiating at all!!
-      - !type:SatiateHunger
+      - !type:Satiate
+        satiationType: Hunger
         factor: -1
   # new for persistence omni doesn't have a cellular heal upstream
   # Should heal quite literally everything, use in very small amounts
@@ -1225,7 +1228,8 @@
           types:
             Blunt: -0.225 # 9 per u
             Cold: 0.02 # 0.02 per u or 0.2 per 10
-      - !type:SatiateHunger
+      - !type:Satiate
+        satiationType: Hunger
         factor: -1
       - !type:HealthChange
         conditions:
@@ -1250,7 +1254,8 @@
   metabolisms:
     Digestion:
       effects:
-      - !type:SatiateThirst
+      - !type:Satiate
+        satiationType: Thirst
         factor: 3
       - !type:HealthChange
         conditions:
