@@ -185,7 +185,8 @@ public sealed partial class MechSystem : SharedMechSystem
                 {
                     if (args.User == uid || args.User == operatorUid)
                     {
-                        TryEject(uid, component);
+                        if(TryEject(uid, component))
+                            _ui.CloseUi(uid, MechUiKey.Key);
                         return;
                     }
 
@@ -227,6 +228,7 @@ public sealed partial class MechSystem : SharedMechSystem
         if (!TryEject(uid, component))
             return;
 
+        _ui.CloseUi(uid, MechUiKey.Key);
         args.Handled = true;
     }
 

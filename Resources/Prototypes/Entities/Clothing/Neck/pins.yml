@@ -311,6 +311,4 @@
     actions:
     - ActionShootWater
   - type: ItemActionGrant
-    actions:
-    - ActionShootWater
     activeIfWorn: true
