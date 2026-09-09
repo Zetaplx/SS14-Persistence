@@ -4,7 +4,6 @@ using Content.Server.Body.Components;
 using Content.Server.Chat;
 using Content.Server.Chat.Managers;
 using Content.Server.Ghost;
-using Content.Server.Ghost.Roles.Components;
 using Content.Server.Inventory;
 using Content.Server.Mind;
 using Content.Server.NPC;
@@ -17,9 +16,11 @@ using Content.Shared.Body.Components;
 using Content.Shared.CombatMode;
 using Content.Shared.CombatMode.Pacification;
 using Content.Shared.Ghost.Roles.Components;
+using Content.Shared.Ghost.Roles.Components;
 using Content.Shared.Hands.Components;
 using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Humanoid;
+using Content.Shared.IdentityManagement;
 using Content.Shared.IdentityManagement;
 using Content.Shared.Interaction.Components;
 using Content.Shared.Mobs;
@@ -68,6 +69,7 @@ public sealed partial class ZombieSystem
     [Dependency] private MindSystem _mind = default!;
     [Dependency] private MovementSpeedModifierSystem _movementSpeedModifier = default!;
     [Dependency] private NameModifierSystem _nameMod = default!;
+    [Dependency] private ReplacementAccentSystem _replacementAccent = default!;
     [Dependency] private NPCSystem _npc = default!;
     [Dependency] private TagSystem _tag = default!;
     [Dependency] private ISharedPlayerManager _player = default!;
@@ -150,7 +152,7 @@ public sealed partial class ZombieSystem
         if (TryComp<ZombieAccentOverrideComponent>(target, out var accent))
             accentType = accent.Accent;
 
-        EnsureComp<ReplacementAccentComponent>(target).Accent = accentType;
+        _replacementAccent.ApplyAccent(target, accentType);
 
         //This is needed for stupid entities that fuck up combat mode component
         //in an attempt to make an entity not attack. This is the easiest way to do it.
