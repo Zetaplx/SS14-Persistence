@@ -151,6 +151,7 @@
     materialComposition:
       Plastic: 50
       Wood: 25
+    undamagedAlertThreshold: 0
 
 - type: entity
   parent: [ BaseItem, BaseToySword ]
