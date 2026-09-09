@@ -8,28 +8,22 @@
   },
   "states": [
     {
-      "name": "window",
-      "directions": 4
+        "name": "window"
     },
     {
-      "name": "reinforced_window",
-      "directions": 4
+        "name": "reinforced_window"
     },
     {
-      "name": "tinted_window",
-      "directions": 4
+        "name": "tinted_window"
     },
     {
-      "name": "frosted_window",
-      "directions": 4
+        "name": "frosted_window"
     },
 	{
-	  "name": "clock_window",
-	  "directions": 4
+        "name": "clock_window"
 	},
 	{
-	  "name": "plasma_window",
-	  "directions": 4
+        "name": "plasma_window"
 	},
     {
         "name": "plasma_reinforced_window",
@@ -37,6 +31,14 @@
     },
     {
         "name": "phoron_window",
+        "directions": 4
+    },
+    {
+        "name": "phoron_window",
+        "directions": 4
+    },
+    {
+        "name": "phoron_reinforced_window",
         "directions": 4
     },
     {
