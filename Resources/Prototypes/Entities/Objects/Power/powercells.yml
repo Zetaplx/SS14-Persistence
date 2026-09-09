@@ -24,8 +24,8 @@
   - type: Extractable
     juiceSolution:
       reagents:
-        - ReagentId: Zinc
-          Quantity: 5
+      - ReagentId: Zinc
+        Quantity: 5
   - type: Tag
     tags:
       - PowerCell
@@ -120,6 +120,11 @@
   - type: BatterySelfRecharger
     autoRechargeRate: 36 # 10 seconds to recharge
     autoRechargePauseTime: 30
+  - type: Extractable
+    juiceSolution:
+      reagents:
+      - ReagentId: Uranium
+        Quantity: 5
 
 - type: entity
   name: medium-capacity power cell
@@ -144,8 +149,13 @@
       Plastic: 100
   - type: Tag
     tags:
-      - PowerCellMedium
-      
+    - PowerCellMedium
+  - type: Extractable
+    juiceSolution:
+      reagents:
+      - ReagentId: Lithium
+        Quantity: 5
+
 - type: entity
   id: PowerCellMediumPrinted
   suffix: Empty
@@ -187,8 +197,13 @@
       Gold: 25
   - type: Tag
     tags:
-      - PowerCellHigh
-      
+    - PowerCellHigh
+  - type: Extractable
+    juiceSolution:
+      reagents:
+      - ReagentId: Lithium
+        Quantity: 5
+
 - type: entity
   id: PowerCellHighPrinted
   suffix: Empty
@@ -231,8 +246,12 @@
       Silver: 100
   - type: Tag
     tags:
-      - PowerCellHyper
-      
+    - PowerCellHyper 
+  - type: Extractable
+    juiceSolution:
+      reagents:
+      - ReagentId: Lithium
+        Quantity: 5
 
 - type: entity
   id: PowerCellHyperPrinted
@@ -275,6 +294,11 @@
       Steel: 200
       Gold: 50
       Uranium: 100
+  - type: Extractable
+    juiceSolution:
+      reagents:
+      - ReagentId: Uranium
+        Quantity: 5
 
 - type: entity
   parent: PowerCellMicroreactor
@@ -315,6 +339,11 @@
         Steel: 200
         Gold: 50
         Uranium: 100
+    - type: Extractable
+      juiceSolution:
+        reagents:
+        - ReagentId: Uranium
+          Quantity: 5
 
 # Power cage (big heavy power cell for big devices)
 
@@ -338,8 +367,8 @@
   - type: Extractable
     juiceSolution:
       reagents:
-        - ReagentId: Zinc
-          Quantity: 15
+      - ReagentId: Zinc
+        Quantity: 15
   - type: Tag
     tags:
       - PowerCage
@@ -403,6 +432,11 @@
       Glass: 100
       Plastic: 100
       Gold: 25
+  - type: Extractable
+    juiceSolution:
+      reagents:
+      - ReagentId: Lithium
+        Quantity: 10
 
 - type: entity
   id: PowerCageHigh
@@ -427,6 +461,11 @@
       Glass: 200
       Plastic: 200
       Gold: 50
+  - type: Extractable
+    juiceSolution:
+      reagents:
+      - ReagentId: Lithium
+        Quantity: 15
 
 - type: entity
   id: PowerCageSmallEmpty
