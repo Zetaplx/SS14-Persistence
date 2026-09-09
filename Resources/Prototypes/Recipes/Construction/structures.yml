@@ -479,9 +479,48 @@
   placementMode: SnapgridCenter
 
 - type: construction
+  id: WindowDirectionalCorner
+  graph: WindowDirectionalCorner
+  startNode: start
+  targetNode: windowDirectionalCorner
+  category: construction-category-structures
+  canBuildInImpassable: true
+  conditions:
+    - !type:EmptyOrWindowValidInTile
+    - !type:NoWindowsInTile
+  objectType: Structure
+  placementMode: SnapgridCenter
+
+- type: construction
+  id: WindowDirectionalCorner
+  graph: WindowDirectionalCorner
+  startNode: start
+  targetNode: windowDirectionalCorner
+  category: construction-category-structures
+  canBuildInImpassable: true
+  conditions:
+    - !type:EmptyOrWindowValidInTile
+    - !type:NoWindowsInTile
+  objectType: Structure
+  placementMode: SnapgridCenter
+
+- type: construction
   parent: WindowDirectional
   id: WindowReinforcedDirectional
   targetNode: windowReinforcedDirectional
+
+- type: construction
+  id: WindowReinforcedDirectionalCorner
+  graph: WindowDirectionalCorner
+  startNode: start
+  targetNode: windowReinforcedDirectionalCorner
+  category: construction-category-structures
+  canBuildInImpassable: true
+  conditions:
+    - !type:EmptyOrWindowValidInTile
+    - !type:NoWindowsInTile
+  objectType: Structure
+  placementMode: SnapgridCenter
 
 - type: construction
   parent: WindowDirectional
@@ -494,9 +533,38 @@
   targetNode: plasmaWindowDirectional
 
 - type: construction
+  id: PlasmaWindowDirectionalCorner
+  graph: WindowDirectionalCorner
+  startNode: start
+  targetNode: plasmaWindowDirectionalCorner
+  category: construction-category-structures
+  canBuildInImpassable: true
+  conditions:
+    - !type:EmptyOrWindowValidInTile
+    - !type:NoWindowsInTile
+  objectType: Structure
+  placementMode: SnapgridCenter
+
+- type: construction
   parent: WindowDirectional
   id: PlasmaReinforcedWindowDirectional
   targetNode: plasmaReinforcedWindowDirectional
+# endregion Windows
+
+- type: construction
+  id: PlasmaReinforcedWindowDirectionalCorner
+  graph: WindowDirectionalCorner
+  startNode: start
+  targetNode: plasmaReinforcedWindowDirectionalCorner
+  category: construction-category-structures
+  canBuildInImpassable: true
+  conditions:
+    - !type:EmptyOrWindowValidInTile
+    - !type:NoWindowsInTile
+  objectType: Structure
+  placementMode: SnapgridCenter
+
+# region Firelocks
   category: construction-category-structures
   canBuildInImpassable: true
   conditions:
