@@ -88,8 +88,8 @@
     base: state
 
 - type: entity
-  id: ReinforcedGirder
   parent: Girder
+  id: ReinforcedGirder
   name: reinforced girder
   description: A large structural assembly made out of metal and plasteel; It requires a layer of plasteel before it can be considered a reinforced wall.
   components:
@@ -168,8 +168,8 @@
     base: state
 
 - type: entity
+  parent: Girder
   id: ClockworkGirder
-  parent: ReinforcedGirder
   name: wall gear
   description: A large gear with mounting brackets for additional plating; This could be made into a wall with more brass plating.
   components:

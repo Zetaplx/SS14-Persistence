@@ -1,3 +1,4 @@
+using System.Numerics;
 using Content.Client.Stylesheets;
 using Content.Client.UserInterface.Controls;
 using Content.Shared.IdentityManagement;
@@ -8,193 +9,191 @@ using Robust.Client.UserInterface.Controls;
 using Robust.Client.UserInterface.XAML;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
-using System.Numerics;
 using FancyWindow = Content.Client.UserInterface.Controls.FancyWindow;
 
-namespace Content.Client.VendingMachines.UI
+
+namespace Content.Client.VendingMachines.UI;
+
+[GenerateTypedNameReferences]
+public sealed partial class VendingMachineMenu : FancyWindow
 {
-    [GenerateTypedNameReferences]
-    public sealed partial class VendingMachineMenu : FancyWindow
+    [Dependency] private IPrototypeManager _prototypeManager = default!;
+    [Dependency] private IEntityManager _entityManager = default!;
+
+    private readonly Dictionary<EntProtoId, EntityUid> _dummies = [];
+    private readonly Dictionary<EntProtoId, (ListContainerButton Button, VendingMachineItem Item)> _listItems = new();
+    private readonly Dictionary<EntProtoId, uint> _amounts = new();
+
+    /// <summary>
+    /// Whether the vending machine is able to be interacted with or not.
+    /// </summary>
+    private bool _enabled;
+
+    public event Action<GUIBoundKeyEventArgs, ListData>? OnItemSelected;
+
+    public VendingMachineMenu()
     {
-        [Dependency] private IPrototypeManager _prototypeManager = default!;
-        [Dependency] private IEntityManager _entityManager = default!;
+        MinSize = SetSize = new Vector2(250, 150);
+        RobustXamlLoader.Load(this);
+        IoCManager.InjectDependencies(this);
 
-        private readonly Dictionary<EntProtoId, EntityUid> _dummies = [];
-        private readonly Dictionary<EntProtoId, (ListContainerButton Button, VendingMachineItem Item)> _listItems = new();
-        private readonly Dictionary<EntProtoId, uint> _amounts = new();
+        VendingContents.SearchBar = SearchBar;
+        VendingContents.DataFilterCondition += DataFilterCondition;
+        VendingContents.GenerateItem += GenerateButton;
+        VendingContents.ItemKeyBindDown += (args, data) => OnItemSelected?.Invoke(args, data);
+    }
 
-        /// <summary>
-        /// Whether the vending machine is able to be interacted with or not.
-        /// </summary>
-        private bool _enabled;
+    [Obsolete]
+    protected override void Dispose(bool disposing)
+    {
+        base.Dispose(disposing);
 
-        public event Action<GUIBoundKeyEventArgs, ListData>? OnItemSelected;
+        // Don't clean up dummies during disposal or we'll just have to spawn them again
+        if (!disposing)
+            return;
 
-        public VendingMachineMenu()
+        // Delete any dummy items we spawned
+        foreach (var entity in _dummies.Values)
         {
-            MinSize = SetSize = new Vector2(250, 150);
-            RobustXamlLoader.Load(this);
-            IoCManager.InjectDependencies(this);
-
-            VendingContents.SearchBar = SearchBar;
-            VendingContents.DataFilterCondition += DataFilterCondition;
-            VendingContents.GenerateItem += GenerateButton;
-            VendingContents.ItemKeyBindDown += (args, data) => OnItemSelected?.Invoke(args, data);
+            _entityManager.QueueDeleteEntity(entity);
         }
+        _dummies.Clear();
+    }
 
-        protected override void Dispose(bool disposing)
+    private bool DataFilterCondition(string filter, ListData data)
+    {
+        if (data is not VendorItemsListData { ItemText: var text })
+            return false;
+
+        if (string.IsNullOrEmpty(filter))
+            return true;
+
+        return text.Contains(filter, StringComparison.CurrentCultureIgnoreCase);
+    }
+
+    private void GenerateButton(ListData data, ListContainerButton button)
+    {
+        if (data is not VendorItemsListData { ItemProtoID: var protoID, ItemText: var text })
+            return;
+
+        var item = new VendingMachineItem(protoID, text);
+        _listItems[protoID] = (button, item);
+        button.AddChild(item);
+        button.AddStyleClass(StyleClass.ButtonSquare);
+        button.Disabled = !_enabled || _amounts[protoID] == 0;
+    }
+
+    private Label? _outOfStockLabel;
+    /// <summary>
+    /// Populates the list of available items on the vending machine interface
+    /// and sets icons based on their prototypes
+    /// </summary>
+    public void Populate(List<VendingMachineInventoryEntry> inventory, bool enabled)
+    {
+        _enabled = enabled;
+        _listItems.Clear();
+        _amounts.Clear();
+
+        if (inventory.Count == 0 && VendingContents.Visible)
         {
-            base.Dispose(disposing);
+            SearchBar.Visible = false;
+            VendingContents.Visible = false;
 
-            // Don't clean up dummies during disposal or we'll just have to spawn them again
-            if (!disposing)
-                return;
-
-            // Delete any dummy items we spawned
-            foreach (var entity in _dummies.Values)
+            var outOfStockLabel = new Label
             {
-                _entityManager.QueueDeleteEntity(entity);
-            }
-            _dummies.Clear();
+                Text = Loc.GetString("vending-machine-component-try-eject-out-of-stock"),
+                Margin = new Thickness(4, 4),
+                HorizontalExpand = true,
+                VerticalAlignment = VAlignment.Stretch,
+                HorizontalAlignment = HAlignment.Center
+            };
+
+            MainContainer.AddChild(outOfStockLabel);
+
+            SetSizeAfterUpdate(outOfStockLabel.Text.Length, 0);
+
+            return;
         }
 
-        private bool DataFilterCondition(string filter, ListData data)
+        SearchBar.Visible = true;
+        VendingContents.Visible = true;
+        _outOfStockLabel?.Orphan();
+
+        var longestEntry = string.Empty;
+        var listData = new List<VendorItemsListData>();
+
+        for (var i = 0; i < inventory.Count; i++)
         {
-            if (data is not VendorItemsListData { ItemText: var text })
-                return false;
+            var entry = inventory[i];
 
-            if (string.IsNullOrEmpty(filter))
-                return true;
-
-            return text.Contains(filter, StringComparison.CurrentCultureIgnoreCase);
-        }
-
-        private void GenerateButton(ListData data, ListContainerButton button)
-        {
-            if (data is not VendorItemsListData { ItemProtoID: var protoID, ItemText: var text })
-                return;
-
-            var item = new VendingMachineItem(protoID, text);
-            _listItems[protoID] = (button, item);
-            button.AddChild(item);
-            button.AddStyleClass(StyleClass.ButtonSquare);
-            button.Disabled = !_enabled || _amounts[protoID] == 0;
-        }
-
-        private Label? _outOfStockLabel;
-
-        /// <summary>
-        /// Populates the list of available items on the vending machine interface
-        /// and sets icons based on their prototypes
-        /// </summary>
-        public void Populate(List<VendingMachineInventoryEntry> inventory, bool enabled)
-        {
-            _enabled = enabled;
-            _listItems.Clear();
-            _amounts.Clear();
-
-            if (inventory.Count == 0 && VendingContents.Visible)
+            if (!_prototypeManager.Resolve(entry.ID, out var prototype))
             {
-                SearchBar.Visible = false;
-                VendingContents.Visible = false;
-
-                _outOfStockLabel ??= new Label()
-                {
-                    Text = Loc.GetString("vending-machine-component-try-eject-out-of-stock"),
-                    Margin = new Thickness(4, 4),
-                    HorizontalExpand = true,
-                    VerticalAlignment = VAlignment.Stretch,
-                    HorizontalAlignment = HAlignment.Center
-                };
-
-                if (_outOfStockLabel.Parent is null)
-                    MainContainer.AddChild(_outOfStockLabel);
-
-                SetSizeAfterUpdate(_outOfStockLabel.Text?.Length ?? 0, 0);
-
-                return;
-            }
-
-            SearchBar.Visible = true;
-            VendingContents.Visible = true;
-            _outOfStockLabel?.Orphan();
-
-            var longestEntry = string.Empty;
-            var listData = new List<VendorItemsListData>();
-
-            for (var i = 0; i < inventory.Count; i++)
-            {
-                var entry = inventory[i];
-
-                if (!_prototypeManager.Resolve(entry.ID, out var prototype))
-                {
-                    _amounts[entry.ID] = 0;
-                    continue;
-                }
-
-                if (!_dummies.TryGetValue(entry.ID, out var dummy))
-                {
-                    dummy = _entityManager.Spawn(entry.ID);
-                    _dummies.Add(entry.ID, dummy);
-                }
-
-                var itemName = Identity.Name(dummy, _entityManager);
-                var itemText = $"{itemName} [{entry.Amount}]";
-                _amounts[entry.ID] = entry.Amount;
-
-                if (itemText.Length > longestEntry.Length)
-                    longestEntry = itemText;
-
-                listData.Add(new VendorItemsListData(prototype.ID, i)
-                {
-                    ItemText = itemText,
-                });
+                _amounts[entry.ID] = 0;
+                continue;
             }
 
-            VendingContents.PopulateList(listData);
-
-            SetSizeAfterUpdate(longestEntry.Length, inventory.Count);
-        }
-
-        /// <summary>
-        /// Updates text entries for vending data in place without modifying the list controls.
-        /// </summary>
-        public void UpdateAmounts(List<VendingMachineInventoryEntry> cachedInventory, bool enabled)
-        {
-            _enabled = enabled;
-
-            foreach (var proto in _dummies.Keys)
+            if (!_dummies.TryGetValue(entry.ID, out var dummy))
             {
-                if (!_listItems.TryGetValue(proto, out var button))
-                    continue;
-
-                var dummy = _dummies[proto];
-                if (!cachedInventory.TryFirstOrDefault(o => o.ID == proto, out var entry))
-                    continue;
-                var amount = entry.Amount;
-                // Could be better? Problem is all inventory entries get squashed.
-                var text = GetItemText(dummy, amount);
-
-                button.Item.SetText(text);
-                button.Button.Disabled = !enabled || amount == 0;
+                dummy = _entityManager.Spawn(entry.ID);
+                _dummies.Add(entry.ID, dummy);
             }
-        }
 
-        private string GetItemText(EntityUid dummy, uint amount)
-        {
             var itemName = Identity.Name(dummy, _entityManager);
-            return $"{itemName} [{amount}]";
+            var itemText = $"{itemName} [{entry.Amount}]";
+            _amounts[entry.ID] = entry.Amount;
+
+            if (itemText.Length > longestEntry.Length)
+                longestEntry = itemText;
+
+            listData.Add(new VendorItemsListData(prototype.ID, i)
+            {
+                ItemText = itemText,
+            });
         }
 
-        private void SetSizeAfterUpdate(int longestEntryLength, int contentCount)
-        {
-            SetSize = new Vector2(Math.Clamp((longestEntryLength + 2) * 12, 250, 400),
-                Math.Clamp(contentCount * 50, 150, 350));
-        }
+        VendingContents.PopulateList(listData);
+
+        SetSizeAfterUpdate(longestEntry.Length, inventory.Count);
     }
 
-    public record VendorItemsListData(EntProtoId ItemProtoID, int ItemIndex) : ListData
+    /// <summary>
+    /// Updates text entries for vending data in place without modifying the list controls.
+    /// </summary>
+    public void UpdateAmounts(List<VendingMachineInventoryEntry> cachedInventory, bool enabled)
     {
-        public string ItemText = string.Empty;
+        _enabled = enabled;
+
+        foreach (var proto in _dummies.Keys)
+        {
+            if (!_listItems.TryGetValue(proto, out var button))
+                continue;
+
+            var dummy = _dummies[proto];
+            if (!cachedInventory.TryFirstOrDefault(o => o.ID == proto, out var entry))
+                continue;
+            var amount = entry.Amount;
+            // Could be better? Problem is all inventory entries get squashed.
+            var text = GetItemText(dummy, amount);
+
+            button.Item.SetText(text);
+            button.Button.Disabled = !enabled || amount == 0;
+        }
     }
+
+    private string GetItemText(EntityUid dummy, uint amount)
+    {
+        var itemName = Identity.Name(dummy, _entityManager);
+        return $"{itemName} [{amount}]";
+    }
+
+    private void SetSizeAfterUpdate(int longestEntryLength, int contentCount)
+    {
+        SetSize = new Vector2(Math.Clamp((longestEntryLength + 2) * 12, 250, 400),
+            Math.Clamp(contentCount * 50, 150, 350));
+    }
+}
+
+public record VendorItemsListData(EntProtoId ItemProtoID, int ItemIndex) : ListData
+{
+    public string ItemText = string.Empty;
 }
