@@ -1699,8 +1699,9 @@
     description: ghost-role-information-monkey-description
     rules: ghost-role-information-nonantagonist-rules
   - type: GhostTakeoverAvailable
-
-
+  - type: PermanentStatusEffects
+    statusEffects:
+    - StatusEffectClumsyMonkey
 
 - type: entity
   name: monkey
@@ -1859,7 +1860,10 @@
   id: MobKobold
   parent: MobBaseKobold
   description: Cousins to the sentient race of lizard people, kobolds blend in with their natural habitat and are as nasty as monkeys; ready to pull out your hair and stab you to death.
-
+  components:
+  - type: PermanentStatusEffects
+    statusEffects:
+    - StatusEffectClumsyKobold
 
 - type: entity
   id: MobBaseSyndicateKobold
