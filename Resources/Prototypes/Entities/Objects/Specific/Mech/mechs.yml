@@ -8,10 +8,9 @@
   - type: MechAir
   - type: Vehicle
     canAttack: true
-  - type: VehicleHandBlocker
-    blockedHands: 2
   - type: ContainerVehicle
     containerId: "mech-pilot-slot"
+  - type: ContainerVehicleEntry
   - type: AirFilter
     # everything except oxygen and nitrogen
     gases:
@@ -147,6 +146,8 @@
     operatorWhitelist:
       components:
         - HumanoidProfile
+  - type: VehicleHandBlocker
+    blockedHands: 2
   - type: MeleeWeapon
     hidden: true
     attackRate: 1
@@ -202,6 +203,8 @@
     operatorWhitelist:
       components:
       - HumanoidProfile
+  - type: VehicleHandBlocker
+    blockedHands: 2
 
 - type: entity
   parent: MechHonker
@@ -239,6 +242,7 @@
       tags:
       - SmallMech
   - type: Vehicle
+    requiresHands: false
     transferDamageModifier:
       coefficients:
         Blunt: 0.2
@@ -309,6 +313,7 @@
     maxEquipmentAmount: 0
     airtight: true
   - type: Vehicle
+    requiresHands: false
     transferDamageModifier:
       coefficients:
         Blunt: 0.1

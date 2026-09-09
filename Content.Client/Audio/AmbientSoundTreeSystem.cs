@@ -5,7 +5,7 @@ using System.Numerics;
 
 namespace Content.Client.Audio;
 
-public sealed class AmbientSoundTreeSystem : ComponentTreeSystem<AmbientSoundTreeComponent, AmbientSoundComponent>
+public sealed partial class AmbientSoundTreeSystem : ComponentTreeSystem<AmbientSoundTreeComponent, AmbientSoundComponent>
 {
     #region Component Tree Overrides
     protected override bool DoFrameUpdate => false;

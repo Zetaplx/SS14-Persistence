@@ -5,7 +5,7 @@ using System.Numerics;
 
 namespace Content.Client.Botany;
 
-public sealed class PotencyVisualsSystem : VisualizerSystem<PotencyVisualsComponent>
+public sealed partial class PotencyVisualsSystem : VisualizerSystem<PotencyVisualsComponent>
 {
     protected override void OnAppearanceChange(EntityUid uid, PotencyVisualsComponent component, ref AppearanceChangeEvent args)
     {
