@@ -24,6 +24,18 @@
     - coin_3
     - coin_4
   - type: NFCoin # So it can go in wallets
+  - type: Dice
+    sides: 2
+    currentValue: 1
+    sound: !type:SoundCollectionSpecifier
+      collection: Coin
+    values: CoinFaces
+    examineLandedOnText: dice-component-roll-specific
+    examineObjectText: null # no need to show how many sides it has, it's a coin
+  - type: Tag
+    tags:
+    - Dice
+  - type: UseDelay
 
 - type: entity
   id: CoinIron
