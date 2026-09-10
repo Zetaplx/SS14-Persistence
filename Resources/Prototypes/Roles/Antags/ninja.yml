@@ -4,6 +4,10 @@
   antagonist: true
   setPreference: false
   objective: roles-antag-space-ninja-objective
+  guides: [ SpaceNinja ]
+  tags:
+  - OffStation
+  - Midround
 
 - type: antagSpecifier
   parent: RestrictedAntag

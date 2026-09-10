@@ -4,6 +4,10 @@
   antagonist: true
   setPreference: true
   objective: roles-antag-rev-head-objective
+  guides: [ Revolutionaries ]
+  tags:
+  - OnStation
+  - Roundstart
   requirements:
   - !type:OverallPlaytimeRequirement
     time: 1h
@@ -42,6 +46,10 @@
   antagonist: true
   setPreference: false
   objective: roles-antag-rev-objective
+  guides: [ Revolutionaries ]
+  tags:
+  - OnStation
+  - Converted
 
 - type: startingGear
   id: HeadRevGear

@@ -4,6 +4,10 @@
   antagonist: true
   setPreference: true
   objective: roles-antag-mothership-core-objective
+  guides: [ Xenoborgs ]
+  tags:
+  - OffStation
+  - Roundstart
   requirements:
   - !type:RoleTimeRequirement
     role: JobBorg
@@ -21,6 +25,11 @@
   antagonist: true
   setPreference: true
   objective: roles-antag-xenoborg-objective
+  guides: [ Xenoborgs ]
+  tags:
+  - OffStation
+  - Roundstart
+  - Converted
   requirements:
   - !type:RoleTimeRequirement
     role: JobBorg
