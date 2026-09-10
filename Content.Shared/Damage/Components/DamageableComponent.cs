@@ -102,5 +102,4 @@ public sealed class DamageableComponentState(
     public readonly DamageSpecifier Damage = damage;
     public readonly ProtoId<DamageModifierSetPrototype>? ModifierSetId = modifierSetId;
     public readonly ProtoId<DisplacementDataPrototype>? Displacement = displacement;
-
 }

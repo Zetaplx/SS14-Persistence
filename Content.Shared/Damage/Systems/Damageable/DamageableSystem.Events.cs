@@ -215,6 +215,7 @@ public sealed partial class DamageableSystem
             return;
 
         ent.Comp.DamageModifierSetId = state.ModifierSetId;
+        ent.Comp.Displacement = state.Displacement;
 
         // Has the damage actually changed?
         var newDamage = state.Damage.Clone();

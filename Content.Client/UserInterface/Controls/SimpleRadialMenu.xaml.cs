@@ -86,7 +86,7 @@ public sealed partial class SimpleRadialMenu : RadialMenu
         switch (models)
         {
             case RadialMenuOptionBase[] asArray:
-                asArray.Sort(CompareByTooltip);
+                Array.Sort(asArray, CompareByTooltip);
                 return asArray;
             case List<RadialMenuOptionBase> asList:
                 asList.Sort(CompareByTooltip);
