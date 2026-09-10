@@ -88,7 +88,7 @@ public sealed partial class SurveillanceCameraSystem : SharedSurveillanceCameraS
                 { DeviceNetworkConstants.Command, string.Empty },
                 { CameraAddressData, deviceNet.Address },
                 { CameraNameData, component.UseEntityNameAsCameraId ? MetaData(uid).EntityName : component.CameraId },
-                { CameraSubnetData, string.Empty }
+                { CameraSubnetData, null }
             };
 
             var dest = string.Empty;
@@ -114,7 +114,7 @@ public sealed partial class SurveillanceCameraSystem : SharedSurveillanceCameraS
                     payload[DeviceNetworkConstants.Command] = CameraHeartbeatMessage;
                     break;
                 case CameraPingMessage:
-                    if (!args.Data.TryGetValue(CameraSubnetData, out string? subnet))
+                    if (!args.Data.TryGetValue(CameraSubnetData, out ProtoId<DeviceFrequencyPrototype>? subnet))
                     {
                         return;
                     }
