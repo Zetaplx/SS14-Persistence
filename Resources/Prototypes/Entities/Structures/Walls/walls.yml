@@ -362,36 +362,6 @@
     base: diamond
 
 - type: entity
-  parent: BaseWall
-  id: WallDiamond
-  name: diamond wall
-  components:
-  - type: Sprite
-    sprite: Structures/Walls/diamond.rsi
-  - type: Icon
-    sprite: Structures/Walls/diamond.rsi
-  - type: RCDDeconstructable
-    cost: 6
-    delay: 8
-    fx: EffectRCDDeconstruct8
-  - type: Destructible
-    thresholds:
-    - trigger:
-        !type:DamageTrigger
-        damage: 300
-      behaviors:
-      - !type:SpawnEntitiesBehavior
-        spawn:
-          Girder:
-            min: 1
-            max: 1
-      - !type:DoActsBehavior
-        acts: [ "Destruction" ]
-  - type: IconSmooth
-    key: walls
-    base: diamond
-
-- type: entity
   parent: [ BaseWall, StructureHealthWallWeak ]
   id: WallGold
   name: gold wall
@@ -432,32 +402,6 @@
   - type: IconSmooth
     key: walls
     base: gold
-
-- type: entity
-  parent: BaseWall
-  id: WallIce
-  name: ice wall
-  components:
-  - type: Sprite
-    sprite: Structures/Walls/ice.rsi
-  - type: Icon
-    sprite: Structures/Walls/ice.rsi
-  - type: Destructible
-    thresholds:
-    - trigger:
-        !type:DamageTrigger
-        damage: 300
-      behaviors:
-      - !type:SpawnEntitiesBehavior
-        spawn:
-          Girder:
-            min: 1
-            max: 1
-      - !type:DoActsBehavior
-        acts: [ "Destruction" ]
-  - type: IconSmooth
-    key: walls
-    base: ice
 
 - type: entity
   parent: BaseWall
@@ -549,38 +493,6 @@
     key: walls
     base: plastic
 
-- type: entity
-  parent: BaseWall
-  id: WallPlastic
-  name: plastic wall
-  components:
-  - type: Sprite
-    sprite: Structures/Walls/plastic.rsi
-  - type: Icon
-    sprite: Structures/Walls/plastic.rsi
-  - type: Construction
-    graph: Girder
-    node: plasticWall
-  - type: RCDDeconstructable
-    cost: 6
-    delay: 8
-    fx: EffectRCDDeconstruct8
-  - type: Destructible
-    thresholds:
-    - trigger:
-        !type:DamageTrigger
-        damage: 150
-      behaviors:
-      - !type:PlaySoundBehavior
-        sound:
-          collection: MetalSlam
-      - !type:ChangeConstructionNodeBehavior
-        node: girder
-      - !type:DoActsBehavior
-        acts: ["Destruction"]
-  - type: IconSmooth
-    key: walls
-    base: plastic
 
 - type: entity
   parent: BaseWall
@@ -1437,53 +1349,7 @@
     sprite: Structures/Walls/vault.rsi
     state: rockvault
 
-- type: entity
-  parent: WallVaultAlien
-  id: WallVaultSandstone
-  name: sandstone vault wall
-  components:
-  - type: Sprite
-    sprite: Structures/Walls/vault.rsi
-    state: sandstonevault
-  - type: Icon
-    sprite: Structures/Walls/vault.rsi
-    state: sandstonevault
-
-
 # Vault Walls
-
-- type: entity
-  parent: BaseWall
-  id: WallVaultAlien
-  name: alien vault wall
-  description: A mysterious ornate looking wall. There may be ancient dangers inside.
-  components:
-  - type: Sprite
-    sprite: Structures/Walls/vault.rsi
-    state: alienvault
-  - type: Icon
-    sprite: Structures/Walls/vault.rsi
-    state: alienvault
-  - type: Destructible
-    thresholds:
-    - trigger:
-        !type:DamageTrigger
-        damage: 500
-      behaviors:
-      - !type:DoActsBehavior
-        acts: [ "Destruction" ]
-
-- type: entity
-  parent: WallVaultAlien
-  id: WallVaultRock
-  name: rock vault wall
-  components:
-  - type: Sprite
-    sprite: Structures/Walls/vault.rsi
-    state: rockvault
-  - type: Icon
-    sprite: Structures/Walls/vault.rsi
-    state: rockvault
 
 - type: entity
   parent: WallVaultAlien
@@ -1571,8 +1437,9 @@
     key: cobblebricks
     base: cobblebrick
 
+
 - type: entity
-  parent: WallCobblebrick
+  parent: WallConcrete
   id: WallBasaltCobblebrick
   name: basalt brick wall
   components:
@@ -1585,7 +1452,7 @@
     base: cobblebrick
 
 - type: entity
-  parent: WallCobblebrick
+  parent: WallConcrete
   id: WallSnowCobblebrick
   name: snow brick wall
   description: A cold, not-so-impenetrable wall.
@@ -1599,7 +1466,7 @@
     base: cobblebrick
 
 - type: entity
-  parent: WallCobblebrick
+  parent: WallConcrete
   id: WallAsteroidCobblebrick
   name: asteroid stone brick wall
   components:
@@ -1612,7 +1479,7 @@
     base: cobblebrick
 
 - type: entity
-  parent: WallCobblebrick
+  parent: WallConcrete
   id: WallSandCobblebrick
   name: sandstone brick wall
   components:
@@ -1625,7 +1492,7 @@
     base: cobblebrick
 
 - type: entity
-  parent: WallCobblebrick
+  parent: WallConcrete
   id: WallChromiteCobblebrick
   name: chromite brick wall
   components:
@@ -1638,7 +1505,7 @@
     base: cobblebrick
 
 - type: entity
-  parent: WallCobblebrick
+  parent: WallConcrete
   id: WallAndesiteCobblebrick
   name: andesite brick wall
   components:
@@ -1651,7 +1518,7 @@
     base: cobblebrick
 
 - type: entity
-  parent: WallCobblebrick
+  parent: WallConcrete
   id: WallIronsandCobblebrick
   name: ironsand brick wall
   description: The pale, rounded shapes that make up this wall look strikingly different from the iron sands they were allegedly made from.

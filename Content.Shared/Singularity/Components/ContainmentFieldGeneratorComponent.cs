@@ -9,6 +9,8 @@ namespace Content.Shared.Singularity.Components;
 [RegisterComponent, NetworkedComponent]
 public sealed partial class ContainmentFieldGeneratorComponent : Component
 {
+    public const int MaxPowerBuffer = 25;
+
     private int _powerBuffer;
 
     /// <summary>

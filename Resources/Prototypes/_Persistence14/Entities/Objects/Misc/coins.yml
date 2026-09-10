@@ -15,14 +15,6 @@
     size: Tiny
   - type: StackPrice
     price: 0
-  - type: Stack
-    count: 1
-    baseLayer: base
-    layerStates:
-    - coin_1
-    - coin_2
-    - coin_3
-    - coin_4
   - type: NFCoin # So it can go in wallets
   - type: Dice
     sides: 2
@@ -38,8 +30,22 @@
   - type: UseDelay
 
 - type: entity
-  id: CoinIron
+  abstract: true
+  id: BaseCoinStackable
   parent: BaseCoin
+  components:
+  - type: Stack
+    count: 1
+    baseLayer: base
+    layerStates:
+    - coin_1
+    - coin_2
+    - coin_3
+    - coin_4 
+
+- type: entity
+  id: CoinIron
+  parent: BaseCoinStackable
   name: iron coin
   components:
   - type: Sprite
@@ -78,7 +84,7 @@
 
 - type: entity
   id: CoinSilver
-  parent: BaseCoin
+  parent: BaseCoinStackable
   name: silver coin
   components:
   - type: Sprite
@@ -117,7 +123,7 @@
 
 - type: entity
   id: CoinGold
-  parent: BaseCoin
+  parent: BaseCoinStackable
   name: gold coin
   components:
   - type: Sprite
@@ -156,7 +162,7 @@
 
 - type: entity
   id: CoinDiamond
-  parent: BaseCoin
+  parent: BaseCoinStackable
   name: diamond coin
   components:
   - type: Sprite
@@ -195,7 +201,7 @@
 
 - type: entity
   id: CoinAdamantine
-  parent: BaseCoin
+  parent: BaseCoinStackable
   name: adamantine coin
   components:
   - type: Sprite

@@ -33,7 +33,6 @@
   - type: Pullable
   - type: StaticPrice
     price: 10
-  - type: GravityAffected
 
 #Starts unanchored, cannot be rotated while anchored
 - type: entity

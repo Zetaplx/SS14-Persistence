@@ -227,13 +227,13 @@ public sealed partial class BloodstreamSystem : EntitySystem
 
         // Start Funky Wall Stains
         if (totalFloat >= 2f
-            && SolutionContainer.ResolveSolution(ent.Owner, ent.Comp.BloodSolutionName, ref ent.Comp.BloodSolution, out var bloodForSplatter)
+            && _solutionContainer.ResolveSolution(ent.Owner, ent.Comp.BloodSolutionName, ref ent.Comp.BloodSolution, out var bloodForSplatter)
             && bloodForSplatter.Volume > 0)
         {
             var splatterAmount = FixedPoint2.Min(FixedPoint2.New(totalFloat * 0.15f), bloodForSplatter.Volume);
             if (splatterAmount > 0)
             {
-                var splatterSolution = SolutionContainer.SplitSolution(ent.Comp.BloodSolution.Value, splatterAmount);
+                var splatterSolution = _solutionContainer.SplitSolution(ent.Comp.BloodSolution.Value, splatterAmount);
                 var splashEv = new SplashOnWallEvent(Transform(ent.Owner).Coordinates, splatterSolution);
                 RaiseLocalEvent(ref splashEv);
             }

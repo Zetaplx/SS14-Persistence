@@ -180,7 +180,7 @@ public sealed partial class CritMobActionsSystem : EntitySystem
         var message = overrideEv.MessageOverride ?? $"{Name(uid)} has died at ({mapPos.X:F1}, {mapPos.Y:F1}) and is broadcasting an SOS.";
 
         var speaker = overrideEv.SpeakerOverride ?? uid;
-        _radio.SendRadioMessage(speaker, message, "Common", speaker, true, false);
+        _radio.SendRadioMessage(speaker, message, "Common", speaker, true);
         var respawnTime = TimeSpan.FromSeconds(_configurationManager.GetCVar(CCVars.AcceptDeathTime));
         component.SOSCooldown = _timing.CurTime + respawnTime;
         UpdateUserInterface(uid, uid, component);

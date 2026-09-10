@@ -440,7 +440,7 @@
   - type: PointLight
     radius: 1.5
     energy: 1
-    color: "#f08080"  - type: Construction
+    color: "#f08080"  
   - type: Construction
     graph: AltarGraph
     node: altarFangs

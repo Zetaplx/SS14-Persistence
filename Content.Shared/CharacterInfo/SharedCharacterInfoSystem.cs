@@ -1,5 +1,6 @@
 using Content.Shared.Objectives;
 using Content.Shared.Roles;
+using Robust.Shared.CPUJob.JobQueues;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
 
@@ -33,6 +34,9 @@ public sealed class CharacterInfoEvent : EntityEventArgs
         Objectives = objectives;
         Briefing = briefing;
         DetailExaminable = detailExaminable;
+        Faction = faction;
+        BankBal = bankBal;
+        Job = job;
     }
 }
 
@@ -44,6 +48,5 @@ public sealed class UpdateDetailExaminableEvent : EntityEventArgs
     public UpdateDetailExaminableEvent(string content)
     {
         Content = content;
-        Job = job;
     }
 }

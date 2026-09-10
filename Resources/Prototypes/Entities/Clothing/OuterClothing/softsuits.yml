@@ -36,7 +36,7 @@
 
 #Emergency EVA
 - type: entity
-  parent: [ TemperatureProtectionMinimal, ClothingOuterEVASuitBaseToggleable ]
+  parent: [ TemperatureProtectionMinimal, ClothingOuterEVASuitBase ]
   id: ClothingOuterSuitEmergency
   name: emergency pressure suit
   description: This bulky, uninsulated pressure suit was clearly not meant for extended use in outer space, despite NanoTrasen's claims that it passes corporate regulations.
@@ -95,7 +95,7 @@
 
 #Paramedic Voidsuit
 - type: entity
-  parent: [ClothingOuterEVASuitBaseToggleable, BaseMedicalContraband] #Despite "Voidsuits are light hardsuits", since it parents of EVA Suits, it goes with the other softsuits
+  parent: [ClothingOuterEVASuitBase, BaseMedicalContraband] #Despite "Voidsuits are light hardsuits", since it parents of EVA Suits, it goes with the other softsuits
   id: ClothingOuterHardsuitVoidParamed
   name: paramedic void suit
   description: A void suit made for paramedics.

@@ -151,7 +151,7 @@ public sealed partial class RadioSystem : SharedRadioSystem
         var sourceServerExempt = _exemptQuery.HasComp(radioSource);
 
         // Relay network
-        var useNetwork = _cfg.GetCVar(CCVars.TCommsUseNetwork) && useNetworkOverride;
+        var useNetwork = _cfg.GetCVar(CCVars.TCommsUseNetwork);
         NetworkGraph? network = null;
         NetworkNode? transmitterNode = null;
         if (useNetwork)

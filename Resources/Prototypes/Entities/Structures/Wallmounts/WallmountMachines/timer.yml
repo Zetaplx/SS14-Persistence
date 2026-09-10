@@ -70,7 +70,6 @@
   - type: Sprite
     drawdepth: WallMountedItems
     sprite: Structures/Wallmounts/signalscreen.rsi
-    noRot: true
     state: signalscreen
     noRot: true
   - type: Construction

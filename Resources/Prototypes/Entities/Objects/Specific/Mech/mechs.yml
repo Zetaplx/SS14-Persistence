@@ -1,5 +1,4 @@
 - type: entity
-  abstract: true
   parent: StructureHealthMachineMassive
   id: BaseMech
   save: true

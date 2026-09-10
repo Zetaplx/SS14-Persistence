@@ -84,13 +84,13 @@ public sealed partial class CharacterInfoSystem : EntitySystem
         var detailExaminable = EnsureComp<DetailExaminableComponent>(entity, out var detail) ? detail.Content : Loc.GetString("flavor-text-placeholder");
 
         RaiseNetworkEvent(new CharacterInfoEvent(
-            GetNetEntity(entity),
-            jobTitle,
-            faction,
-            "$" + bankBal.ToString(),
-            objectives,
-            briefing,
-            detailExaminable),
+            netEntity: GetNetEntity(entity),
+            job: jobTitle,
+            faction: faction,
+            bankBal: "$" + bankBal.ToString(),
+            objectives: objectives,
+            briefing: briefing,
+            detailExaminable: detailExaminable),
             args.SenderSession
         );
 

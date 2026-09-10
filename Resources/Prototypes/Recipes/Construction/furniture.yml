@@ -254,18 +254,6 @@
     - !type:TileNotBlocked
 
 - type: construction
-  id: TableCounterPharma
-  graph: Table
-  startNode: start
-  targetNode: CounterPharma
-  category: construction-category-furniture
-  objectType: Structure
-  placementMode: SnapgridCenter
-  canBuildInImpassable: false
-  conditions:
-    - !type:TileNotBlocked
-
-- type: construction
   parent: BaseTable
   id: TableCounterWood
   targetNode: CounterWood
@@ -352,6 +340,7 @@
 #bedroom
 - type: construction
   id: Bed
+  parent: BaseBed
   targetNode: bed
 
 - type: construction
@@ -471,12 +460,6 @@
   id: Rack
   graph: Rack
   targetNode: Rack
-
-- type: construction
-  parent: BaseChair # close enough
-  id: ToiletEmpty
-  graph: Toilet
-  targetNode: toilet
 
 - type: construction
   id: KanbanBoard

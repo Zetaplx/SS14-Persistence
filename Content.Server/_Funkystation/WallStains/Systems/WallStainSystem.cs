@@ -1,5 +1,4 @@
 ﻿using Content.Server.Atmos.Components;
-using Content.Server.Forensics;
 using Content.Shared._Funkystation.WallStains;
 using Content.Shared._Funkystation.WallStains.Components;
 using Content.Shared.Chemistry;
@@ -11,6 +10,8 @@ using Content.Shared.DoAfter;
 using Content.Shared.FixedPoint;
 using Content.Shared.Fluids;
 using Content.Shared.Fluids.Components;
+using Content.Shared.Forensics.Components;
+using Content.Shared.Forensics.Systems;
 using Content.Shared.Interaction;
 using Content.Shared.Popups;
 using Content.Shared.Tag;
@@ -95,7 +96,7 @@ public sealed partial class WallStainSystem : EntitySystem
         foreach (var offset in AdjacentTileOffsets)
         {
             var targetTile = tilePos + offset;
-            var anchored = _map.GetAnchoredEntitiesEnumerator(gridUid.Value, grid, targetTile);
+            var anchored = _map.GetAnchoredEntities(gridUid.Value, grid, targetTile);
             while (anchored.MoveNext(out var ent))
             {
                 if (!IsWall(ent.Value))
@@ -107,7 +108,7 @@ public sealed partial class WallStainSystem : EntitySystem
 
         foreach ((var ent, var offset) in stains)
         {
-            ApplyStainToWall(ent, solution, -offset, fraction: 0.25f);;
+            ApplyStainToWall(ent, solution, -offset, fraction: 0.25f); ;
         }
     }
 
@@ -173,7 +174,8 @@ public sealed partial class WallStainSystem : EntitySystem
 
                 var wallForensics = EnsureComp<ForensicsComponent>(wallUid);
                 var dnas = _forensics.GetSolutionsDNA(split);
-                wallForensics.DNAs.AddRange(dnas);
+                foreach (var dna in dnas)
+                    wallForensics.DNAs.Add(dna);
             }
         }
 
@@ -355,7 +357,7 @@ public sealed partial class WallStainSystem : EntitySystem
         var color = solution.GetColor(_prototype);
         comp.Color = color.WithAlpha(color.A * 0.6f);
         comp.StainState = solution.ContainsPrototype(WaterReagent) || solution.ContainsPrototype(SpaceCleanerReagent) ? "drip" : "splatter";
-        comp.FillLevel = comp.MaxStainVolume > 0 ? (float) (solution.Volume / comp.MaxStainVolume) : 0f;
+        comp.FillLevel = comp.MaxStainVolume > 0 ? (float)(solution.Volume / comp.MaxStainVolume) : 0f;
         Dirty(uid, comp);
     }
 

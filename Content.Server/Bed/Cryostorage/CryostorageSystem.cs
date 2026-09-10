@@ -32,6 +32,7 @@ using Content.Shared.Station;
 using Content.Shared.StationRecords.Components;
 using Content.Shared.StationRecords.Systems;
 using Robust.Shared.Audio.Systems;
+using Robust.Server.GameObjects;
 
 namespace Content.Server.Bed.Cryostorage;
 

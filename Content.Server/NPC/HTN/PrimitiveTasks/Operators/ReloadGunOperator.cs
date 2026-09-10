@@ -166,7 +166,7 @@ public sealed partial class ReloadGunOperator : HTNOperator
 
             // Mirrors TryItemSlotsReload's own CanInsert pre-check - otherwise Update() could keep
             // failing to actually reload while Plan() keeps saying it's possible.
-            if (replacement != null && itemSlots.CanInsert(gun, replacement.Value, owner, slot, swap: true))
+            if (replacement != null && itemSlots.CanInsert(gun, slot, owner, replacement.Value, swap: true))
                 return true;
         }
 
@@ -212,7 +212,7 @@ public sealed partial class ReloadGunOperator : HTNOperator
             // first would permanently strand the gun with no magazine at all if it then failed.
             // swap: true checks insertability as if the slot were already empty, without touching
             // it, so a failing candidate never costs us the one we have.
-            if (!itemSlots.CanInsert(gun, replacement.Value, owner, slot, swap: true))
+            if (!itemSlots.CanInsert(gun, slot, owner, replacement.Value, swap: true))
                 continue;
 
             if (slot.HasItem)

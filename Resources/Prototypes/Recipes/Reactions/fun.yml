@@ -214,45 +214,6 @@
       entity: MaterialGunpowder
 
 - type: reaction
-  id: SolidifyGold
-  impact: Low
-  quantized: true
-  reactants:
-    Gold:
-      amount: 10
-    Fresium:
-      amount: 5
-  effects:
-  - !type:SpawnEntity
-    entity: IngotGold1
-
-- type: reaction
-  id: SolidifySilver
-  impact: Low
-  quantized: true
-  reactants:
-    Silver:
-      amount: 10
-    Fresium:
-      amount: 5
-  effects:
-  - !type:SpawnEntity
-    entity: IngotSilver1
-
-- type: reaction
-  id: SolidifyBrass
-  impact: Low
-  quantized: true
-  reactants:
-    Brass:
-      amount: 10
-    Fresium:
-      amount: 5
-  effects:
-  - !type:SpawnEntity
-    entity: SheetBrass1
-
-- type: reaction
   id: WehHewExplosion
   impact: High
   priority: 20

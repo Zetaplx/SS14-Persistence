@@ -27,6 +27,7 @@ using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
 using Content.Server.Ghost.Roles.Components;
+using Content.Shared.Chat;
 
 namespace Content.Server.Zombies
 {

@@ -6,10 +6,7 @@ using Content.Shared.Nutrition.EntitySystems;
 using Content.Shared.Popups;
 using Content.Shared.Stacks;
 using Robust.Shared.Network;
-using Content.Shared.Nutrition.Components;
-using Content.Shared.Nutrition.Prototypes;
-using Content.Shared.Stacks;
-using Robust.Shared.Prototypes;
+using Robust.Shared.Serialization;
 
 namespace Content.Shared.Sericulture;
 

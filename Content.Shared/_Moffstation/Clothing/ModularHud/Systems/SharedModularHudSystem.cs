@@ -102,8 +102,6 @@ public abstract partial class SharedModularHudSystem : EntitySystem
         SubscribeRelaysForEffectEvents<RefreshEquipmentHudEvent<ShowJobIconsComponent>>();
         SubscribeRelaysForEffectEvents<RefreshEquipmentHudEvent<ShowHealthBarsComponent>>();
         SubscribeRelaysForEffectEvents<RefreshEquipmentHudEvent<ShowHealthIconsComponent>>();
-        SubscribeRelaysForEffectEvents<RefreshEquipmentHudEvent<ShowHungerIconsComponent>>();
-        SubscribeRelaysForEffectEvents<RefreshEquipmentHudEvent<ShowThirstIconsComponent>>();
         SubscribeRelaysForEffectEvents<RefreshEquipmentHudEvent<ShowMindShieldIconsComponent>>();
         SubscribeRelaysForEffectEvents<RefreshEquipmentHudEvent<ShowSyndicateIconsComponent>>();
         SubscribeRelaysForEffectEvents<RefreshEquipmentHudEvent<ShowCriminalRecordIconsComponent>>();
@@ -118,7 +116,7 @@ public abstract partial class SharedModularHudSystem : EntitySystem
         bool requiresActiveSlots = true,
         Func<Entity<ModularHudModuleComponent>, bool>? predicate = null
     ) where TArgs : notnull => Subs.SubscribeWithRelay(
-        delegate(Entity<ModularHudComponent> entity, ref TArgs args)
+        delegate (Entity<ModularHudComponent> entity, ref TArgs args)
         {
             // Only relay if we're in the slots which this HUD is active in.
             if (requiresActiveSlots && !_inventory.InSlotWithAnyFlags(entity.Owner, entity.Comp.ActiveSlots))

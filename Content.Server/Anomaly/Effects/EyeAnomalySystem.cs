@@ -47,30 +47,30 @@ namespace Content.Server.Anomaly.Effects;
 /// behavior itself is still entirely generic (see anomaly_eye.yml's Anomaly component fields),
 /// unrelated to this.
 /// </summary>
-public sealed class EyeAnomalySystem : EntitySystem
+public sealed partial class EyeAnomalySystem : EntitySystem
 {
-    [Dependency] private readonly IGameTiming _timing = default!;
-    [Dependency] private readonly IRobustRandom _random = default!;
-    [Dependency] private readonly EntityLookupSystem _lookup = default!;
-    [Dependency] private readonly MobStateSystem _mobState = default!;
-    [Dependency] private readonly SharedMindSystem _mind = default!;
-    [Dependency] private readonly SharedTransformSystem _transform = default!;
-    [Dependency] private readonly ExamineSystem _examine = default!;
-    [Dependency] private readonly TetherVisualSystem _tetherVisual = default!;
-    [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
-    [Dependency] private readonly ChatSystem _chat = default!;
-    [Dependency] private readonly SharedEyeSystem _eye = default!;
-    [Dependency] private readonly RadioSystem _radio = default!;
-    [Dependency] private readonly IConfigurationManager _configurationManager = default!;
-    [Dependency] private readonly SharedActionsSystem _actions = default!;
-    [Dependency] private readonly InventorySystem _inventory = default!;
-    [Dependency] private readonly HeadsetSystem _headsetSystem = default!;
-    [Dependency] private readonly StationSystem _stationSystem = default!;
-    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
-    [Dependency] private readonly HTNSystem _htn = default!;
-    [Dependency] private readonly NPCSystem _npcSystem = default!;
-    [Dependency] private readonly NpcFactionSystem _npcFaction = default!;
-    [Dependency] private readonly PersistentIdentifierSystem _pid = default!;
+    [Dependency] private IGameTiming _timing = default!;
+    [Dependency] private IRobustRandom _random = default!;
+    [Dependency] private EntityLookupSystem _lookup = default!;
+    [Dependency] private MobStateSystem _mobState = default!;
+    [Dependency] private SharedMindSystem _mind = default!;
+    [Dependency] private SharedTransformSystem _transform = default!;
+    [Dependency] private ExamineSystem _examine = default!;
+    [Dependency] private TetherVisualSystem _tetherVisual = default!;
+    [Dependency] private SharedAppearanceSystem _appearance = default!;
+    [Dependency] private ChatSystem _chat = default!;
+    [Dependency] private SharedEyeSystem _eye = default!;
+    [Dependency] private RadioSystem _radio = default!;
+    [Dependency] private IConfigurationManager _configurationManager = default!;
+    [Dependency] private SharedActionsSystem _actions = default!;
+    [Dependency] private InventorySystem _inventory = default!;
+    [Dependency] private HeadsetSystem _headsetSystem = default!;
+    [Dependency] private StationSystem _stationSystem = default!;
+    [Dependency] private IPrototypeManager _prototypeManager = default!;
+    [Dependency] private HTNSystem _htn = default!;
+    [Dependency] private NPCSystem _npcSystem = default!;
+    [Dependency] private NpcFactionSystem _npcFaction = default!;
+    [Dependency] private PersistentIdentifierSystem _pid = default!;
 
     private readonly HashSet<Entity<MobStateComponent>> _pulseTargets = new();
     private readonly HashSet<EntityUid> _returning = new();
@@ -467,7 +467,7 @@ public sealed class EyeAnomalySystem : EntitySystem
         var mapPos = _transform.GetWorldPosition(victim);
         var message = string.Format(template, Name(victim), mapPos.X, mapPos.Y);
 
-        _radio.SendRadioMessage(victim, message, "Common", victim, true, false);
+        _radio.SendRadioMessage(victim, message, "Common", victim, true);
 
         actions.SOSCooldown = _timing.CurTime + TimeSpan.FromSeconds(_configurationManager.GetCVar(CCVars.AcceptDeathTime));
     }

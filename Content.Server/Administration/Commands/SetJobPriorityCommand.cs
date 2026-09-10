@@ -60,7 +60,10 @@ public sealed partial class SetJobPriorityCommand : LocalizedCommands
 
         var preferences = _preferences.GetPreferences(player.UserId);
         var slot = preferences.SelectedCharacterIndex;
-        var profile = preferences.SelectedCharacter.WithJobPriority(job, priority);
+        if (preferences.SelectedCharacter is not { } selected)
+            return;
+
+        var profile = selected.WithJobPriority(job, priority);
         await _preferences.SetProfile(player.UserId, slot, profile);
 
         shell.WriteLine(Loc.GetString("cmd-setjobpriority-success",

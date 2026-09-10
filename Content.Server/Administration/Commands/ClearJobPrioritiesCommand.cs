@@ -41,10 +41,13 @@ public sealed partial class ClearJobPrioritiesCommand : LocalizedCommands
         }
 
         var preferences = _preferences.GetPreferences(player.UserId);
+        if (preferences.SelectedCharacter is not { } selected)
+            return;
+
         await _preferences.SetProfile(
             player.UserId,
             preferences.SelectedCharacterIndex,
-            preferences.SelectedCharacter.WithJobPriorities([]));
+            selected.WithJobPriorities([]));
 
         shell.WriteLine(Loc.GetString("cmd-clearjobpriorities-success", ("player", player.Name)));
     }

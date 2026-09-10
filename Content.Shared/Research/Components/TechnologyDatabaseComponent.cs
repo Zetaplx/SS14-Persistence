@@ -16,7 +16,7 @@ public sealed partial class TechnologyDatabaseComponent : Component
     public ProtoId<TechDisciplinePrototype>? MainDiscipline;
 
     [DataField, AutoNetworkedField]
-    public List<string> CurrentTechnologyCards = new();
+    public List<ProtoId<TechnologyPrototype>> CurrentTechnologyCards = new();
 
     /// <summary>
     /// Which research disciplines are able to be unlocked

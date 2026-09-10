@@ -210,7 +210,7 @@ public abstract partial class SharedStackSystem : EntitySystem
         if (amount <= 0)
             return; // Invalid amount
 
-        UserSplit((stackUid.Value, stack), (userUid, xform), amount);
+        UserSplit((stackUid.Value, stack), userUid, amount);
     }
 
     protected virtual void OpenCustomSplitUi(Entity<StackComponent> stack, EntityUid user) { }

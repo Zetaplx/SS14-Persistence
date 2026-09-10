@@ -95,29 +95,6 @@
             max: 5
 
 - type: entity
-  parent: BaseMaterialDoorNavMap
-  id: PlasmaDoor
-  name: plasma door
-  components:
-  - type: Sprite
-    sprite: Structures/Doors/MineralDoors/plasma_door.rsi
-  - type: Construction
-    graph: DoorGraph
-    node: plasmaDoor
-  - type: Destructible
-    thresholds:
-    - trigger: *DamageTrigger150
-      behaviors:
-      - &SoundMetalBreak !type:PlaySoundBehavior
-        sound:
-          collection: MetalBreak
-      - !type:SpawnEntitiesBehavior
-        spawn:
-          SheetPlasma1: &BaseDoorSpawn
-            min: 3
-            max: 5
-
-- type: entity
   parent: [ BaseMaterialDoorNavMap, StructureHealthDoorWeak ]
   id: GoldDoor
   name: gold door
@@ -133,10 +110,14 @@
     thresholds:
     - trigger: *DamageDoorWeak
       behaviors:
-      - *SoundMetalBreak
+      - &SoundMetalBreak !type:PlaySoundBehavior
+        sound:
+          collection: MetalBreak
       - !type:SpawnEntitiesBehavior
         spawn:
-          IngotGold1: *BaseDoorSpawn
+          IngotGold1: &BaseDoorSpawn
+            min: 2
+            max: 4
 
 - type: entity
   parent: [ BaseMaterialDoorNavMap, StructureHealthDoorWeak ]

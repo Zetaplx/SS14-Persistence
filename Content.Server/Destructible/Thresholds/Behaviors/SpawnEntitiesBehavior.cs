@@ -59,7 +59,7 @@ namespace Content.Server.Destructible.Thresholds.Behaviors
                         var spawned = SpawnInContainer
                             ? system.EntityManager.SpawnNextToOrDrop(entityId, owner)
                             : system.EntityManager.SpawnEntity(entityId, position.Offset(getRandomVector()));
-                        system.StackSystem.SetCount((spawned, null), (int) count);
+                        system.StackSystem.SetCount((spawned, null), (int)count);
 
                         TransferForensics(spawned, system, owner);
                     }
@@ -85,12 +85,17 @@ namespace Content.Server.Destructible.Thresholds.Behaviors
                 return;
 
             var comp = system.EntityManager.EnsureComponent<ForensicsComponent>(spawned);
-            comp.DNAs.AddRange(forensicsComponent.DNAs);
+            foreach (var dna in forensicsComponent.DNAs)
+                comp.DNAs.Add(dna);
 
             if (!system.Random.Prob(0.4f))
                 return;
-            comp.Fingerprints.AddRange(forensicsComponent.Fingerprints);
-            comp.Fibers.AddRange(forensicsComponent.Fibers);
+
+            foreach (var print in forensicsComponent.Fingerprints)
+                comp.Fingerprints.Add(print);
+
+            foreach (var fiber in forensicsComponent.Fibers)
+                comp.Fibers.Add(fiber);
         }
     }
 }

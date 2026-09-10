@@ -21,6 +21,7 @@ namespace Content.Server.Construction
         [Dependency] private ContainerSystem _container = default!;
         [Dependency] private StackSystem _stackSystem = default!;
         [Dependency] private SharedToolSystem _toolSystem = default!;
+        [Dependency] private SharedTransformSystem _transformSystem = default!;
 
         public override void Initialize()
         {

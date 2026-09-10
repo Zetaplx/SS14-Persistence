@@ -68,11 +68,9 @@ public abstract partial class SharedDefibrillatorSystem : EntitySystem
         base.Initialize(); // funky
         _config.OnValueChanged(DefibrillatorCVars.ReviveChance, value => _reviveChance = value, true); // funky
         _config.OnValueChanged(DefibrillatorCVars.AdrenalineCost, value => _adrenalineCostPerShock = value, true); // funky
-
-        SubscribeLocalEvent<DefibrillatorComponent, AfterInteractEvent>(OnAfterInteract);
-        SubscribeLocalEvent<DefibrillatorComponent, DefibrillatorZapDoAfterEvent>(OnDoAfter);
     }
 
+    [SubscribeLocalEvent]
     private void OnAfterInteract(Entity<DefibrillatorComponent> ent, ref AfterInteractEvent args)
     {
         if (args.Handled || args.Target is not { } target)
@@ -106,7 +104,7 @@ public abstract partial class SharedDefibrillatorSystem : EntitySystem
     /// <returns>
     /// Returns true if the target is valid to be defibed, false otherwise.
     /// </returns>
-    public bool CanZap(Entity<DefibrillatorComponent?> ent, EntityUid target, EntityUid? user = null)
+    public bool CanZap(Entity<DefibrillatorComponent?> ent, EntityUid target, EntityUid? user = null, bool targetCanBeAlive = false)
     {
         if (!Resolve(ent, ref ent.Comp))
             return false;
@@ -120,20 +118,24 @@ public abstract partial class SharedDefibrillatorSystem : EntitySystem
         if (!TryComp<UseDelayComponent>(ent, out var useDelay) || _useDelay.IsDelayed((ent.Owner, useDelay), ent.Comp.DelayId))
             return false;
 
+        if (!TryComp<MobStateComponent>(ent.Owner, out var mobState))
+            return false;
+
         if (!_powerCell.HasActivatableCharge(ent.Owner, user: user, predicted: true))
             return false;
 
         if (!targetCanBeAlive && _mobState.IsAlive(target, mobState))
             return false;
 
-        if (!targetCanBeAlive && !ent.Comp.CanDefibCrit && _mobState.IsCritical(target, mobState))
+        if (!targetCanBeAlive && _mobState.IsCritical(target, mobState))
             return false;
 
         // funky, gotta take off their hardsuit or coat
         if (!_inventory.TryGetSlotEntity(target, "outerClothing", out _))
             return true;
 
-        _popup.PopupEntity(Loc.GetString("defibrillator-clothing-blocking"), user);
+        _popup.PopupEntity(Loc.GetString("defibrillator-clothing-blocking"), target);
+
         return false;
 
     }
@@ -208,8 +210,8 @@ public abstract partial class SharedDefibrillatorSystem : EntitySystem
         Entity<DefibrillatorComponent> defibEnt = (ent, ent.Comp);
         var failedRevive = TryRevive(defibEnt, user, target, true);
 
-        _interaction.GetEntitiesInteractingWithTarget(target, _interactors);
-        foreach (var interactor in _interactors)
+        _interaction.GetEntitiesInteractingWithTarget(target, _interacters);
+        foreach (var interactor in _interacters)
         {
             TryRevive(defibEnt, user, interactor, false);
         }
@@ -219,7 +221,7 @@ public abstract partial class SharedDefibrillatorSystem : EntitySystem
             : ent.Comp.SuccessSound;
         _audio.PlayPredicted(sound, ent.Owner, user);
 
-        var ev = new TargetDefibrillatedEvent(user, target, (ent.Owner, ent.Comp), _interactors);
+        var ev = new TargetDefibrillatedEvent(user, target, (ent.Owner, ent.Comp), _interacters);
         RaiseLocalEvent(target, ref ev);
 
         // if we don't have enough power left for another shot, turn it off
@@ -266,7 +268,7 @@ public abstract partial class SharedDefibrillatorSystem : EntitySystem
                                 continue;
 
                             // check effects
-                            if (!_prototypeManager.TryIndex<ReagentPrototype>(reagentId.Prototype, out var reagentProto))
+                            if (!ProtoMan.TryIndex(reagentId.Prototype, out var reagentProto))
                                 continue;
 
                             if (reagentProto.Metabolisms == null || !reagentProto.Metabolisms.Metabolisms.TryGetValue("Bloodstream", out var metabolism))

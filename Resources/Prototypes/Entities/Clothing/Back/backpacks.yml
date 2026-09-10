@@ -327,8 +327,6 @@
     - state: holding
     - state: holding-unlit
       shader: unshaded
-  - type: Clothing
-    equippedPrefix: holding
   - type: Item
     size: Ginormous
   - type: Storage

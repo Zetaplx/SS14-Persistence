@@ -1,3 +1,4 @@
+using System.Linq;
 using Content.Shared.Chemistry;
 using Content.Shared.Damage.Events;
 using Content.Shared.Damage.Systems;
@@ -115,11 +116,11 @@ public abstract partial class SharedXenoArtifactSystem
                         // This is an unlockable node, check if is failed
                         var predecessorNodeIndices = GetPredecessorNodes((ent, ent), GetIndex(ent, nodeEnt.Owner));
                         // Remember that triggering the unlockable node shouldn't count as failing the unlock!
-                        predecessorNodeIndices.Add(GetIndex(ent, nodeEnt.Owner)); 
+                        predecessorNodeIndices.Add(GetIndex(ent, nodeEnt.Owner));
                         if (unlockingComp.TriggeredNodeIndexes.All(x => predecessorNodeIndices.Contains(x)))
                         {
                             // We have found an unlockable node that is still possible to unlock - it contains all triggers in its predecessors
-                            unlockingComp.EndTime += ent.Comp.UnlockStateIncrementPerNode; 
+                            unlockingComp.EndTime += ent.Comp.UnlockStateIncrementPerNode;
 
                             if (ent.Comp.UnlockContinueMsg != null)
                                 _popup.PopupEntity(Loc.GetString(ent.Comp.UnlockContinueMsg), ent);

@@ -15,6 +15,7 @@ using Content.Shared.RatKing;
 using Robust.Shared.Map;
 using Robust.Shared.Prototypes;
 using Content.Shared.Chat;
+using System.Numerics;
 
 namespace Content.Server.RatKing
 {

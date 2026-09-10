@@ -38,13 +38,7 @@ public sealed class ChatHighlightTest : GameTest
         Assert.That(_configManager.GetCVar(CCVars.ChatHighlights), Is.EqualTo(customHighlights));
 
         // 3. Simulate character update
-        var characterData = new CharacterInfoSystem.CharacterData(
-            default,
-            new Dictionary<string, List<Shared.Objectives.ObjectiveInfo>>(),
-            null,
-            Captain,
-            "John Doe"
-        );
+        var characterData = CharacterInfoSystem.CharacterData.JohnDoe;
 
         var method = chatController.GetType().GetMethod(
             "OnCharacterUpdated",
@@ -122,13 +116,7 @@ public sealed class ChatHighlightTest : GameTest
         _configManager.SetCVar(CCVars.ChatAutoFillHighlights, true);
 
         // 4. Simulate character update (spawning into round)
-        var characterData = new CharacterInfoSystem.CharacterData(
-            default,
-            new Dictionary<string, List<Shared.Objectives.ObjectiveInfo>>(),
-            null,
-            Captain,
-            "John Doe"
-        );
+        var characterData = CharacterInfoSystem.CharacterData.JohnDoe;
 
         var method = chatController.GetType().GetMethod(
             "OnCharacterUpdated",

@@ -47,7 +47,7 @@
     node: assembly
 
 - type: entity
-  parent: BaseWindoorAssembly
+  parent: WindoorAssembly
   id: WindoorAssemblySecure
   name: secure windoor assembly
   description: It opens, it closes, and you can see through it! This one looks tough.
@@ -59,7 +59,7 @@
     - state: assembly
   - type: Destructible
     thresholds:
-    - trigger: *DamageTrigger300
+    - trigger: *DamageDoorWeak
       behaviors:
       - !type:SpawnEntitiesBehavior
         spawn:
@@ -69,7 +69,7 @@
     node: assemblySecure
 
 - type: entity
-  parent: BaseWindoorAssembly
+  parent: WindoorAssembly
   id: WindoorAssemblyClockwork
   name: clockwork windoor assembly
   description: It opens, it closes, and you can see through it! This one looks tough.
@@ -80,7 +80,9 @@
     - state: open
   - type: Destructible
     thresholds:
-    - trigger: *DamageTrigger300
+    - trigger:
+        !type:DamageTrigger
+        damage: 300
       behaviors:
       - !type:SpawnEntitiesBehavior
         spawn:

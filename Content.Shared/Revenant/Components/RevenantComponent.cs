@@ -1,3 +1,4 @@
+using System.Numerics;
 using Content.Shared.Alert;
 using Content.Shared.FixedPoint;
 using Content.Shared.Store;

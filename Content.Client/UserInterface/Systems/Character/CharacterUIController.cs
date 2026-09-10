@@ -134,7 +134,14 @@ public sealed partial class CharacterUIController : UIController, IOnStateEntere
             return;
         }
 
-        var (entity, job, faction, bankBal, objectives, briefing, detailExaminable, entityName) = data;
+        var entity = data.Entity;
+        var job = data.Job;
+        var faction = data.Faction;
+        var bankBal = data.BankBal;
+        var objectives = data.Objectives;
+        var briefing = data.Briefing;
+        var detailExaminable = data.DetailExaminable;
+        var entityName = data.EntityName;
 
         _window.SpriteView.SetEntity(entity);
 

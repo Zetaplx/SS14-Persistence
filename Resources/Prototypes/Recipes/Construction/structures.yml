@@ -242,19 +242,6 @@
   id: TitaniumWall
   graph: Girder
   startNode: start
-  targetNode: bananiumWall
-  category: construction-category-structures
-  objectType: Structure
-  placementMode: SnapgridCenter
-  canRotate: false
-  canBuildInImpassable: false
-  conditions:
-    - !type:TileNotBlocked
-
-- type: construction
-  id: TitaniumWall
-  graph: Girder
-  startNode: start
   targetNode: titaniumWall
   category: construction-category-structures
   objectType: Structure
@@ -461,12 +448,6 @@
   targetNode: uraniumWindowDiagonal
 
 - type: construction
-  parent: BaseWindowDiagonal
-  id: ReinforcedUraniumWindowDiagonal
-  name: construction-recipe-reinforced-uranium-window-diagonal
-  targetNode: reinforcedUraniumWindowDiagonal
-
-- type: construction
   parent: BaseWindow
   id: WindowDirectional
   graph: WindowDirectional
@@ -474,19 +455,6 @@
   category: construction-category-structures
   canBuildInImpassable: true
   conditions:
-    - !type:NoWindowsInTile
-  objectType: Structure
-  placementMode: SnapgridCenter
-
-- type: construction
-  id: WindowDirectionalCorner
-  graph: WindowDirectionalCorner
-  startNode: start
-  targetNode: windowDirectionalCorner
-  category: construction-category-structures
-  canBuildInImpassable: true
-  conditions:
-    - !type:EmptyOrWindowValidInTile
     - !type:NoWindowsInTile
   objectType: Structure
   placementMode: SnapgridCenter
@@ -564,14 +532,6 @@
   objectType: Structure
   placementMode: SnapgridCenter
 
-# region Firelocks
-  category: construction-category-structures
-  canBuildInImpassable: true
-  conditions:
-    - !type:EmptyOrWindowValidInTile
-    - !type:NoWindowsInTile
-  objectType: Structure
-  placementMode: SnapgridCenter
 
 - type: construction
   id: PhoronGlassWindowDirectional
@@ -600,48 +560,6 @@
   placementMode: SnapgridCenter
 
 - type: construction
-  id: UraniumWindow
-  graph: Window
-  startNode: start
-  targetNode: uraniumWindow
-  category: construction-category-structures
-  canBuildInImpassable: true
-  conditions:
-    - !type:EmptyOrWindowValidInTile
-    - !type:NoWindowsInTile
-  objectType: Structure
-  placementMode: SnapgridCenter
-  canRotate: false
-
-- type: construction
-  id: ReinforcedUraniumWindow
-  graph: Window
-  startNode: start
-  targetNode: reinforcedUraniumWindow
-  category: construction-category-structures
-  canBuildInImpassable: true
-  conditions:
-    - !type:EmptyOrWindowValidInTile
-    - !type:NoWindowsInTile
-  objectType: Structure
-  placementMode: SnapgridCenter
-  canRotate: false
-
-- type: construction
-  id: UraniumWindowDiagonal
-  name: construction-recipe-uranium-window-diagonal
-  graph: WindowDiagonal
-  startNode: start
-  targetNode: uraniumWindowDiagonal
-  category: construction-category-structures
-  canBuildInImpassable: true
-  conditions:
-    - !type:EmptyOrWindowValidInTile
-    - !type:NoWindowsInTile
-  objectType: Structure
-  placementMode: SnapgridCenter
-
-- type: construction
   id: ReinforcedUraniumWindowDiagonal
   name: construction-recipe-reinforced-uranium-window-diagonal
   graph: WindowDiagonal
@@ -660,19 +578,6 @@
   graph: WindowDirectional
   startNode: start
   targetNode: uraniumWindowDirectional
-  category: construction-category-structures
-  canBuildInImpassable: true
-  conditions:
-    - !type:EmptyOrWindowValidInTile
-    - !type:NoWindowsInTile
-  objectType: Structure
-  placementMode: SnapgridCenter
-
-- type: construction
-  id: UraniumReinforcedWindowDirectional
-  graph: WindowDirectional
-  startNode: start
-  targetNode: uraniumReinforcedWindowDirectional
   category: construction-category-structures
   canBuildInImpassable: true
   conditions:
@@ -724,6 +629,7 @@
 
 - type: construction
   id: Shutters
+  parent: BaseShutters
   targetNode: Shutters
 
 - type: construction
@@ -1493,11 +1399,6 @@
   targetNode: solidSecretDoor
   placementMode: SnapgridCenter
 
-- type: construction
-  parent: BaseStructureFullTileDirectional
-  id: Turnstile
-  graph: Turnstile
-  targetNode: turnstile
 
 - type: construction
   parent: BaseStructureFullTileDirectional

@@ -229,7 +229,7 @@ public sealed partial class XenoArtifactCommand : ToolshedCommand
         if (!_prototypeManager.Resolve(trigger, out var triggerPrototype))
             return;
 
-        var createdNode = _artifact.CreateNode(artifact, effect.Id, triggerPrototype, depth);
+        var createdNode = _artifact.CreateNode(artifact, triggerPrototype, depth);
         if (node.HasValue)
         {
             _artifact.AddEdge(artifact.AsNullable(), node.Value, createdNode);

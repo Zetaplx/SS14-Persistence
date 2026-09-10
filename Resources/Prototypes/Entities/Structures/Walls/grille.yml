@@ -76,8 +76,6 @@
           True: { visible: True }
           False: { visible: False }
   - type: AnimationPlayer
-  - type: Damageable
-    damageModifierSet: SteelMod
   - type: Destructible
     thresholds:
     - trigger:
@@ -94,9 +92,6 @@
       - !type:PlaySoundBehavior
         sound:
           path: "/Audio/Weapons/grille_hit.ogg"
-  - type: Construction
-    graph: Grille
-    node: grille
 
 ### DIAGONAL
 - type: entity

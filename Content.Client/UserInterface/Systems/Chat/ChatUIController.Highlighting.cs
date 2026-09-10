@@ -163,7 +163,8 @@ public sealed partial class ChatUIController : IOnSystemChanged<CharacterInfoSys
         if (!_charInfoIsAttach)
             return;
 
-        var (_, job, _, _, _, _, _, entityName) = data;
+        var job = data.Job;
+        var entityName = data.EntityName;
 
         // Mark this entity's name as our character name for the "UpdateHighlights" function.
         var newHighlights = "@" + entityName;
@@ -180,7 +181,7 @@ public sealed partial class ChatUIController : IOnSystemChanged<CharacterInfoSys
         if (job != null)
         {
             // Convert the job title to kebab-case and use it as a key for the loc file.
-            var jobKey = job.Value.Id.Replace(' ', '-').ToLower();
+            var jobKey = job.Replace(' ', '-').ToLower();
 
             if (_loc.TryGetString($"highlights-{jobKey}", out var jobMatches))
                 newHighlights += '\n' + jobMatches.Replace(", ", "\n");

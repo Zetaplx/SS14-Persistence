@@ -10,7 +10,7 @@ namespace Content.Shared.Tools.Components;
 public sealed partial class ToolComponent : Component
 {
     [DataField]
-    public HashSet<ProtoId<ToolQualityPrototype>> Qualities  = [];
+    public HashSet<ProtoId<ToolQualityPrototype>> Qualities = [];
 
     /// <summary>
     ///     For tool interactions that have a delay before action this will modify the rate, time to wait is divided by this value
