@@ -210,8 +210,7 @@
   - MobFlammable
   - BaseSpeciesMob
   - BaseMobDestructible
-  - BaseHungerSlowdown
-  - BaseThirstSlowdown
+  - BaseHungerThirstSlowdown
   id: BaseSpeciesMobOrganic
   components:
   - type: Satiation

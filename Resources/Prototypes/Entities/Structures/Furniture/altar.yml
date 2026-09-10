@@ -1,42 +1,23 @@
 - type: entity
+  abstract: true
+  parent: [ BaseStructure, StructureHealthFurnitureStrong ]
   id: AltarBase
-  parent: BaseStructure
   name: altar
   description: Altar of the Gods.
-  abstract: true
   components:
   - type: Anchorable
   - type: Transform
   - type: Prayable
-  - type: Damageable
-    damageModifierSet: Wood
-  - type: Injurable
-    damageContainer: StructuralInorganic
   - type: Destructible
     thresholds:
-    - trigger:
-        !type:DamageTrigger
-        damage: 100
-      behaviors:
-      - !type:DoActsBehavior
-        acts: [ "Destruction" ]
-    - trigger:
-        !type:DamageTrigger
-        damage: 15
+    - trigger: !type:DamageTrigger
+        damage: 80
       behaviors:
       - !type:PlaySoundBehavior
         sound:
-          collection: WoodDestroyHeavy
-      - !type:SpawnEntitiesBehavior
-        spawn:
-          MaterialWoodPlank:
-            min: 1
-            max: 5
-      - !type:DoActsBehavior
-        acts: [ "Destruction" ]
-  - type: Tag
-    tags:
-    - Wooden
+          path: /Audio/Effects/demon_dies.ogg # Spooky!!
+          params:
+            volume: -4
   - type: PlaceableSurface
   - type: Fixtures
     fixtures:
@@ -55,25 +36,41 @@
   - type: Clickable
 
 - type: entity
-  id: AltarNanotrasen
+  abstract: true
   parent: AltarBase
-  name: nanotrasen altar
+  id: AltarBaseWood
   components:
-  - type: Sprite
-    sprite: Structures/Furniture/Altars/Gods/nanotrasen.rsi
-    state: nanotrasen
-  - type: Icon
-    sprite: Structures/Furniture/Altars/Gods/nanotrasen.rsi
-    state: nanotrasen
+  - type: Damageable
+    damageModifierSet: WoodMod
   - type: Destructible
     thresholds:
-    - trigger:
-        !type:DamageTrigger
-        damage: 25
+    - trigger: !type:DamageTrigger
+        damage: 80
       behaviors:
+      - !type:SpawnEntitiesBehavior
+        spawn:
+          MaterialWoodPlank1:
+            min: 1
+            max: 5
+          MaterialCloth1:
+            min: 1
+            max: 3
       - !type:PlaySoundBehavior
         sound:
-          collection: MetalBreak
+          collection: WoodDestroy
+
+- type: entity
+  abstract: true
+  parent: AltarBase
+  id: AltarBaseSteel
+  components:
+  - type: Damageable
+    damageModifierSet: SteelMod
+  - type: Destructible
+    thresholds:
+    - trigger: !type:DamageTrigger
+        damage: 80
+      behaviors:
       - !type:SpawnEntitiesBehavior
         spawn:
           SheetSteel1:
@@ -82,8 +79,23 @@
           MaterialCloth1:
             min: 1
             max: 3
-      - !type:DoActsBehavior
-        acts: [ "Destruction" ]
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalBreak
+
+# Prototypes
+
+- type: entity
+  parent: AltarBaseWood
+  id: AltarNanotrasen
+  name: nanotrasen altar
+  components:
+  - type: Sprite
+    sprite: Structures/Furniture/Altars/Gods/nanotrasen.rsi
+    state: nanotrasen
+  - type: Icon
+    sprite: Structures/Furniture/Altars/Gods/nanotrasen.rsi
+    state: nanotrasen
   - type: StealTarget
     stealGroup: AltarNanotrasen
   - type: Construction
@@ -91,8 +103,8 @@
     node: altarNT
 
 - type: entity
+  parent: AltarBaseSteel
   id: AltarChaos
-  parent: AltarNanotrasen
   name: chaos altar
   components:
   - type: Sprite
@@ -106,8 +118,8 @@
     node: altarChaos
 
 - type: entity
+  parent: AltarBaseWood
   id: AltarDruid
-  parent: AltarNanotrasen
   name: druid altar
   components:
   - type: Sprite
@@ -121,8 +133,8 @@
     node: altarDruid
 
 - type: entity
+  parent: AltarBaseWood
   id: AltarToolbox
-  parent: AltarNanotrasen
   name: toolbox altar
   components:
   - type: Sprite
@@ -139,8 +151,8 @@
       toolbox: !type:Container
 
 - type: entity
+  parent: AltarBaseWood
   id: AltarSpaceChristian
-  parent: AltarNanotrasen
   name: space-Christian altar
   components:
   - type: Sprite
@@ -161,8 +173,8 @@
     node: altarChristian
 
 - type: entity
+  parent: AltarBaseWood
   id: AltarSatana
-  parent: AltarNanotrasen
   name: satanic altar
   components:
   - type: Sprite
@@ -183,8 +195,8 @@
     node: altarSatana
 
 - type: entity
+  parent: AltarBaseSteel
   id: AltarTechnology
-  parent: AltarNanotrasen
   name: technology altar
   components:
   - type: Sprite
@@ -205,8 +217,8 @@
     node: altarTechnology
 
 - type: entity
+  parent: AltarBaseWood
   id: AltarConvertFestival
-  parent: AltarBase
   name: festival altar
   components:
   - type: Sprite
@@ -218,34 +230,10 @@
   - type: Construction
     graph: AltarGraph
     node: altarFestival
-  - type: Damageable
-    damageModifierSet: Wood
-  - type: Destructible
-    thresholds:
-    - trigger:
-        !type:DamageTrigger
-        damage: 15
-      behaviors:
-      - !type:PlaySoundBehavior
-        sound:
-          collection: WoodDestroyHeavy
-      - !type:SpawnEntitiesBehavior
-        spawn:
-          MaterialWoodPlank:
-            min: 1
-            max: 5
-          MaterialCloth1:
-            min: 1
-            max: 3
-      - !type:DoActsBehavior
-        acts: [ "Destruction" ]
-  - type: Tag
-    tags:
-    - Wooden
 
 - type: entity
+  parent: AltarBaseWood
   id: AltarConvertMaint
-  parent: AltarBase
   name: maint altar
   components:
   - type: Sprite
@@ -263,8 +251,8 @@
     color: "#fbceb1"
 
 - type: entity
+  parent: AltarBaseWood
   id: AltarConvertBlue
-  parent: AltarBase
   name: blue altar
   components:
   - type: Sprite
@@ -285,8 +273,8 @@
     node: altarBlue
 
 - type: entity
+  parent: AltarBaseWood
   id: AltarConvertBurden
-  parent: AltarBase
   name: burden altar
   components:
   - type: Sprite
@@ -304,8 +292,8 @@
     color: "#fbceb1"
 
 - type: entity
+  parent: AltarBaseWood
   id: AltarConvert
-  parent: AltarBase
   name: convert altar
   components:
   - type: Sprite
@@ -326,8 +314,8 @@
     node: altarBlack
 
 - type: entity
+  parent: AltarBaseWood
   id: AltarConvertOrange
-  parent: AltarBase
   name: orange altar
   components:
   - type: Sprite
@@ -348,8 +336,8 @@
     node: altarOrange
 
 - type: entity
+  parent: AltarBaseWood
   id: AltarConvertRed
-  parent: AltarBase
   name: red altar
   components:
   - type: Sprite
@@ -370,8 +358,8 @@
     node: altarRed
 
 - type: entity
+  parent: AltarBaseWood
   id: AltarConvertWhite
-  parent: AltarBase
   name: white altar
   components:
   - type: Sprite
@@ -392,8 +380,8 @@
     node: altarWhite
 
 - type: entity
+  parent: AltarBaseWood
   id: AltarConvertYellow
-  parent: AltarBase
   name: yellow altar
   components:
   - type: Sprite
@@ -414,8 +402,8 @@
     node: altarYellow
 
 - type: entity
+  parent: AltarBaseSteel
   id: AltarHeaven
-  parent: AltarBase
   name: heaven altar
   components:
   - type: Sprite
@@ -427,22 +415,6 @@
   - type: Icon
     sprite: Structures/Furniture/Altars/Cults/heaven.rsi
     state: full
-  - type: Destructible
-    thresholds:
-    - trigger:
-        !type:DamageTrigger
-        damage: 25
-      behaviors:
-      - !type:PlaySoundBehavior
-        sound:
-          collection: MetalBreak
-      - !type:SpawnEntitiesBehavior
-        spawn:
-          SheetSteel1:
-            min: 1
-            max: 5
-      - !type:DoActsBehavior
-        acts: [ "Destruction" ]
   - type: PointLight
     radius: 1.5
     energy: 1
@@ -452,22 +424,31 @@
     node: altarHeaven
 
 - type: entity
+  parent: AltarBaseSteel
   id: AltarFangs
-  parent: AltarHeaven
   name: fanged altar
   components:
   - type: Sprite
     sprite: Structures/Furniture/Altars/Cults/fangs.rsi
+    layers:
+    - state: full
+    - state: blood
+      shader: unshaded
   - type: Icon
     sprite: Structures/Furniture/Altars/Cults/fangs.rsi
+    state: full
+  - type: PointLight
+    radius: 1.5
+    energy: 1
+    color: "#f08080"  - type: Construction
   - type: Construction
     graph: AltarGraph
     node: altarFangs
 
 
 - type: entity
-  id: AltarBananium
   parent: AltarBase
+  id: AltarBananium
   name: honkmother altar
   description: A bananium altar dedicated to the honkmother.
   components:
@@ -502,7 +483,7 @@
 
 - type: entity
   id: AltarDefault
-  parent: AltarBase
+  parent: AltarBaseWood
   name: altar
   description: An uncovered, nondescript altar.
   components:
@@ -518,7 +499,7 @@
 
 - type: entity
   id: AltarEmbrace
-  parent: AltarBase
+  parent: AltarBaseWood
   name: threshold's embrace altar
   description: An altar decorated for followers of the Threshold's Embrace.
   components:

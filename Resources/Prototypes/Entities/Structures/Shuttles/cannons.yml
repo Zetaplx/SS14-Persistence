@@ -15,10 +15,6 @@
     selectedMode: SemiAuto
     availableModes:
       - SemiAuto
-  - type: Damageable
-    damageModifierSet: Electronic
-  - type: Injurable
-    damageContainer: StructuralInorganic
   - type: DeviceNetwork
     deviceNetId: Wireless
     receiveFrequencyId: BasicDevice
@@ -89,6 +85,15 @@
   - type: BatteryAmmoProvider
     proto: RedLightLaser
     fireCost: 50
+  - type: Destructible
+    thresholds: &ThresholdsMachineNormalBreakSound
+    - trigger:
+        !type:DamageTrigger
+        damage: 175
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalBreak
 
 - type: entity
   id: ShuttleGunPerforator
@@ -109,6 +114,8 @@
       machine_board: !type:Container
       machine_parts: !type:Container
       cell_slot: !type:ContainerSlot
+  - type: Destructible
+    thresholds: *ThresholdsMachineNormalBreakSound
   - type: Gun
     fireRate: 1
     soundGunshot:
@@ -158,6 +165,8 @@
       machine_board: !type:Container
       machine_parts: !type:Container
       ballistic-ammo: !type:Container
+  - type: Destructible
+    thresholds: *ThresholdsMachineNormalBreakSound
   - type: Gun
     projectileSpeed: 80
     fireRate: 1
@@ -202,6 +211,8 @@
       machine_board: !type:Container
       machine_parts: !type:Container
       gun_magazine: !type:ContainerSlot
+  - type: Destructible
+    thresholds: *ThresholdsMachineNormalBreakSound
   - type: Gun
     projectileSpeed: 40
     fireRate: 0.3
@@ -236,26 +247,16 @@
 # ---- Other weapon ----
 
 - type: entity
+  parent: [ ShuttleGunBase, BaseMachineDestructible ]
   id: ShuttleGunPirateCannon
-  parent: ShuttleGunBase
   name: pirate ship cannon
   description: Kaboom!
   components:
   - type: ContainerContainer
     containers:
       ballistic-ammo: !type:Container
-  - type: Damageable
-    damageModifierSet: Metallic
-  - type: Injurable
-    damageContainer: StructuralInorganic
   - type: Destructible
-    thresholds:
-    - trigger:
-        !type:DamageTrigger
-        damage: 300
-      behaviors:
-      - !type:DoActsBehavior
-        acts: ["Destruction"]
+    thresholds: *ThresholdsMachineNormalBreakSound
   - type: Sprite
     sprite: Objects/Weapons/Guns/Shuttles/pirate_cannon.rsi
     layers:
@@ -289,6 +290,8 @@
     containers:
       machine_board: !type:Container
       machine_parts: !type:Container
+  - type: Destructible
+    thresholds: *ThresholdsMachineNormalBreakSound
   - type: Gun
     projectileSpeed: 20
     fireRate: .5
@@ -324,7 +327,7 @@
     fireCost: 25
 
 - type: entity
-  parent: ShuttleGunBase
+  parent: [ ShuttleGunBase, StructureHealthMachineWeak ]
   id: ShuttleGunKineticOld
   name: exomorphic dematerializer
   description: An ancient ship gun, utilizing biomechanical systems to store and release energy. While unique in its design, it has been rendered obsolete due to its inferior charging and firing speed compared to mechanical constructions.
@@ -333,6 +336,8 @@
     sprite: Objects/Weapons/Guns/Shuttles/xeno.rsi
     layers:
     - state: rail
+  - type: Damageable
+    damageModifierSet: SteelMod
   - type: Destructible
     thresholds:
     - trigger:
@@ -342,8 +347,6 @@
       - !type:PlaySoundBehavior
         sound:
           collection: MetalBreak
-      - !type:DoActsBehavior
-        acts: ["Destruction"]
   - type: Gun
     projectileSpeed: 20
     fireRate: 0.2

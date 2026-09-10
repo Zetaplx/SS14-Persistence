@@ -45,17 +45,16 @@
       - Pullable # no dragging things in
   - type: Appearance
   - type: Damageable
-    damageModifierSet: StrongMetallic
-  - type: Injurable
-    damageContainer: Inorganic
+    damageModifierSet: SteelMod
   - type: Destructible
     thresholds:
     - trigger:
         !type:DamageTrigger
-        damage: 500
+        damage: 200
       behaviors:
-      - !type:DoActsBehavior
-        acts: ["Destruction"]
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalBreak
   - type: AccessReader
   - type: Construction
     graph: Turnstile
