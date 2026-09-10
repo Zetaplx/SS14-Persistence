@@ -228,7 +228,6 @@
             volume: -4
       - &ChangeNodeGirder !type:ChangeConstructionNodeBehavior
         node: girder
-      - *SoundMetalSlam
   - type: IconSmooth
     key: walls
     base: clown
@@ -260,7 +259,6 @@
   - type: Construction
     graph: Girder
     node: meatWall
-  - type: Damageable
   - type: Injurable
     damageContainer: StructuralBiological
   - type: Destructible

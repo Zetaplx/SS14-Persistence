@@ -2,9 +2,45 @@
   id: CrateSecure
   start: start
   graph:
+  - node: start
+    edges:
+    - to: cratesecure
+      steps:
+      - material: Steel
+        amount: 5
+      - material: Cable
+        amount: 2
+        doAfter: 5
+
+  - node: cratesecure
+    entity: CrateSecure
+    edges:
+    - to: start
+      steps:
+      - tool: Screwing
+        doAfter: 5
+      conditions:
+      - !type:StorageWelded
+        welded: false
+      - !type:Locked
+        locked: false
+      completed:
+      - !type:SpawnPrototype
+        prototype: SheetPlasteel1
+        amount: 5
+      - !type:SpawnPrototype
+        prototype: CableApcStack1
+        amount: 2
+      - !type:EmptyAllContainers
+      - !type:DeleteEntity
+
+- type: constructionGraph
+  id: SuitStorageUnit
+  start: start
+  graph:
     - node: start
       edges:
-        - to: cratesecure
+        - to: suitstorage
           steps:
             - material: Steel
               amount: 5
@@ -13,8 +49,8 @@
               doAfter: 5
 
 
-    - node: cratesecure
-      entity: CrateSecure
+    - node: suitstorage
+      entity: SuitStorageBase
       edges:
         - to: start
           steps:
