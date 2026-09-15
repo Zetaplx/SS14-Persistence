@@ -1,3 +1,5 @@
+using Content.Shared._Persistence14.Random;
+using Content.Shared._Persistence14.RandomTable;
 using Content.Shared.Random.Helpers;
 using Content.Shared.Whitelist;
 using Content.Shared.Xenoarchaeology.Artifact.Components;
@@ -10,6 +12,7 @@ namespace Content.Server.Xenoarchaeology.Artifact;
 public sealed partial class XenoArtifactSystem
 {
     [Dependency] private readonly EntityWhitelistSystem _entityWhitelist = default!;
+    [Dependency] private readonly RandomTableSystem _randomTable = default!;
 
     private void GenerateArtifactStructure(Entity<XenoArtifactComponent> ent)
     {
@@ -38,8 +41,8 @@ public sealed partial class XenoArtifactSystem
     private List<XenoArchTriggerPrototype> CreateTriggerPool(Entity<XenoArtifactComponent> ent, int size)
     {
         var triggerPool = new List<XenoArchTriggerPrototype>(size);
-        var weightsProto = PrototypeManager.Index(ent.Comp.TriggerWeights);
-        var weightsByTriggersLeft = new Dictionary<string, float>(weightsProto.Weights);
+        var weightsProto = _randomTable.ListPrototype<XenoArchTriggerPrototype>(ent.Comp.TriggerTable);
+        var weightsByTriggersLeft = weightsProto.ToList();
 
         while (triggerPool.Count < size)
         {
@@ -50,9 +53,11 @@ public sealed partial class XenoArtifactSystem
                 return triggerPool;
             }
 
-            var triggerId = RobustRandom.Pick(weightsByTriggersLeft);
-            weightsByTriggersLeft.Remove(triggerId);
-            var trigger = PrototypeManager.Index<XenoArchTriggerPrototype>(triggerId);
+            var triggers = RobustRandom.PickAndTakeWeighted(weightsByTriggersLeft, v => v.prob);
+            if (!triggers.Any())
+                break; // Very bad day...
+            var (trigger, _) = triggers.First();
+
             if (_entityWhitelist.IsWhitelistFail(trigger.Whitelist, ent))
                 continue;
 

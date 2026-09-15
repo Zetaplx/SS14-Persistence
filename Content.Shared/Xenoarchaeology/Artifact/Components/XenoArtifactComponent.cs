@@ -1,3 +1,5 @@
+using Content.Shared._Persistence14.RandomTable;
+using Content.Shared._Persistence14.RandomTable.Selectors;
 using Content.Shared.Actions;
 using Content.Shared.Actions.Components;
 using Content.Shared.Destructible.Thresholds;
@@ -187,7 +189,7 @@ public sealed partial class XenoArtifactComponent : Component
     /// Triggers that can be used during this artefact generation.
     /// </summary>
     [DataField]
-    public ProtoId<WeightedRandomXenoArchTriggerPrototype> TriggerWeights = "DefaultTriggers";
+    public RandomTableSelector TriggerTable = new RandomTableNestedSelector("XenoArchTriggersDefault");
     #endregion
 
     /// <summary>

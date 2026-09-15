@@ -1,0 +1,143 @@
+- type: randomTable
+  id: XenoArchTriggersDefault
+  table:
+  - !type:RandomTableNestedSelector
+    weightMode: SumChildren
+    tableId: XenoArchTriggersEnvironmental
+  - !type:RandomTableNestedSelector
+    weightMode: SumChildren
+    tableId: XenoArchTriggersEmote
+  - !type:RandomTableNestedSelector
+    weightMode: SumChildren
+    tableId: XenoArchTriggersTool
+  - !type:RandomTableNestedSelector
+    weightMode: SumChildren
+    tableId: XenoArchTriggersReagent
+  - !type:RandomTableNestedSelector
+    weightMode: SumChildren
+    tableId: XenoArchTriggersDamage
+  - !type:RandomTableNestedSelector
+    weightMode: SumChildren
+    tableId: XenoArchTriggersTrivial
+
+- type: randomTable
+  id: XenoArchTriggersEnvironmental
+  table:
+  - prototype: TriggerHeat
+    weight: 1
+  - prototype: TriggerCold
+    weight: 0.5
+  - prototype: TriggerNoOxygen
+    weight: 1
+  - prototype: TriggerWater
+    weight: 1
+  - prototype: TriggerCO2
+    weight: 0.5
+  - prototype: TriggerPlasma
+    weight: 0.5
+  - prototype: TriggerN2O
+    weight: 0.5
+  - prototype: TriggerTritium
+    weight: 0.1
+  - prototype: TriggerAmmonia
+    weight: 0.1
+  - prototype: TriggerFrezon
+    weight: 0.1
+  - prototype: TriggerPressureHigh
+    weight: 0.5
+  - prototype: TriggerPressureLow
+    weight: 1
+
+- type: randomTable
+  id: XenoArchTriggersEmote
+  table:
+  - prototype: TriggerLaugh
+    weight: 1
+  - prototype: TriggerSigh
+    weight: 1
+  - prototype: TriggerSneeze
+    weight: 1
+  - prototype: TriggerCough
+    weight: 1
+  - prototype: TriggerWhistle
+    weight: 1
+  - prototype: TriggerCry
+    weight: 1
+  - prototype: TriggerClap
+    weight: 1
+  - prototype: TriggerYawn
+    weight: 1
+  - prototype: TriggerScream
+    weight: 1
+
+- type: randomTable
+  id: XenoArchTriggersTool
+  table:
+  - prototype: TriggerWrenching
+    weight: 0.5
+  - prototype: TriggerPrying
+    weight: 0.5
+  - prototype: TriggerScrewing
+    weight: 0.5
+  - prototype: TriggerPulsing
+    weight: 0.5
+  - prototype: TriggerSlicing
+    weight: 0.5
+  - prototype: TriggerCutting
+    weight: 0.5
+  - prototype: TriggerRolling
+    weight: 0.5
+  - prototype: TriggerBrushing
+    weight: 0.5
+  - prototype: TriggerMagnet
+    weight: 1
+
+- type: randomTable
+  id: XenoArchTriggersReagent
+  table:
+  - prototype: TriggerBlood
+    weight: 1
+  - prototype: TriggerChemBrute
+    weight: 1
+  - prototype: TriggerChemBurn
+    weight: 1
+  - prototype: TriggerChemToxin
+    weight: 1
+  - prototype: TriggerChemGenetic
+    weight: 0.5
+  - prototype: TriggerChemCryo
+    weight: 1
+  - prototype: TriggerChemNarcotic
+    weight: 0.5
+  - prototype: TriggerChemAcidic
+    weight: 0.5
+  - prototype: TriggerChemCleaning
+    weight: 1
+  - prototype: TriggerChemSticky
+    weight: 0.5
+  - prototype: TriggerChemSlippery
+    weight: 0.5
+
+- type: randomTable
+  id: XenoArchTriggersDamage
+  table:
+  - prototype: TriggerRadiation
+    weight: 1
+  - prototype: TriggerBluntDamage
+    weight: 1
+  - prototype: TriggerPierceDamage
+    weight: 1
+  - prototype: TriggerDeath
+    weight: 1
+
+- type: randomTable
+  id: XenoArchTriggersTrivial
+  table:
+  - prototype: TriggerTimer
+    weight: 0.01
+  - prototype: TriggerThrow
+    weight: 1
+  - prototype: TriggerMusic
+    weight: 1
+  - prototype: TriggerExamine
+    weight: 1
