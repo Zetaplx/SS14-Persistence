@@ -50,8 +50,9 @@
     gases:
     - WaterVapor
   - type: XATReactive
-    reagents:
-    - Water
+    whitelist:
+      reagents:
+      - Water
 
 - type: xenoArchTrigger
   id: TriggerCO2
@@ -61,8 +62,9 @@
     gases:
     - CarbonDioxide
   - type: XATReactive
-    reagents:
-    - CarbonDioxide
+    whitelist:
+      reagents:
+      - CarbonDioxide
 
 - type: xenoArchTrigger
   id: TriggerPlasma
@@ -72,8 +74,9 @@
     gases:
     - Plasma
   - type: XATReactive
-    reagents:
-    - Plasma
+    whitelist:
+      reagents:
+      - Plasma
 
 - type: xenoArchTrigger
   id: TriggerAmmonia
@@ -83,8 +86,9 @@
     gases:
     - Ammonia
   - type: XATReactive
-    reagents:
-    - Ammonia
+    whitelist:
+      reagents:
+      - Ammonia
 
 - type: xenoArchTrigger
   id: TriggerRadiation
@@ -195,18 +199,19 @@
   tip: xenoarch-trigger-tip-blood
   components:
   - type: XATReactive
-    reagents:
-    - Blood
-    - CopperBlood
-    - InsectBlood
-    - Slime
-    - AmmoniaBlood
-    - ZombieBlood
-    - Sap
-    - SulfurBlood
-    - Saline
+    whitelist:
+      reagents:
+      - Blood
+      - CopperBlood
+      - InsectBlood
+      - Slime
+      - AmmoniaBlood
+      - ZombieBlood
+      - Sap
+      - SulfurBlood
+      - Saline
   - type: XATItemInteract
-    reduceStackBy: 1
+    use: 1
     whitelist:
      tags:
      - Bloodpack
