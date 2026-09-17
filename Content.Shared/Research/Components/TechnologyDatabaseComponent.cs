@@ -10,13 +10,6 @@ namespace Content.Shared.Research.Components;
 [RegisterComponent, NetworkedComponent, Access(typeof(SharedResearchSystem), typeof(SharedLatheSystem)), AutoGenerateComponentState]
 public sealed partial class TechnologyDatabaseComponent : Component
 {
-    /// <summary>
-    /// A main discipline that locks out other discipline technology past a certain tier.
-    /// </summary>
-    [AutoNetworkedField]
-    [DataField("mainDiscipline", customTypeSerializer: typeof(PrototypeIdSerializer<TechDisciplinePrototype>))]
-    public string? MainDiscipline;
-
     [AutoNetworkedField]
     [DataField("currentTechnologyCards")]
     public List<ProtoId<TechnologyPrototype>> CurrentTechnologyCards = new();
@@ -33,7 +26,7 @@ public sealed partial class TechnologyDatabaseComponent : Component
     /// </summary>
     [AutoNetworkedField]
     [DataField]
-    public List<ProtoId<TechnologyPrototype>> UnlockedTechnologies = new();
+    public Dictionary<ProtoId<TechDisciplinePrototype>, List<ProtoId<TechnologyPrototype>>> UnlockedTechnologies = new();
 }
 
 /// <summary>
