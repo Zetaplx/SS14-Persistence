@@ -932,9 +932,9 @@ IronsandStepConcaveCorner: null
 IronsandStep: null
 
 # 2026-07-27
-TurnstileGenpopEnter: EnergyGateGenpopEnter
-TurnstileGenpopLeave: EnergyGateGenpopLeave
-Turnstile: EnergyGate
+#TurnstileGenpopEnter: EnergyGateGenpopEnter
+#TurnstileGenpopLeave: EnergyGateGenpopLeave
+#Turnstile: EnergyGate
 MetalDoor: SilverDoor
 MiningWindow: ReinforcedWindow
 MiningWindowDiagonal: ReinforcedWindowDiagonal
@@ -983,12 +983,12 @@ WallRockAndesiteUranium: WallRockUranium
 WallRockAndesiteArtifactFragment: WallRockArtifactFragment
 WallRockAndesiteSalt: WallRockSalt
 FloorTileItemTechmaint: FloorTileItemSteelMaint
-FloorTileItemXeno: FloorTileItemExoViscera
-FloorTileItemXenoSteel: FloorTileItemExoHull
-FloorTileItemXenoSteelCorner: FloorTileItemExoCornerSW
-FloorTileItemXenoMaint: FloorTileItemExoTechmaint
-FloorTileItemXenoborg: FloorTileItemExoBorg
-FloorTileItemDarkSquiggly: FloorTileItemExoHorizontal
+#FloorTileItemXeno: FloorTileItemExoViscera
+#FloorTileItemXenoSteel: FloorTileItemExoHull
+#FloorTileItemXenoSteelCorner: FloorTileItemExoCornerSW
+#FloorTileItemXenoMaint: FloorTileItemExoTechmaint
+#FloorTileItemXenoborg: FloorTileItemExoBorg
+#FloorTileItemDarkSquiggly: FloorTileItemExoHorizontal
 
 # 2026-08-04
 FloorSnowChasm: FloorChasmEntity
@@ -1007,7 +1007,7 @@ PinionAirlockAssemblyGlass: AirlockAssemblyGlass
 AnomalyRockBananium: AnomalyRockCoal
 ClockworkGirder: Girder
 BaseAsteroidRock: AsteroidRock
-ButtonFrameExit: ButtonFrameWhite
+#ButtonFrameExit: ButtonFrameWhite
 
 # 2026-08-12
 WindoorSecure: Windoor

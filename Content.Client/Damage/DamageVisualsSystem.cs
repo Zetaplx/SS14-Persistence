@@ -9,7 +9,6 @@ using Content.Shared.FixedPoint;
 using Robust.Client.GameObjects;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
-using System.Linq;
 
 namespace Content.Client.Damage;
 
@@ -362,7 +361,7 @@ public sealed partial class DamageVisualsSystem : VisualizerSystem<DamageVisuals
         if (damageVisComp.Disabled)
             return;
 
-        if (AppearanceSystem.TryGetData<string>(uid,  DamageVisualizerKeys.Displacement,  out var displacement, args.Component) &&
+        if (AppearanceSystem.TryGetData<string>(uid, DamageVisualizerKeys.Displacement, out var displacement, args.Component) &&
             ProtoMan.Resolve<DisplacementDataPrototype>(displacement, out var displacementProto))
             damageVisComp.Displacement = displacementProto.Displacement;
         else
@@ -448,6 +447,9 @@ public sealed partial class DamageVisualsSystem : VisualizerSystem<DamageVisuals
     /// </summary>
     private void CheckOverlayOrdering(Entity<SpriteComponent> spriteEnt, DamageVisualsComponent damageVisComp)
     {
+        if (!HasComp<InjurableComponent>(spriteEnt.Owner))
+            return;
+
         if (spriteEnt.Comp[damageVisComp.TopMostLayerKey] != spriteEnt.Comp[spriteEnt.Comp.AllLayers.Count() - 1])
         {
             if (!damageVisComp.TrackAllDamage && damageVisComp.DamageOverlayGroups != null)
