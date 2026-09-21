@@ -1,11 +1,10 @@
 - type: entity
-  parent: [ BaseMachinePowered ] # Persistence14: ConstructableMachine removed from parent. We don't want these being deconstructed...
+  parent: [ BaseMachinePowered, ConstructibleMachine ]
+  categories: [ HideSpawnMenu ]
   id: SalvageMagnet
   name: salvage magnet
   description: Pulls in salvage.
   components:
-  - type: Anchorable
-    flags: Anchorable
   - type: Sprite
     sprite: Structures/Machines/salvage.rsi
     layers:
@@ -43,14 +42,5 @@
   - type: SalvageMagnet
   - type: ApcPowerReceiver
     powerLoad: 2500 # TODO change this to a HV power draw that really hits the grid hard WHEN active
-
-# For Knightship
-- type: entity
-  parent: SalvageMagnet
-  id: SalvageLocator
-  name: salvage locator
-  description: Locates salvage.
-  components:
-  - type: SalvageMagnet
-  - type: ApcPowerReceiver
-    powerLoad: 1000
+  - type: Machine
+    board: SalvageMagnetMachineCircuitboard
