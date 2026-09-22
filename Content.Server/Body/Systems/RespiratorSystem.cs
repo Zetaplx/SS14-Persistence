@@ -206,7 +206,7 @@ public sealed partial class RespiratorSystem : EntitySystem
             return false;
         // funky end
 
-            return false;
+        return false;
 
         if (!Resolve(ent, ref ent.Comp))
             return false;
@@ -402,11 +402,16 @@ public sealed partial class RespiratorSystem : EntitySystem
 
     private void OnGasExhaled(Entity<LungComponent> ent, ref BodyRelayedEvent<ExhaledGasEvent> args)
     {
+        if (!TryComp<SolutionComponent>(ent.Comp.Solution, out var solutionComponent))
+            return;
+
+        Entity<SolutionComponent>? lungSolution = (ent.Comp.Solution.Value, solutionComponent);
+
         _atmosSys.Merge(args.Args.Gas, ent.Comp.Air);
         ent.Comp.Air.Clear();
 
-        if (_solutionContainerSystem.ResolveSolution(ent.Owner, ent.Comp.SolutionName, ref ent.Comp.Solution))
-            _solutionContainerSystem.RemoveAllSolution(ent.Comp.Solution.Value);
+        if (_solutionContainerSystem.ResolveSolution(ent.Owner, ent.Comp.SolutionName, ref lungSolution))
+            _solutionContainerSystem.RemoveAllSolution(lungSolution.Value);
 
         args.Args = args.Args with
         {

@@ -53,11 +53,15 @@ public sealed partial class LungSystem : EntitySystem
     // TODO: JUST METABOLIZE GASES DIRECTLY DON'T CONVERT TO REAGENTS!!! (Needs Metabolism refactor :B)
     public void GasToReagent(EntityUid uid, LungComponent lung)
     {
-        if (!_solutionContainerSystem.ResolveSolution(uid, lung.SolutionName, ref lung.Solution, out var solution))
+        if (!TryComp<SolutionComponent>(lung.Solution, out var lungSolution))
+            return;
+
+        Entity<SolutionComponent>? lungSolutionEnt = (lung.Solution.Value, lungSolution);
+        if (!_solutionContainerSystem.ResolveSolution(uid, lung.SolutionName, ref lungSolutionEnt, out var solution))
             return;
 
         GasToReagent(lung.Air, solution);
-        _solutionContainerSystem.UpdateChemicals(lung.Solution.Value);
+        _solutionContainerSystem.UpdateChemicals(lungSolutionEnt.Value);
     }
 
     /* This should really be moved to somewhere in the atmos system and modernized,

@@ -226,7 +226,8 @@ public abstract partial class SharedSolutionContainerSystem : EntitySystem
             if (attemptEv.Cancelled)
                 return false;
 
-            solutionEnt = solution;
+            EnsureComp<SolutionComponent>(solution, out var solComp);
+            solutionEnt = (solution, solComp);
             return true;
         }
 
@@ -308,7 +309,8 @@ public abstract partial class SharedSolutionContainerSystem : EntitySystem
             if (attemptEv.Cancelled)
                 continue;
 
-            yield return (id, solution);
+            EnsureComp<SolutionComponent>(solution, out var solComp);
+            yield return (id, (solution, solComp));
         }
     }
 
@@ -1113,9 +1115,9 @@ public abstract partial class SharedSolutionContainerSystem : EntitySystem
         // Throw if we already have a solution with the same ID.
         // We only check on server as we actually want the server to bulldoze any client entities being cached when they come in.
         // Applying state, and first time predicted checks will cause mispredicts until the solution updates
-        DebugTools.Assert(!entity.Comp.Solutions.TryGetValue(solution.Id, out var existing) || existing.Owner == args.Entity || Net.IsClient,
+        DebugTools.Assert(!entity.Comp.Solutions.TryGetValue(solution.Id, out var existing) || existing == args.Entity || Net.IsClient,
             $"Solution {ToPrettyString(entity)}, tried to add a solution {ToPrettyString(args.Entity)} with a duplicate id: {solution.Id} {ToPrettyString(existing)}");
-        entity.Comp.Solutions[solution.Id] = (args.Entity, solution);
+        entity.Comp.Solutions[solution.Id] = args.Entity;
     }
 
     private void OnSolutionRemoved(Entity<SolutionManagerComponent> entity, ref EntRemovedFromContainerMessage args)
@@ -1167,7 +1169,8 @@ public abstract partial class SharedSolutionContainerSystem : EntitySystem
             // Check the cache first, even if the component didn't exist before, creating one may have spawned and cached solutions!
             if (entity.Comp.Solutions.TryGetValue(name, out var solution))
             {
-                solutionEntity = solution;
+                EnsureComp<SolutionComponent>(solution, out var solComp);
+                solutionEntity = (solution, solComp);
                 return true;
             }
         }
