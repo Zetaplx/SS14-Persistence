@@ -51,21 +51,21 @@ namespace Content.Server.CrewAssignments.Systems;
 /// </summary>
 public sealed partial class JobNetSystem : SharedJobNetSystem
 {
-    [Dependency] private readonly BankSystem _bank = default!;
-    [Dependency] private readonly IChatManager _chatManager = default!;
-    [Dependency] private readonly IPrototypeManager _proto = default!;
-    [Dependency] private readonly SharedPopupSystem _popup = default!;
-    [Dependency] private readonly CargoSystem _cargo = default!;
-    [Dependency] private readonly CrewManifestSystem _crewManifest = default!;
-    [Dependency] private readonly IdCardSystem _card = default!;
-    [Dependency] private readonly CodewordSystem _codeword = default!;
-    [Dependency] private readonly TransformSystem _transform = default!;
-    [Dependency] private readonly SharedDoAfterSystem _doAfterSystem = default!;
-    [Dependency] private readonly SharedInteractionSystem _interactionSystem = default!;
-    [Dependency] private readonly SharedCuffableSystem _cuffable = default!;
-    [Dependency] private readonly IRobustRandom _random = default!;
-    [Dependency] private readonly NameIdentifierSystem _nameIdentifier = default!;
-    [Dependency] private readonly IGameTiming _timing2 = default!;
+    [Dependency] private BankSystem _bank = default!;
+    [Dependency] private IChatManager _chatManager = default!;
+    [Dependency] private IPrototypeManager _proto = default!;
+    [Dependency] private SharedPopupSystem _popup = default!;
+    [Dependency] private CargoSystem _cargo = default!;
+    [Dependency] private CrewManifestSystem _crewManifest = default!;
+    [Dependency] private IdCardSystem _card = default!;
+    [Dependency] private CodewordSystem _codeword = default!;
+    [Dependency] private TransformSystem _transform = default!;
+    [Dependency] private SharedDoAfterSystem _doAfterSystem = default!;
+    [Dependency] private SharedInteractionSystem _interactionSystem = default!;
+    [Dependency] private SharedCuffableSystem _cuffable = default!;
+    [Dependency] private IRobustRandom _random = default!;
+    [Dependency] private NameIdentifierSystem _nameIdentifier = default!;
+    [Dependency] private IGameTiming _timing2 = default!;
     public override void ReagentObjectiveComplete(JobNetComponent component, ProtoId<PrecursorObjectivePrototype> objective)
     {
         if (_proto.TryIndex(objective, out PrecursorObjectivePrototype? proto) && proto != null)
@@ -711,7 +711,7 @@ public sealed partial class JobNetSystem : SharedJobNetSystem
             }
             if (possible.Count < 1) return;
             var chosen = _random.Pick(possible);
-            _nameIdentifier.GenerateUniqueName(user, "Bounty", out var randomVal);
+            _nameIdentifier.GenerateUniqueNameModifier("Bounty", out var randomVal);
             var newBounty = new CargoBountyData(chosen, randomVal);
             newBounty.TradeStationUID = chosenUID;
             component.DealerBounty = newBounty;

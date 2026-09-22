@@ -3,7 +3,7 @@
   table: !type:GroupSelector
     children:
     - !type:NestedSelector
-      tableId: XenoArtifactEffectsRoot
+      tableId: Debug
       weight: 483.0 # Total weights of the table so distribution remains even
     # Eventually full size only artifact effects will go here
 
@@ -57,6 +57,15 @@
     - !type:NestedSelector
       tableId: XenoArtifactEffectsDeepHandheldOnly
       weight: 30.0 # Total weights of the table so distribution remains even
+
+- type: entityTable
+  id: Debug
+  table: !type:GroupSelector
+    children:
+    - id: XenoArtifactRadioactive
+      weight: 10
+    - id: XenoArtifactRadioactiveStrong
+      weight: 10
 
 - type: entityTable # Root Nodes (Depth 0)
   id: XenoArtifactEffectsRoot
@@ -238,6 +247,10 @@
       weight: 8.0
     - id: XenoArtifactWandering
       weight: 8.0
+    - id: XenoArtifactBecomeLamp
+      weight: 10.0
+    - id: XenoArtifactBecomeRainbowLamp
+      weight: 5.0
 
 - type: entityTable # Main Nodes (Depth 1-2)
   id: XenoArtifactEffectsMain
@@ -419,6 +432,10 @@
       weight: 3.0
     - id: XenoArtifactWandering
       weight: 8.0
+    - id: XenoArtifactBecomeLamp
+      weight: 5.0
+    - id: XenoArtifactBecomeRainbowLamp
+      weight: 5.0
 
 - type: entityTable # Deep Nodes (Depth 3+)
   id: XenoArtifactEffectsDeep
@@ -600,6 +617,10 @@
       weight: 3.0
     - id: XenoArtifactWandering
       weight: 8.0
+    - id: XenoArtifactBecomeLamp
+      weight: 2.0
+    - id: XenoArtifactBecomeRainbowLamp
+      weight: 2.0
 
 - type: entityTable # Root Handheld (Depth 0)
   id: XenoArtifactEffectsRootHandheldOnly

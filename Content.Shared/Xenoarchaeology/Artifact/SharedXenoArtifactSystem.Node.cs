@@ -15,15 +15,12 @@ public abstract partial class SharedXenoArtifactSystem
 {
     [Dependency] private readonly EntityTableSystem _entityTable = default!;
 
-    private EntityQuery<XenoArtifactComponent> _xenoArtifactQuery;
-    private EntityQuery<XenoArtifactNodeComponent> _nodeQuery;
+    [Dependency] private EntityQuery<XenoArtifactComponent> _xenoArtifactQuery = default!;
+    [Dependency] private EntityQuery<XenoArtifactNodeComponent> _nodeQuery = default!;
 
     private void InitializeNode()
     {
         SubscribeLocalEvent<XenoArtifactNodeComponent, MapInitEvent>(OnNodeMapInit);
-
-        _xenoArtifactQuery = GetEntityQuery<XenoArtifactComponent>();
-        _nodeQuery = GetEntityQuery<XenoArtifactNodeComponent>();
     }
 
     /// <summary>
@@ -90,7 +87,7 @@ public abstract partial class SharedXenoArtifactSystem
     /// </summary>
     public Entity<XenoArtifactNodeComponent> CreateNode(Entity<XenoArtifactComponent> ent, ProtoId<XenoArchTriggerPrototype> trigger, int depth = 0)
     {
-        var triggerProto = PrototypeManager.Index(trigger);
+        var triggerProto = ProtoMan.Index(trigger);
         return CreateNode(ent, triggerProto, depth);
     }
 
@@ -407,6 +404,16 @@ public abstract partial class SharedXenoArtifactSystem
         var nodeDepth = node.Comp.Depth;
         var depthMultipler = Math.Pow(1.5f, Math.Pow(nodeDepth, 1.5f));
         nodeComponent.ResearchValue = (int)(nodeComponent.BasePointValue * depthMultipler * durabilityMultiplier);
+
+        // Nodes that were unlocked by artifexium wildcards instead of by satisfying their triggers
+        // yield fewer points, scaled by how much of the unlock the chemical actually covered.
+        if (nodeComponent.ArtifexiumUnlockFraction > 0f)
+        {
+            var artifexiumFraction = Math.Clamp(nodeComponent.ArtifexiumUnlockFraction, 0f, 1f);
+            var penalty = nodeComponent.ArtifexiumMinPenalty + (nodeComponent.ArtifexiumMaxPenalty - nodeComponent.ArtifexiumMinPenalty) * artifexiumFraction;
+            nodeComponent.ResearchValue = (int)(nodeComponent.ResearchValue * (1f - penalty));
+        }
+
         Dirty(node);
     }
 

@@ -1109,6 +1109,22 @@
   id: ClothingUniformJumpskirtWarden
   result: ClothingUniformJumpskirtWarden
 
+## Tram Driver
+- type: latheRecipe
+  parent: BaseJumpsuitRecipe
+  id: ClothingUniformJumpsuitTramDriver
+  result: ClothingUniformJumpsuitTramDriver
+
+- type: latheRecipe
+  parent: BaseCoatRecipe
+  id: ClothingOuterSuitTramDriver
+  result: ClothingOuterSuitTramDriver
+
+- type: latheRecipe
+  parent: BaseHatRecipe
+  id: ClothingHeadHatTramDriver
+  result: ClothingHeadHatTramDriver
+
 - type: latheRecipe
   parent: BaseJumpsuitRecipe
   id: ClothingUniformJumpsuitCossack
@@ -1877,6 +1893,11 @@
   id: ClothingNeckTieSci
   result: ClothingNeckTieSci
 
+- type: latheRecipe
+  parent: BaseNeckClothingRecipe
+  id: ClothingNeckTieSerious
+  result: ClothingNeckTieSerious
+
 # Scarfs
 - type: latheRecipe
   parent: BaseNeckClothingRecipe
@@ -2600,6 +2621,11 @@
   parent: BaseBeltsClothingRecipe
   id: OreBag
   result: OreBag
+
+- type: latheRecipe #Persistence: add construction bag
+  parent: BaseBeltsClothingRecipe
+  id: ConstructionBag
+  result: ConstructionBag
 
 - type: latheRecipe
   parent: BaseBeltsClothingRecipe
