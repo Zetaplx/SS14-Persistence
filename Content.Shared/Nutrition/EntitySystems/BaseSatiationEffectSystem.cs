@@ -43,7 +43,7 @@ public abstract partial class BaseSatiationEffectSystem<TComp, T> : EntitySystem
     {
         base.Initialize();
 
-        SubscribeLocalEvent<TComp, MapInitEvent>(OnMapInit);
+        SubscribeLocalEvent<TComp, ComponentStartup>(OnComponentStartup);
         SubscribeLocalEvent<TComp, SatiationUpdateEvent>(OnSatiationUpdate);
     }
 
@@ -66,7 +66,7 @@ public abstract partial class BaseSatiationEffectSystem<TComp, T> : EntitySystem
     }
 
     [MustCallBase]
-    protected virtual void OnMapInit(Entity<TComp> entity, ref MapInitEvent args)
+    protected virtual void OnComponentStartup(Entity<TComp> entity, ref ComponentStartup args)
     {
         // Make sure we have a satiation component. Realistically, this just exists to cause test failures if an entity
         // with `TComp` doesn't have a `SatiationComponent`.
