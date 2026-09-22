@@ -25,7 +25,6 @@ public sealed partial class CargoSystem : SharedCargoSystem
     [Dependency] private IRobustRandom _random = default!;
     [Dependency] private ISharedAdminLogManager _adminLogger = default!;
     [Dependency] private AccessReaderSystem _accessReaderSystem = default!;
-    [Dependency] private DeviceLinkSystem _linker = default!;
     [Dependency] private EntityLookupSystem _lookup = default!;
     [Dependency] private ItemSlotsSystem _slots = default!;
     [Dependency] private PaperSystem _paperSystem = default!;

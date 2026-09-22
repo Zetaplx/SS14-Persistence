@@ -206,12 +206,7 @@ public sealed partial class RespiratorSystem : EntitySystem
             return false;
         // funky end
 
-            return false;
-
-        if (!Resolve(ent, ref ent.Comp))
-            return false;
-
-        return (ent.Comp.Saturation > ent.Comp.SuffocationThreshold);
+        return false;
     }
 
     /// <summary>

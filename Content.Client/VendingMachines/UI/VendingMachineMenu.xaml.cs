@@ -11,9 +11,6 @@ using Robust.Client.UserInterface.XAML;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
 using FancyWindow = Content.Client.UserInterface.Controls.FancyWindow;
-using Robust.Client.UserInterface;
-using Content.Client.UserInterface.Controls;
-using Robust.Shared.Utility;
 
 namespace Content.Client.VendingMachines.UI;
 
@@ -87,7 +84,7 @@ public sealed partial class VendingMachineMenu : FancyWindow
             SearchBar.Visible = false;
             VendingContents.Visible = false;
 
-            var outOfStockLabel = new Label
+            _outOfStockLabel = new Label
             {
                 Text = Loc.GetString("vending-machine-component-try-eject-out-of-stock"),
                 Margin = new Thickness(4, 4),
@@ -96,9 +93,9 @@ public sealed partial class VendingMachineMenu : FancyWindow
                 HorizontalAlignment = HAlignment.Center
             };
 
-            MainContainer.AddChild(outOfStockLabel);
+            MainContainer.AddChild(_outOfStockLabel);
 
-            SetSizeAfterUpdate(outOfStockLabel.Text.Length, 0);
+            SetSizeAfterUpdate(_outOfStockLabel.Text.Length, 0);
 
             return;
         }

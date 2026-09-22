@@ -143,7 +143,8 @@ public sealed partial class EventHorizonSystem : SharedEventHorizonSystem
 
         // Only delete entities with the Structure tag, or entities with SinguloFoodComponent (regardless of tag)
         var isSinguloFood = HasComp<SinguloFoodComponent>(morsel);
-        var isStructure = _tagSystem.HasTag(morsel, "Structure");
+        var structureTag = "Structure";
+        var isStructure = _tagSystem.HasTag(morsel, structureTag);
 
         if (!isSinguloFood && !isStructure)
             return;

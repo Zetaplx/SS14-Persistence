@@ -19,7 +19,6 @@ using Robust.Shared.Containers;
 using Robust.Shared.Network;
 using Robust.Shared.Serialization;
 using Robust.Shared.Timing;
-using System.Linq;
 
 namespace Content.Shared.Mech.EntitySystems;
 

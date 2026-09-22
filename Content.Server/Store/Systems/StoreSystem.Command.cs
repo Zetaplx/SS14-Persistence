@@ -6,7 +6,6 @@ using Content.Shared.FixedPoint;
 using Content.Shared.Store;
 using Content.Shared.Store.Components;
 using Robust.Shared.Console;
-using System.Linq;
 
 namespace Content.Server.Store.Systems;
 

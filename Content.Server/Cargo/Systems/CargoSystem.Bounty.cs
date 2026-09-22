@@ -36,11 +36,9 @@ public sealed partial class CargoSystem
 {
     [Dependency] private readonly ContainerSystem _container = default!;
     [Dependency] private readonly NameIdentifierSystem _nameIdentifier = default!;
-    [Dependency] private readonly EntityWhitelistSystem _whitelistSys = default!;
     [Dependency] private readonly SharedSolutionContainerSystem _sharedSolutionContainer = default!;
     [Dependency] private readonly JobNetSystem _jobNet = default!;
 
-    [Dependency] private EntityQuery<StackComponent> _stackQuery = default!;
     [Dependency] private EntityQuery<ContainerManagerComponent> _containerManagerQuery = default!;
     [Dependency] private EntityQuery<CargoBountyLabelComponent> _cargoBountyLabelQuery = default!;
 

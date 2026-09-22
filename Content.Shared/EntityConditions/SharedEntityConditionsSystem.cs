@@ -18,9 +18,6 @@ public sealed partial class SharedEntityConditionsSystem : EntitySystem, IEntity
     /// <param name="sourceEnt">An optional "source entity" which is checking the condition on the entity this is being raised to.
     /// Sometimes needed for additional context with conditions.</param>
     /// <returns>Returns true if all conditions return true, false if any fail</returns>
-
-    [Dependency] private readonly SharedEntityConditionsSystem _conditions = default!;
-
     public bool TryConditions<T>(EntityUid target, T[]? conditions, EntityUid? sourceEnt = null) where T : EntityCondition
     {
         // If there's no conditions we can't fail any of them...

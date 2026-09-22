@@ -12,7 +12,6 @@ using Content.Shared.Power;
 using Content.Shared.Power.Components;
 using Content.Shared.Shuttles.Components;
 using Content.Shared.Temperature;
-using Content.Server.Power.Components;
 using Content.Server.Construction; // Frontier
 using Content.Server.Construction.Components; // Frontier
 using Content.Shared.Construction.Components; // Frontier
@@ -37,8 +36,6 @@ public sealed partial class ThrusterSystem : EntitySystem
     [Dependency] private readonly DamageableSystem _damageable = default!;
     [Dependency] private readonly SharedPointLightSystem _light = default!;
     [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
-    [Dependency] private readonly ConstructionSystem _construction = default!; // Frontier
-    [Dependency] private readonly SharedTransformSystem _transform = default!; // Frontier
     [Dependency] private readonly TurfSystem _turf = default!;
 
     [Dependency] private EntityQuery<ThrusterComponent> _thrusterQuery = default!;
@@ -70,7 +67,7 @@ public sealed partial class ThrusterSystem : EntitySystem
         SubscribeLocalEvent<ThrusterComponent, SignalReceivedEvent>(OnSignalReceived); // Frontier
     }
 
-     // Frontier: signal handler
+    // Frontier: signal handler
     private void OnSignalReceived(EntityUid uid, ThrusterComponent component, ref SignalReceivedEvent args)
     {
         if (args.Port == component.OffPort)

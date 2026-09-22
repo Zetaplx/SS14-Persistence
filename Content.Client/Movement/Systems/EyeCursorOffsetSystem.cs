@@ -8,7 +8,6 @@ using Content.Shared.Movement.Components;
 using Robust.Client.Graphics;
 using Robust.Client.Input;
 using Robust.Shared.Map;
-using System.Numerics;
 
 namespace Content.Client.Movement.Systems;
 

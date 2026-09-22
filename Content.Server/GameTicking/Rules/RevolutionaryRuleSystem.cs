@@ -31,8 +31,6 @@ using Content.Shared.Zombies;
 using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
-using Content.Shared.Cuffs.Components;
-using Robust.Shared.Player;
 using Content.Shared.Mindshield;
 
 namespace Content.Server.GameTicking.Rules;

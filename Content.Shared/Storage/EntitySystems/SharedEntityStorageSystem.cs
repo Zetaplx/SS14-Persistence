@@ -22,8 +22,6 @@ using Robust.Shared.Physics;
 using Robust.Shared.Physics.Systems;
 using Robust.Shared.Timing;
 using Robust.Shared.Utility;
-using System.Linq;
-using System.Numerics;
 
 namespace Content.Shared.Storage.EntitySystems;
 
