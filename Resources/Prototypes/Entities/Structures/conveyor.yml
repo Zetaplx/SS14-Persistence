@@ -14,8 +14,8 @@
     anchored: true
   - type: Anchorable
   - type: Sprite
-    sprite: _Persistence14/Structures/conveyor.rsi
-    state: conveyor_stopped_cw
+    sprite: Structures/conveyor.rsi
+    state: conveyor_stopped
     drawdepth: HighFloorObjects
   - type: SyncSprite
   - type: ApcPowerReceiver

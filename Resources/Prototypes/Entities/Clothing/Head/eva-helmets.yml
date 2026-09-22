@@ -31,6 +31,8 @@
     - HelmetEVA
     - WhitelistChameleon
     - CorgiWearable
+  - type: SolutionManager
+    solutions: []
 
 #Syndicate EVA Helmet
 - type: entity
@@ -111,3 +113,4 @@
     tags:
     - HelmetEVA
     - WhitelistChameleon
+  

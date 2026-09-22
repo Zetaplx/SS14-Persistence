@@ -24,7 +24,7 @@
 
 # used by our port of funky's stain implementation
 - type: entity
-  parent: SolutionFood
+  parent: Solution
   id: SolutionFiberClothes
   categories: [ HideSpawnMenu ]
   components:
@@ -36,7 +36,7 @@
         Quantity: 10
 
 - type: entity
-  parent: SolutionFood
+  parent: Solution
   id: SolutionFiberClothesLarge
   categories: [ HideSpawnMenu ]
   components:

@@ -18,9 +18,13 @@
       Cloth: 150
   - type: Edible
     requiresSpecialDigestion: true
+  - type: Solution
+    solution:
+      reagents:
+      - ReagentId: Fiber
+        Quantity: 15
   - type: SolutionManager
     solutions:
-    - SolutionFiberClothesLarge
     - SolutionStain
   - type: Tag
     tags:

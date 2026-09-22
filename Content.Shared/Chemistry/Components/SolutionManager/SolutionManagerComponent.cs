@@ -1,4 +1,4 @@
-﻿using Content.Shared.Chemistry.EntitySystems;
+using Content.Shared.Chemistry.EntitySystems;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
 
@@ -25,9 +25,9 @@ public sealed partial class SolutionManagerComponent : Component
     /// <summary>
     /// A cache of solutions currently attached to this entity.
     /// </summary>
-    [ViewVariables]
+    [DataField("savedsolutions")]
     [Access(typeof(SharedSolutionContainerSystem), Other = AccessPermissions.None)]
-    public Dictionary<string, Entity<SolutionComponent>> Solutions = new ();
+    public Dictionary<string, EntityUid> Solutions = new ();
 
     /// <summary>
     /// A list of solution entities to spawn during <see cref="MapInitEvent"/>.
