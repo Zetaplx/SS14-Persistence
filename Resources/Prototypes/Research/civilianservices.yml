@@ -143,6 +143,7 @@
     FauxTileAstroIce: 60
     FauxTileAstroSnow: 60
     FauxTileAstroAsteroidSand: 60
+    FauxTileAstroAsteroidSandBorderless: 60
     FauxTileDesertAstroSand: 60
     FauxTileAstroIronsand: 60
     FauxTileAstroIronsandBorderless: 60
@@ -188,6 +189,7 @@
     AdvMopItem: 1
     MegaSprayBottle: 1
     BorgModuleAdvancedCleaning: 1
+    TrashBagHolding: 1
     WashingMachineCircuitboard: 1 # Funky: Footprints & Stains
 
 - type: technology

@@ -18,7 +18,7 @@ public sealed partial class ResearchSystem
         EntityUid user,
         ResearchClientComponent? component = null)
     {
-        if (!PrototypeManager.TryIndex<TechnologyPrototype>(prototypeid, out var prototype))
+        if (!ProtoMan.TryIndex<TechnologyPrototype>(prototypeid, out var prototype))
             return false;
 
         return UnlockTechnology(client, prototype, user, component);
@@ -61,7 +61,7 @@ public sealed partial class ResearchSystem
         if (!Resolve(uid, ref component))
             return;
 
-        if (!PrototypeManager.TryIndex<TechnologyPrototype>(technology, out var prototype))
+        if (!ProtoMan.TryIndex<TechnologyPrototype>(technology, out var prototype))
             return;
         AddTechnology(uid, prototype, component);
     }
@@ -89,7 +89,7 @@ public sealed partial class ResearchSystem
         var addedRecipes = new List<string>();
         foreach (var (unlock, qty) in technology.RecipeUnlocks)
         {
-            PrototypeManager.Resolve(unlock, out var recipeProto);
+            ProtoMan.Resolve(unlock, out var recipeProto);
             if (recipeProto == null) continue;
             if (container.UnlockedRecipes.ContainsKey(unlock))
             {

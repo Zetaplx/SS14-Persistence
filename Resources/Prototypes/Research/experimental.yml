@@ -177,3 +177,17 @@
   cost: 50000
   recipeUnlocks:
     DeviceDesynchronizer: 1
+
+- type: technology
+  id: TeleSci
+  name: research-technology-telesci
+  icon:
+    sprite: Effects/portal.rsi
+    state: portal-artifact
+  discipline: Experimental
+  tier: 3
+  cost: 10000
+  recipeUnlocks:
+    StationTeleportersControlCircuitboard: 1
+    StationTeleporterMachineCircuitboard: 2
+    TeleporterChipBlank: 4
