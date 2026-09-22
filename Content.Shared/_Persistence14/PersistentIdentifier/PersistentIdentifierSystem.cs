@@ -32,6 +32,9 @@ public sealed partial class PersistentIdentifierSystem : EntitySystem
         if (ent.Comp.IdInit) return ent.Comp.Id;
 
         ResetId(ent, out var id, PersistentIdChangeBehaviour.Sever);
+        var global = EnsureGlobalRegister();
+        global.Comp.TryRegister(ent, EntityManager);
+
         return id;
     }
 
@@ -162,10 +165,10 @@ public sealed partial class PersistentIdentifierSystem : EntitySystem
         if (!TryResolveId(sourceUid, id, out var persistEnt, convertedConditional, useFetchIfFalse))
             return false;
 
-        if (!TryComp<TComp>(ent.Owner, out var comp))
+        if (!TryComp<TComp>(persistEnt.Owner, out var comp))
             return false;
 
-        ent = (ent.Owner, comp);
+        ent = (persistEnt.Owner, comp);
         return true;
     }
 
@@ -205,10 +208,10 @@ public sealed partial class PersistentIdentifierSystem : EntitySystem
         if (!TryResolveId(reference, out var persistEnt, convertedConditional, useFetchIfFalse))
             return false;
 
-        if (!TryComp<TComp>(ent.Owner, out var comp))
+        if (!TryComp<TComp>(persistEnt.Owner, out var comp))
             return false;
 
-        ent = (ent.Owner, comp);
+        ent = (persistEnt.Owner, comp);
         return true;
     }
 

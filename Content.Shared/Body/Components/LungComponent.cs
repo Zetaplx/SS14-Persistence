@@ -27,6 +27,12 @@ public sealed partial class LungComponent : Component
     public string SolutionName = "Lung";
 
     /// <summary>
+    /// The prototype to load if a lung prototype doesn't already exist.
+    /// </summary>
+    [DataField]
+    public string DefaultLungSolutionPrototype = "SolutionLungGas";
+
+    /// <summary>
     /// The solution on this entity that these lungs act on.
     /// </summary>
     [DataField]

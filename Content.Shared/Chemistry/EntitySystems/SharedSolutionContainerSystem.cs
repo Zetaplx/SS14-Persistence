@@ -1215,6 +1215,27 @@ public abstract partial class SharedSolutionContainerSystem : EntitySystem
         return solution;
     }
 
+    public Entity<SolutionComponent> CreateSolution(Entity<SolutionManagerComponent?> entity, string name)
+        => CreateSolution(entity, name, DefaultSolution);
+    public Entity<SolutionComponent> CreateSolution(
+        Entity<SolutionManagerComponent?> entity,
+        string name,
+        EntProtoId solutionPrototype)
+    {
+        if (!SolutionManagerQuery.Resolve(entity, ref entity.Comp))
+            entity.Comp = EnsureComp<SolutionManagerComponent>(entity.Owner);
+
+        var container = ContainerSystem.EnsureContainer<Container>(entity.Owner, entity.Comp.Container);
+        var solution = SpawnSolutionUninitialized(solutionPrototype);
+        solution.Comp.Id = name;
+
+        ContainerSystem.Insert(solution.Owner, container, force: true);
+        EntityManager.InitializeAndStartEntity(solution);
+        FlagPredicted(solution.Owner);
+
+        return solution;
+    }
+
     private Entity<SolutionComponent> SpawnSolutionUninitialized(EntProtoId solution)
     {
         var uid = EntityManager.CreateEntityUninitialized(solution);

@@ -47,8 +47,11 @@ public sealed partial class LungSystem : EntitySystem
 
     private void OnMapInit(Entity<LungComponent> entity, ref MapInitEvent args)
     {
-        _solutionContainerSystem.EnsureSolution(entity.Owner, entity.Comp.SolutionName, out var solution);
+        Entity<SolutionComponent> solution = default!;
+        if (!_solutionContainerSystem.TryGetSolution(entity.Owner, entity.Comp.SolutionName, out var existing))
+            solution = _solutionContainerSystem.CreateSolution(entity.Owner, entity.Comp.SolutionName, entity.Comp.DefaultLungSolutionPrototype);
 
+        entity.Comp.Solution = _pid.EnsureId(solution.Owner);
         _solutionContainerSystem.SetCanReact(solution, false);
     }
 
