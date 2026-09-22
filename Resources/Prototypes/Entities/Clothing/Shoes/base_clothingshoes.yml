@@ -12,9 +12,13 @@
     size: Normal
   - type: Edible
     requiresSpecialDigestion: true
+  - type: Solution
+    solution:
+      reagents:
+      - ReagentId: Fiber
+        Quantity: 15
   - type: SolutionManager
     solutions:
-    - SolutionFiberClothes
     - SolutionStain
   - type: Tag
     tags:

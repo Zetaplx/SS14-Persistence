@@ -19,8 +19,12 @@
       state: outerclothing
   - type: SolutionManager
     solutions:
-    - SolutionFiberClothesLarge
     - SolutionStain
+  - type: Solution
+    solution:
+      reagents:
+      - ReagentId: Fiber
+        Quantity: 30
   - type: StainBlocker # Funky: Footprints & Stains
     slots: [INNERCLOTHING]
 
