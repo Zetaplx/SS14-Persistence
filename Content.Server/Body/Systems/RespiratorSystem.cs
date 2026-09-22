@@ -24,7 +24,8 @@ using Content.Shared.Mobs.Systems;
 using JetBrains.Annotations;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
-using Content.Shared._Funkystation.Cpr; // funky
+using Content.Shared._Funkystation.Cpr;
+using Content.Shared._Persistence14.PersistentIdentifier; // funky
 
 namespace Content.Server.Body.Systems;
 
@@ -42,6 +43,7 @@ public sealed partial class RespiratorSystem : EntitySystem
     [Dependency] private MobStateSystem _mobState = default!;
     [Dependency] private SharedEntityConditionsSystem _entityConditions = default!;
     [Dependency] private SharedSolutionContainerSystem _solutionContainerSystem = default!;
+    [Dependency] private PersistentIdentifierSystem _pid = default!;
 
     private static readonly ProtoId<MetabolismStagePrototype> RespirationStage = new("Respiration");
 
@@ -402,10 +404,9 @@ public sealed partial class RespiratorSystem : EntitySystem
 
     private void OnGasExhaled(Entity<LungComponent> ent, ref BodyRelayedEvent<ExhaledGasEvent> args)
     {
-        if (!TryComp<SolutionComponent>(ent.Comp.Solution, out var solutionComponent))
-            return;
-
-        Entity<SolutionComponent>? lungSolution = (ent.Comp.Solution.Value, solutionComponent);
+        Entity<SolutionComponent>? lungSolution = null;
+        if (_pid.TryResolveId<SolutionComponent>(ent.Comp.Solution, out var solutionEnt))
+            lungSolution = solutionEnt;
 
         _atmosSys.Merge(args.Args.Gas, ent.Comp.Air);
         ent.Comp.Air.Clear();

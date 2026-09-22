@@ -1,3 +1,5 @@
+using Content.Shared._Persistence14.PersistentIdentifier;
+using Content.Shared._Persistence14.PersistentIdentifier.Reference;
 using Content.Shared.Alert;
 using Content.Shared.Atmos;
 using Content.Shared.Body.Systems;
@@ -28,7 +30,7 @@ public sealed partial class LungComponent : Component
     /// The solution on this entity that these lungs act on.
     /// </summary>
     [DataField]
-    public EntityUid? Solution = null;
+    public PersistentEntityReference Solution = PersistentIdentifierSystem.EmptyId;
 
     /// <summary>
     /// The type of gas this lung needs. Used only for the breathing alerts, not actual metabolism.

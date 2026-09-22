@@ -1,3 +1,4 @@
+using Content.Shared._Persistence14.PersistentIdentifier;
 using Content.Shared.Atmos;
 using Content.Shared.Atmos.EntitySystems;
 using Content.Shared.Body.Components;
@@ -15,6 +16,7 @@ public sealed partial class LungSystem : EntitySystem
     [Dependency] private SharedAtmosphereSystem _atmos = default!;
     [Dependency] private SharedInternalsSystem _internals = default!;
     [Dependency] private SharedSolutionContainerSystem _solutionContainerSystem = default!;
+    [Dependency] private PersistentIdentifierSystem _pid = default!;
 
     public override void Initialize()
     {
@@ -53,10 +55,10 @@ public sealed partial class LungSystem : EntitySystem
     // TODO: JUST METABOLIZE GASES DIRECTLY DON'T CONVERT TO REAGENTS!!! (Needs Metabolism refactor :B)
     public void GasToReagent(EntityUid uid, LungComponent lung)
     {
-        if (!TryComp<SolutionComponent>(lung.Solution, out var lungSolution))
-            return;
+        Entity<SolutionComponent>? lungSolutionEnt = null;
+        if (_pid.TryResolveId<SolutionComponent>(lung.Solution, out var solutionEnt))
+            lungSolutionEnt = solutionEnt;
 
-        Entity<SolutionComponent>? lungSolutionEnt = (lung.Solution.Value, lungSolution);
         if (!_solutionContainerSystem.ResolveSolution(uid, lung.SolutionName, ref lungSolutionEnt, out var solution))
             return;
 

@@ -24,6 +24,7 @@ using Robust.Shared.Utility;
 using System.Numerics;
 
 using Dependency = Robust.Shared.IoC.DependencyAttribute;
+using Content.Shared._Persistence14.PersistentIdentifier;
 
 namespace Content.Shared.Chemistry.EntitySystems;
 
@@ -78,6 +79,7 @@ public abstract partial class SharedSolutionContainerSystem : EntitySystem
     [Dependency] protected SharedContainerSystem ContainerSystem = default!;
     [Dependency] protected SharedHandsSystem Hands = default!;
     [Dependency] private ILocalizationManager _localization = default!;
+    [Dependency] private PersistentIdentifierSystem _pid = default!;
 
     [Dependency] protected EntityQuery<ContainedSolutionComponent> ContainedQuery = default!;
     [Dependency] protected EntityQuery<SolutionComponent> SolutionQuery = default!;
@@ -125,7 +127,7 @@ public abstract partial class SharedSolutionContainerSystem : EntitySystem
         if (!ContainedQuery.TryComp(ent, out var contained) || !SolutionManagerQuery.TryComp(contained.Container, out var manager))
             return;
 
-        manager.Solutions[ent.Comp.Id] = ent;
+        manager.Solutions[ent.Comp.Id] = _pid.EnsureId(ent);
     }
 
     /// <summary>
@@ -218,7 +220,7 @@ public abstract partial class SharedSolutionContainerSystem : EntitySystem
         if (!SolutionManagerQuery.Resolve(entity, ref entity.Comp, errorOnMissing))
             return false;
 
-        if (entity.Comp.Solutions.TryGetValue(name, out var solution))
+        if (entity.Comp.Solutions.TryGetValue(name, out var solutionId) && _pid.TryResolveId<SolutionComponent>(solutionId, out var solution))
         {
             var attemptEv = new SolutionAccessAttemptEvent(name);
             RaiseLocalEvent(entity, ref attemptEv);
@@ -226,8 +228,7 @@ public abstract partial class SharedSolutionContainerSystem : EntitySystem
             if (attemptEv.Cancelled)
                 return false;
 
-            EnsureComp<SolutionComponent>(solution, out var solComp);
-            solutionEnt = (solution, solComp);
+            solutionEnt = solution;
             return true;
         }
 
@@ -301,16 +302,17 @@ public abstract partial class SharedSolutionContainerSystem : EntitySystem
         if (!SolutionManagerQuery.Resolve(entity, ref entity.Comp, logMissing: false))
             yield break;
 
-        foreach (var (id, solution) in entity.Comp.Solutions)
+        foreach (var (id, solutionId) in entity.Comp.Solutions)
         {
+            if (!_pid.TryResolveId<SolutionComponent>(solutionId, out var solution))
+                continue;
             var attemptEv = new SolutionAccessAttemptEvent(id);
             RaiseLocalEvent(entity, ref attemptEv);
 
             if (attemptEv.Cancelled)
                 continue;
 
-            EnsureComp<SolutionComponent>(solution, out var solComp);
-            yield return (id, (solution, solComp));
+            yield return (id, solution);
         }
     }
 
@@ -1115,9 +1117,10 @@ public abstract partial class SharedSolutionContainerSystem : EntitySystem
         // Throw if we already have a solution with the same ID.
         // We only check on server as we actually want the server to bulldoze any client entities being cached when they come in.
         // Applying state, and first time predicted checks will cause mispredicts until the solution updates
-        DebugTools.Assert(!entity.Comp.Solutions.TryGetValue(solution.Id, out var existing) || existing == args.Entity || Net.IsClient,
-            $"Solution {ToPrettyString(entity)}, tried to add a solution {ToPrettyString(args.Entity)} with a duplicate id: {solution.Id} {ToPrettyString(existing)}");
-        entity.Comp.Solutions[solution.Id] = args.Entity;
+        var existingId = _pid.EnsureId(args.Entity);
+        DebugTools.Assert(!entity.Comp.Solutions.TryGetValue(solution.Id, out var existing) || existing == existingId || Net.IsClient,
+            $"Solution {ToPrettyString(entity)}, tried to add a solution {ToPrettyString(args.Entity)} with a duplicate id: {solution.Id}");
+        entity.Comp.Solutions[solution.Id] = existingId;
     }
 
     private void OnSolutionRemoved(Entity<SolutionManagerComponent> entity, ref EntRemovedFromContainerMessage args)
@@ -1167,10 +1170,9 @@ public abstract partial class SharedSolutionContainerSystem : EntitySystem
                 InitializeManager((entity, entity.Comp));
 
             // Check the cache first, even if the component didn't exist before, creating one may have spawned and cached solutions!
-            if (entity.Comp.Solutions.TryGetValue(name, out var solution))
+            if (entity.Comp.Solutions.TryGetValue(name, out var solutionId) && _pid.TryResolveId<SolutionComponent>(solutionId, out var solution))
             {
-                EnsureComp<SolutionComponent>(solution, out var solComp);
-                solutionEntity = (solution, solComp);
+                solutionEntity = solution;
                 return true;
             }
         }
