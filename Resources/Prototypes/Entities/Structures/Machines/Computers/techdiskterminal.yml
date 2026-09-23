@@ -3,6 +3,7 @@
   id: ComputerTechnologyDiskTerminal
   name: tech disk terminal
   description: A terminal used to print out technology disks.
+  categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
     noRot: true
@@ -15,8 +16,8 @@
   - type: DiskConsole
   - type: ResearchClient
   - type: ExtensionCableReceiver
-  - type: Computer
-    board: TechDiskComputerCircuitboard
+  #- type: Computer
+  #  board: TechDiskComputerCircuitboard
   - type: PointLight
     radius: 0.8
     energy: 0.5

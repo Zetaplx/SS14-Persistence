@@ -5,8 +5,7 @@ using Robust.Shared.Prototypes;
 
 namespace Content.Shared.Research.TechnologyDisk.Components;
 
-[RegisterComponent, NetworkedComponent]
-[AutoGenerateComponentState]
+// Replaced by Persistence14
 public sealed partial class TechnologyDiskComponent : Component
 {
     /// <summary>

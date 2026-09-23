@@ -129,11 +129,14 @@ public sealed partial class SharedRecipeRelaySystem
     /// <summary>
     /// Copies the recipes from one container to another.
     /// </summary>
-    public void CopyTo(Entity<RecipeContainerComponent> root, Entity<RecipeContainerComponent> copy)
+    public void CopyTo(Entity<RecipeContainerComponent> root, Entity<RecipeContainerComponent> copy, bool ignorePermanent = false)
     {
-        foreach (var perm in copy.Comp.PermanentRecipes)
+        if (!ignorePermanent)
         {
-            root.Comp.PermanentRecipes.Add(perm);
+            foreach (var perm in copy.Comp.PermanentRecipes)
+            {
+                root.Comp.PermanentRecipes.Add(perm);
+            }
         }
 
         foreach (var (key, qty) in copy.Comp.UnlockedRecipes)

@@ -1,0 +1,117 @@
+<controls:FancyWindow xmlns="https://spacestation14.io"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:controls="clr-namespace:Content.Client.UserInterface.Controls"
+                      xmlns:graphics="clr-namespace:Robust.Client.Graphics;assembly=Robust.Client"
+                      x:Class="Content.Client._Persistence14.Research.TechDisk.TechDiskTerminalWindow"
+                      Title="Technology Disk Terminal"
+                      MinSize="750 400"
+                      SetSize="750 400">
+    <BoxContainer Orientation="Vertical">
+        <BoxContainer Orientation="Horizontal"
+                      VerticalExpand="True"
+                      SeparationOverride="8">
+            <!-- Server Technologies -->
+            <PanelContainer HorizontalExpand="True">
+                <BoxContainer Orientation="Vertical"
+                              Margin="8">
+                    <Label Text="Available Technologies"
+                           StyleClasses="LabelHeading"/>
+
+                    <!-- Filters -->
+                    <BoxContainer Orientation="Horizontal"
+                                  Margin="0 4 0 8"
+                                  SeparationOverride="4">
+                        <LineEdit Name="SearchBar"
+                                  HorizontalExpand="True"
+                                  PlaceHolder="Search..."/>
+                        <OptionButton Name="CategoryFilter"
+                                      MinWidth="140"/>
+                    </BoxContainer>
+
+                    <!-- Tech List -->
+                    <PanelContainer HorizontalExpand="True"
+                                    VerticalExpand="True"
+                                    StyleClasses="PanelInsetDark">
+                        <ScrollContainer VerticalExpand="True"
+                                         HorizontalExpand="True">
+                            <BoxContainer HorizontalExpand="True"
+                                          Name="ServerTechList"
+                                          Orientation="Vertical"
+                                          SeparationOverride="4"/>
+                        </ScrollContainer>
+                    </PanelContainer>
+                </BoxContainer>
+            </PanelContainer>
+
+            <!-- Disk Technologies -->
+            <PanelContainer HorizontalExpand="True">
+                <BoxContainer Orientation="Vertical"
+                              Margin="8">
+                    <Label Text="Loaded Disk"
+                           StyleClasses="LabelHeading"/>
+
+                    <!-- Disk Info -->
+                    <Label Name="DiskStatusLabel"
+                           Text="No disk inserted."
+                           Margin="0 4 0 8"/>
+                    <PanelContainer HorizontalExpand="True"
+                                    VerticalExpand="True"
+                                    StyleClasses="PanelInsetDark">
+                        <ScrollContainer HorizontalExpand="True"
+                                         VerticalExpand="True">
+                            <BoxContainer Name="DiskTechList"
+                                          Orientation="Vertical"
+                                          HorizontalExpand="True"
+                                          SeparationOverride="4"/>
+                        </ScrollContainer>
+                    </PanelContainer>
+                </BoxContainer>
+            </PanelContainer>
+        </BoxContainer>
+
+        <!-- Info Panel -->
+        <PanelContainer Margin="0 -8 0 0">
+            <BoxContainer Orientation="Vertical"
+                          Margin="8"
+                          SeparationOverride="6">
+                <!-- Storage Capacity -->
+                <BoxContainer Orientation="Horizontal">
+                    <Label Text="Disk Storage"/>
+                    <Control HorizontalExpand="True"/>
+                    <Label Name="StorageLabel"
+                           Text="0 / 15 MB"/>
+                </BoxContainer>
+                <ProgressBar Name="StorageProgress"
+                             HorizontalExpand="True"
+                             MinHeight="10"
+                             MaxHeight="10"
+                             MinValue="0"
+                             MaxValue="15"
+                             Value="0"/>
+
+                <!-- Stats -->
+                <PanelContainer HorizontalExpand="True" VerticalExpand="True" StyleClasses="PanelInsetDark">
+                    <BoxContainer Orientation="Horizontal"
+                                  Margin="6 4 4 4"
+                                  SeparationOverride="25">
+                        <BoxContainer Orientation="Vertical">
+                            <Label Text="Research Points:"/>
+                            <Label Name="ResearchPointLabel"
+                                   Text="0"/>
+                        </BoxContainer>
+                        <BoxContainer Orientation="Vertical">
+                            <Label Text="Print Cost:"/>
+                            <Label Name="PrintCostLabel"
+                                   Text="0"/>
+                        </BoxContainer>
+                        <Control HorizontalExpand="True"/>
+                        <Button Name="PrintButton"
+                                Text="PrintDisk"
+                                MinWidth="140"
+                                MinHeight="40"/>
+                    </BoxContainer>
+                </PanelContainer>
+            </BoxContainer>
+        </PanelContainer>
+    </BoxContainer>
+</controls:FancyWindow>

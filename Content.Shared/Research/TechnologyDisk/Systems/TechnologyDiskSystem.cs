@@ -17,7 +17,9 @@ using Robust.Shared.Serialization;
 
 namespace Content.Shared.Research.TechnologyDisk.Systems;
 
-public sealed partial class TechnologyDiskSystem : EntitySystem
+// Replaced completely by Persistence14
+
+/*public sealed partial class TechnologyDiskSystem : EntitySystem
 {
     [Dependency] private IRobustRandom _random = default!;
     [Dependency] private SharedPopupSystem _popup = default!;
@@ -208,3 +210,4 @@ public enum TechDiskVisuals : byte
     Tier,
     Discipline
 }
+*/

@@ -1,0 +1,30 @@
+- type: entity
+  parent: BaseItem
+  id: TechDisk
+  name: technology disk
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    layers:
+    - state: datadisk_base
+      map: [ "base" ]
+    - state: datadisk_label
+    - state: datadisk_t2_marks
+      shader: unshaded
+      map: [ "t2_marks" ]
+      visible: false
+    - state: datadisk_t2_border
+      map: [ "t2_border" ]
+      visible: false
+    - state: datadisk_t3_marks
+      map: [ "t3_marks" ]
+      shader: unshaded
+      visible: false
+    - state: datadisk_t3_border
+      map: [ "t3_border" ]
+      visible: false
+  - type: TechnologyDisk
+    blacklist:
+      components:
+      - TechnologyDisk
+    interactDuration: 5s
