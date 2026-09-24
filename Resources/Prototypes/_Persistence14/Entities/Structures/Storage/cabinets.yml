@@ -1,0 +1,14 @@
+- type: entity
+  id: FuseBox
+  parent: ShelfBaseReinforced
+  name: fuse box
+  description: A specialized cabinet for the efficient storage of logic gates.
+  components:
+  - type: Storage
+    grid:
+    - 0,0,4,1
+    - 0,3,4,4
+    - 0,6,4,7
+    whitelist: 
+      tags:
+      - Logic

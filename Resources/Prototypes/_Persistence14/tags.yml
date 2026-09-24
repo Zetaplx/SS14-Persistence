@@ -27,6 +27,8 @@
 ## K ##
 
 ## L ##
+- type: Tag
+  id: Logic # Marks logic gates and similar items which may be stored in a fuse-box.
 
 ## M ##
 

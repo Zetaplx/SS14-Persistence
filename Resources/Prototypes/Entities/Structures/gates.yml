@@ -25,6 +25,9 @@
     receiveFrequencyId: BasicDevice
   - type: WirelessNetworkConnection
     range: 200
+  - type: Tag
+    tags:
+    - Logic
 
 - type: entity
   parent: BaseLogicItem
