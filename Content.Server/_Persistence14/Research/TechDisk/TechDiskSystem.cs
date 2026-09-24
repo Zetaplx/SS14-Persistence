@@ -1,4 +1,5 @@
 using System.Linq;
+using Content.Server.Research.Systems;
 using Content.Shared._Persistence14.Research.RecipeRelay;
 using Content.Shared._Persistence14.Research.TechDisk;
 using Content.Shared.Access.Systems;
@@ -20,6 +21,7 @@ public sealed partial class TechDiskSystem : EntitySystem
     [Dependency] private SharedDoAfterSystem _doAfter = default!;
     [Dependency] private SharedUserInterfaceSystem _ui = default!;
     [Dependency] private ItemSlotsSystem _slots = default!;
+    [Dependency] private ResearchSystem _research = default!;
 
     [SubscribeLocalEvent]
     private void OnInteractWith(EntityUid uid, TechnologyDiskComponent diskComponent, ref AfterInteractEvent args)
@@ -63,6 +65,9 @@ public sealed partial class TechDiskSystem : EntitySystem
         QueueDel(uid);
     }
 
+    /// <summary>
+    /// Attemps to retrieve a tech disk stored in the terminal's item slot.
+    /// </summary>
     private bool TryGetTechDisk(Entity<TechDiskTerminalComponent?> ent, out Entity<TechnologyDiskComponent> disk, out RecipeContainerComponent container)
     {
         disk = default!;
@@ -81,42 +86,23 @@ public sealed partial class TechDiskSystem : EntitySystem
         return true;
     }
 
-    private void UpdateUserInterface(Entity<TechDiskTerminalComponent?> ent)
+    /// <summary>
+    /// Calculates the research and tech storage costs of the QueuedTech on the terminal.
+    /// </summary>
+    private (int research, int size) CalculateQueuedTechCost(Entity<TechDiskTerminalComponent> ent)
     {
-        if (!Resolve(ent, ref ent.Comp))
-            return;
+        var research = 0;
+        var size = 0;
 
-        List<TechCardData> serverData = new();
-        if (_relay.TryGetRecipeContainer(ent.Owner, out var serverContainer))
-            serverData = ConvertToData(serverContainer.Comp.UnlockedRecipes).ToList();
-
-        List<TechCardData> diskData = new();
-        if (TryGetTechDisk(ent, out _, out _))
-            diskData = ConvertToData(ent.Comp.QueuedTech).ToList();
-
-        var state = new TechDiskTerminalBUIState
-        {
-            ServerData = serverData,
-            DiskData = diskData
-        };
-        _ui.SetUiState(ent.Owner, TechDiskTerminalUIKey.Main, state);
-    }
-
-    private IEnumerable<TechCardData> ConvertToData(Dictionary<ProtoId<LatheRecipePrototype>, int> data)
-    {
-        foreach (var (techId, qty) in data)
+        foreach (var (techId, qty) in ent.Comp.QueuedTech)
         {
             var tech = ProtoMan.Index(techId);
-            if (tech.Name is not { } name)
-                continue;
-            var card = new TechCardData
-            {
-                TechId = techId,
-                TechName = Loc.GetString(name),
-                Quantity = qty
-            };
-            yield return card;
+            var techSize = tech.StorageCost * qty;
+            size += techSize;
+            research += ent.Comp.ResearchCostPerSize * techSize;
         }
+
+        return (research, size);
     }
 
     public sealed partial class TechDiskInteractEvent : SimpleDoAfterEvent;

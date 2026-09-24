@@ -24,7 +24,7 @@ public sealed partial class TechCardData
     public required string TechName;
     public required int Quantity;
     public required int TechSize;
-    public required ProtoId<LatheCategoryPrototype> Category;
+    public required List<ProtoId<LatheCategoryPrototype>> Categories;
 }
 
 [NetSerializable, Serializable]
@@ -34,7 +34,17 @@ public enum TechDiskTerminalUIKey
 }
 
 [NetSerializable, Serializable]
-public sealed partial class TechDiskAddTechMessage(ProtoId<LatheRecipePrototype> TechId) : BoundUserInterfaceMessage;
+public sealed partial class TechDiskAddTechMessage : BoundUserInterfaceMessage
+{
+    public ProtoId<LatheRecipePrototype> TechId;
+
+    public TechDiskAddTechMessage(ProtoId<LatheRecipePrototype> techId) => TechId = techId;
+}
 
 [NetSerializable, Serializable]
-public sealed partial class TechDiskRemoveTechMessage(ProtoId<LatheRecipePrototype> TechId) : BoundUserInterfaceMessage;
+public sealed partial class TechDiskRemoveTechMessage : BoundUserInterfaceMessage
+{
+    public ProtoId<LatheRecipePrototype> TechId;
+
+    public TechDiskRemoveTechMessage(ProtoId<LatheRecipePrototype> techId) => TechId = techId;
+}
