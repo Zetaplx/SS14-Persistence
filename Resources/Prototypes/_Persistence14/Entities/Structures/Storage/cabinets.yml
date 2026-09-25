@@ -7,8 +7,11 @@
   - type: Storage
     grid:
     - 0,0,4,1
+    - 6,0,10,1
     - 0,3,4,4
+    - 6,3,4,4
     - 0,6,4,7
+    - 6,6,4,8
     whitelist: 
       tags:
       - Logic
