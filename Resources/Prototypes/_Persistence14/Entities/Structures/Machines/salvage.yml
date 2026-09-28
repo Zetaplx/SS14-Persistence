@@ -1,7 +1,7 @@
 - type: entity
   parent: [ BaseMachinePowered ]
   id: SalvageMagnetAnchored
-  name: threshold salvage isolation magnet
+  name: threshold salvage magnetic isolator
   description: Attracts debris floating about the threshold. Mysterious powers anchor this device to a fixed point in space.
   components:
   - type: Sprite
