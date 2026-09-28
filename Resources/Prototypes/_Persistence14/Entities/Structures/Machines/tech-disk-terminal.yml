@@ -35,6 +35,7 @@
         whitelist:
           components:
           - TechnologyDisk
+  - type: RecipeRelayReceiver
   - type: TechDiskTerminal
     printDuration: 5s
 

@@ -40,7 +40,7 @@ public sealed partial class SharedRecipeRelaySystem : EntitySystem
             return true;
         }
 
-        if (!Resolve(uid, ref selfContainer))
+        if (!Resolve(uid, ref selfContainer, logMissing: false))
             return false;
 
         container = (uid, selfContainer);

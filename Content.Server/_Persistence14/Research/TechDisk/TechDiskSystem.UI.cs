@@ -14,7 +14,7 @@ public sealed partial class TechDiskSystem
     }
 
     [SubscribeLocalEvent]
-    public void OnAddMessageReceived(ref TechDiskAddTechMessage args)
+    public void OnAddMessageReceived(TechDiskAddTechMessage args)
     {
         var terminal = GetEntity(args.Entity);
         if (!TryComp<TechDiskTerminalComponent>(terminal, out var comp))
@@ -24,7 +24,7 @@ public sealed partial class TechDiskSystem
     }
 
     [SubscribeLocalEvent]
-    public void OnRemoveMessageReceived(ref TechDiskRemoveTechMessage args)
+    public void OnRemoveMessageReceived(TechDiskRemoveTechMessage args)
     {
         var terminal = GetEntity(args.Entity);
         if (!TryComp<TechDiskTerminalComponent>(terminal, out var comp))
