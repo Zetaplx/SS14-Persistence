@@ -1,14 +1,29 @@
-<PanelContainer xmlns="https://spacestation14.io"
-                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                StyleClasses="AngleRect">
-    <BoxContainer Oreientation="Horizontal"
-                  Margin="6"
-                  SeparationOverride="8">
-        <TextureRect Name="TechIcon" MinSize="48 48" MaxSize="48 48"/>
-        <Label Name="TechNameLabel" Label="Name"/>
-        <Control HorizontalExpand="True"/>
-        <Button Name="RemoveButton" Text="-" Visible="False"/>
-        <Label Name="CountLabel" Label ="1" MinWidth="32"/>
-        <Button Name="AddButton" Text=">"/>
-    </BoxContainer>
-</PanelContainer>
+<BoxContainer xmlns="https://spacestation14.io"
+              Orientation="Horizontal"
+              Margin="0"
+              SeparationOverride="4">
+
+    <Control Name="TechIcon"
+             MinSize="32 32"
+             VerticalAlignment="Center"/>
+
+    <Label Name="TechNameLabel"
+           Text="Name"
+           VerticalAlignment="Center"/>
+
+    <Control HorizontalExpand="True"/>
+
+    <Button Name="RemoveButton"
+            Text="-"
+            Visible="False"
+            VerticalAlignment="Center"/>
+
+    <Label Name="CountLabel"
+           Text="1"
+           MinWidth="24"
+           VerticalAlignment="Center"/>
+
+    <Button Name="AddButton"
+            Text=">"
+            VerticalAlignment="Center"/>
+</BoxContainer>

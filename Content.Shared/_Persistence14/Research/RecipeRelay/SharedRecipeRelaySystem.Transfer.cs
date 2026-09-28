@@ -69,6 +69,7 @@ public sealed partial class SharedRecipeRelaySystem
         if (container.Comp.UnlockedRecipes.TryGetValue(recipeId, out var curr))
             current = curr;
         container.Comp.UnlockedRecipes[recipeId] = current + count;
+        Dirty(container);
         return true;
     }
 

@@ -9,7 +9,8 @@ public sealed partial class TechDiskSystem
     private void AddQueue(Entity<TechDiskTerminalComponent> terminal, ProtoId<LatheRecipePrototype> techId)
     {
         // Verify terminal/server status
-        if (!_relay.TryGetRecipeContainer(terminal.Owner, out var container) ||
+        if (!_research.TryGetClientServer(terminal.Owner, out var server) ||
+            !_relay.TryGetRecipeContainer(server.Owner, out var container) ||
             !container.Comp.UnlockedRecipes.TryGetValue(techId, out var techQty) ||
             techQty <= 0) // This *shouldn't* happen, but just in case...
             return;
@@ -22,7 +23,7 @@ public sealed partial class TechDiskSystem
             return;
 
         // Attempt removal
-        if (!_relay.TryRemoveUnlockRecipe(terminal.Owner, techId, count: 1))
+        if (!_relay.TryRemoveUnlockRecipe(server.Owner, techId, count: 1))
             return;
 
         if (!terminal.Comp.QueuedTech.TryAdd(techId, 1))
@@ -34,7 +35,8 @@ public sealed partial class TechDiskSystem
     private void RemoveQueue(Entity<TechDiskTerminalComponent> terminal, ProtoId<LatheRecipePrototype> techId)
     {
         // Verify terminal/server status
-        if (!_relay.TryGetRecipeContainer(terminal.Owner, out var container))
+        if (!_research.TryGetClientServer(terminal.Owner, out var server) ||
+            !_relay.TryGetRecipeContainer(server.Owner, out var container))
             return;
 
         var tech = ProtoMan.Index(techId);
@@ -49,19 +51,20 @@ public sealed partial class TechDiskSystem
         else
             terminal.Comp.QueuedTech[techId] = qty - 1;
 
-        _relay.TryAddUnlockRecipe(terminal.Owner, techId, count: 1);
+        _relay.TryAddUnlockRecipe(server.Owner, techId, count: 1);
 
         UpdateUserInterface(terminal);
     }
 
     private void ClearQueue(Entity<TechDiskTerminalComponent> terminal)
     {
-        if (!_relay.TryGetRecipeContainer(terminal.Owner, out var container))
+        if (!_research.TryGetClientServer(terminal.Owner, out var server) ||
+            !_relay.TryGetRecipeContainer(server.Owner, out var container))
             return;
 
         foreach (var (techId, qty) in terminal.Comp.QueuedTech)
         {
-            _relay.TryAddUnlockRecipe(terminal.Owner, techId, count: qty);
+            _relay.TryAddUnlockRecipe(server.Owner, techId, count: qty);
         }
         terminal.Comp.QueuedTech.Clear();
 

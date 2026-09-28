@@ -4,8 +4,8 @@
                       xmlns:graphics="clr-namespace:Robust.Client.Graphics;assembly=Robust.Client"
                       x:Class="Content.Client._Persistence14.Research.TechDisk.TechDiskTerminalWindow"
                       Title="Technology Disk Terminal"
-                      MinSize="750 400"
-                      SetSize="750 400">
+                      MinSize="950 400"
+                      SetSize="950 400">
     <BoxContainer Orientation="Vertical">
         <BoxContainer Orientation="Horizontal"
                       VerticalExpand="True"
@@ -37,7 +37,7 @@
                             <BoxContainer HorizontalExpand="True"
                                           Name="ServerTechList"
                                           Orientation="Vertical"
-                                          SeparationOverride="4"/>
+                                          SeparationOverride="0"/>
                         </ScrollContainer>
                     </PanelContainer>
                 </BoxContainer>
@@ -50,10 +50,6 @@
                     <Label Text="Loaded Disk"
                            StyleClasses="LabelHeading"/>
 
-                    <!-- Disk Info -->
-                    <Label Name="DiskStatusLabel"
-                           Text="No disk inserted."
-                           Margin="0 4 0 8"/>
                     <PanelContainer HorizontalExpand="True"
                                     VerticalExpand="True"
                                     StyleClasses="PanelInsetDark">
@@ -106,7 +102,7 @@
                         </BoxContainer>
                         <Control HorizontalExpand="True"/>
                         <Button Name="PrintButton"
-                                Text="PrintDisk"
+                                Text="Print"
                                 MinWidth="140"
                                 MinHeight="40"/>
                     </BoxContainer>

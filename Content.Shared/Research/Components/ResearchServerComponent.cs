@@ -52,7 +52,7 @@ public sealed partial class ResearchServerComponent : Component
     [DataField(readOnly: true)]
     public PersistentEntityReference ParentServer = PersistentIdentifierSystem.EmptyId;
 
-    public bool IsMain => ParentServer != PersistentIdentifierSystem.EmptyId;
+    public bool IsMain => ParentServer == PersistentIdentifierSystem.EmptyId;
 
     /// <summary>
     /// Servers which have this server as a parent.

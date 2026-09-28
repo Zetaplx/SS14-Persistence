@@ -15,6 +15,7 @@ public sealed partial class TechDiskTerminalBUIState : BoundUserInterfaceState
     public required int ResearchPoints;
     public required int CurrentResearchPrice;
     public required bool CanPrint;
+    public required bool HasDisk;
 }
 
 [NetSerializable, Serializable]

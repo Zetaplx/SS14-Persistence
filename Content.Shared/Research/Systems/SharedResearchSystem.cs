@@ -255,7 +255,7 @@ public abstract partial class SharedResearchSystem : EntitySystem
     [PublicAPI]
     public bool TryRemoveTechnology(Entity<TechnologyDatabaseComponent> entity, TechnologyPrototype tech)
     {
-        if (!entity.Comp.UnlockedTechnologies.Remove(tech.ID))
+        if (!entity.Comp.UnlockedTechnologies.ContainsKey(tech.Discipline.Id))
             return false;
 
         // check to make sure we didn't somehow get the recipe from another tech.

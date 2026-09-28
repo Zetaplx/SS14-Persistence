@@ -28,3 +28,4 @@
       components:
       - TechnologyDisk
     interactDuration: 5s
+  - type: RecipeContainer

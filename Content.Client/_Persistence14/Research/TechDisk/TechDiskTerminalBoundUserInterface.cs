@@ -1,10 +1,13 @@
 using Content.Shared._Persistence14.Research.TechDisk;
+using Robust.Client.GameObjects;
 using Robust.Client.UserInterface;
 
 namespace Content.Client._Persistence14.Research.TechDisk;
 
 public sealed partial class TechDiskTerminalBoundUserInterface : BoundUserInterface
 {
+    [Dependency] private SpriteSystem _sprite = default!;
+
     private TechDiskTerminalWindow? _window = null;
 
     public TechDiskTerminalBoundUserInterface(EntityUid owner, Enum uiKey) : base(owner, uiKey) { }

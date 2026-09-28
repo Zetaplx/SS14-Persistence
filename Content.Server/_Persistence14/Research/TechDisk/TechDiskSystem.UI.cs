@@ -35,14 +35,20 @@ public sealed partial class TechDiskSystem
 
     private void UpdateUserInterface(Entity<TechDiskTerminalComponent> ent)
     {
+
+        var currentPoints = 0;
+        if (_research.TryGetClientServer(ent.Owner, out var server))
+            currentPoints = server.Comp1.Points;
+
         Dictionary<ProtoId<LatheRecipePrototype>, TechCardData> serverData = new();
-        if (_relay.TryGetRecipeContainer(ent.Owner, out var serverContainer))
+        if (_relay.TryGetRecipeContainer(server.Owner, out var serverContainer))
             serverData = ConvertToData(serverContainer.Comp.UnlockedRecipes);
 
         Dictionary<ProtoId<LatheRecipePrototype>, TechCardData> diskData = new();
         int maxDiskSize = 0;
         int currentDiskSize = 0;
         int currentPointCost = 0;
+        bool hasDisk = false;
         if (TryGetTechDisk(ent.AsNullable(), out var disk, out _))
         {
             diskData = ConvertToData(ent.Comp.QueuedTech);
@@ -50,11 +56,8 @@ public sealed partial class TechDiskSystem
             var (research, size) = CalculateQueuedTechCost((ent.Owner, ent.Comp));
             currentDiskSize = size;
             currentPointCost = research;
+            hasDisk = true;
         }
-
-        var currentPoints = 0;
-        if (_research.TryGetClientServer(ent.Owner, out var server))
-            currentPoints = server.Comp1.Points;
 
         var state = new TechDiskTerminalBUIState
         {
@@ -65,7 +68,8 @@ public sealed partial class TechDiskSystem
 
             ResearchPoints = currentPoints,
             CurrentResearchPrice = currentPointCost,
-            CanPrint = diskData.Any() && currentPoints >= currentPointCost
+            CanPrint = diskData.Any() && currentPoints >= currentPointCost,
+            HasDisk = hasDisk,
         };
         _ui.SetUiState(ent.Owner, TechDiskTerminalUIKey.Main, state);
     }
@@ -80,7 +84,7 @@ public sealed partial class TechDiskSystem
         {
             var tech = ProtoMan.Index(techId);
             if (tech.Name is not { } name)
-                continue;
+                name = ProtoMan.Index(tech.Result!.Value).Name;
             var card = new TechCardData
             {
                 TechId = techId,
