@@ -32,7 +32,6 @@ public sealed partial class ImmovableRodSystem : EntitySystem
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly SharedMapSystem _map = default!;
     [Dependency] private readonly ISharedAdminLogManager _adminLogger = default!;
-    [Dependency] private PersistentIdentifierSystem _pid = default!;
 
     public override void Update(float frameTime)
     {

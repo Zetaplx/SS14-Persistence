@@ -6,7 +6,6 @@ using Content.Shared.Temperature.HeatContainer;
 using Robust.Shared.Physics.Components;
 using Robust.Shared.Physics.Events;
 using Robust.Shared.Timing;
-using System.Linq;
 
 namespace Content.Shared.Temperature.Systems;
 

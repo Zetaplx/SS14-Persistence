@@ -21,7 +21,6 @@ using Robust.Shared.Random;
 using Robust.Shared.Timing;
 using System.Linq;
 using Content.Shared.Body.Systems;
-using Content.Shared.EntityEffects.Effects.Solution;
 using TimedDespawnComponent = Robust.Shared.Spawners.TimedDespawnComponent;
 
 namespace Content.Server.Fluids.EntitySystems;
@@ -237,7 +236,7 @@ public sealed partial class SmokeSystem : EntitySystem
     /// </summary>
     public void SmokeReact(EntityUid entity, EntityUid smokeUid, SmokeComponent? component = null)
     {
-        if (smokeUid == null || smokeUid == EntityUid.Invalid) return;
+        if (smokeUid == EntityUid.Invalid) return;
         if (!Resolve(smokeUid, ref component))
             return;
 

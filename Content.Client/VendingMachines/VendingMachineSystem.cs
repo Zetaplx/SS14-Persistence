@@ -8,7 +8,6 @@ using Content.Shared.VendingMachines.Components;
 using Robust.Client.Animations;
 using Robust.Client.GameObjects;
 using Robust.Shared.GameStates;
-using System.Linq;
 
 namespace Content.Client.VendingMachines;
 

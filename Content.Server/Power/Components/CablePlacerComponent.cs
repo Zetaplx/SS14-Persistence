@@ -1,8 +1,6 @@
 using Content.Shared.Power;
 using Content.Shared.Whitelist;
 using Robust.Shared.Prototypes;
-using Content.Shared.Power;
-using Content.Shared.Whitelist;
 
 namespace Content.Server.Power.Components
 {

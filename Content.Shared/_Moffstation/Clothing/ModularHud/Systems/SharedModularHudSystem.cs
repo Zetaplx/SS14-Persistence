@@ -53,7 +53,6 @@ public abstract partial class SharedModularHudSystem : EntitySystem
     [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
     [Dependency] private readonly BlurryVisionSystem _blurryVision = default!;
     [Dependency] private readonly SharedContainerSystem _container = default!;
-    [Dependency] private readonly SharedFlashSystem _flash = default!;
     [Dependency] private readonly SharedHandsSystem _hands = default!;
     [Dependency] private readonly InventorySystem _inventory = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
@@ -168,7 +167,7 @@ public abstract partial class SharedModularHudSystem : EntitySystem
 
             if (entity.Comp.NumContainedModules >= entity.Comp.MaximumContainedModules)
             {
-                _popup.PopupPredictedCursor(
+                _popup.PopupCursor(
                     Loc.GetString(
                         entity.Comp.ModuleSlotsFullErrorText,
                         ("hud", Name(entity))
@@ -181,7 +180,7 @@ public abstract partial class SharedModularHudSystem : EntitySystem
             var moduleFailureReqs = GetRequirementFailures(entity, (args.Used, moduleComp)).ToList();
             if (moduleFailureReqs.Count != 0)
             {
-                _popup.PopupPredictedCursor(
+                _popup.PopupCursor(
                     string.Join(", ", moduleFailureReqs),
                     args.User
                 );
@@ -206,7 +205,7 @@ public abstract partial class SharedModularHudSystem : EntitySystem
 
             if (!usedHasQuality)
             {
-                _popup.PopupPredictedCursor(
+                _popup.PopupCursor(
                     Loc.GetString(
                         entity.Comp.MissingToolQualityErrorText,
                         ("quality", Loc.GetString(toolQuality?.Name ?? "Unknown")),

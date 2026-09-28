@@ -87,6 +87,26 @@
         conditions:
         - !type:MetabolizerTypeCondition
           type: [Slime]
+      - !type:EvenHealthChange # Scav: Same benefits as Vitamin, specifically for yinglets for yinglets. In Digestion instead of Metabolites since slime is accessible in much greater quantities
+        conditions:
+        - !type:MetabolizerTypeCondition
+          type: [ Yinglet ]
+        probability: 0.5
+        damage:
+          Brute: -0.5
+          Burn: -0.5
+      - !type:ModifyBleed # Scav
+        conditions:
+        - !type:MetabolizerTypeCondition
+          type: [ Yinglet ]
+        amount: -0.25
+      - !type:ModifyStatusEffect # Scav: Yinglets also get high from it
+        conditions:
+        - !type:MetabolizerTypeCondition
+          type: [ Yinglet ]
+        effectProto: StatusEffectSeeingRainbow
+        type: Add
+        time: 5
   footstepSound:
     collection: FootstepSlime # makes sense
     params:
@@ -212,7 +232,7 @@
   recognizable: true
   metabolisms:
     Bloodstream:
-     metabolismRate: 0.1
+     metabolismRate: 0.1 #new to persistence 14
      effects:
       - !type:Satiate
         satiationType: Thirst
@@ -222,9 +242,9 @@
         amount: 3
       - !type:EvenHealthChange
         damage:
-          Burn: -0.6
-          Brute: -0.6
-          Toxin: -0.4
+          Burn: -0.6 #new to persistence 14
+          Brute: -0.6 #new to persistence 14
+          Toxin: -0.4 #new to persistence 14
       - !type:HealthChange
         damage:
           types:

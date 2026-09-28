@@ -6,7 +6,6 @@ using Content.Shared.Chemistry.EntitySystems;
 using Content.Shared.Interaction;
 using Content.Shared.Popups;
 using Robust.Server.Audio;
-using System.Linq;
 using Content.Shared.Body;
 
 namespace Content.Server.Materials;

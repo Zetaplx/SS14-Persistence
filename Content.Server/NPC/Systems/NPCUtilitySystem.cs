@@ -395,7 +395,8 @@ public sealed partial class NPCUtilitySystem : EntitySystem
                     return 1f;
 
                 // Persistence: Firebots can target reagent fires
-                if (TryComp(targetUid, out TagComponent? tags) && tags.Tags.AsReadOnly().Contains(ProtoMan.Index<TagPrototype>("ReagentFire")))
+                var reagentFireTagPrototype = "ReagentFire";
+                if (TryComp(targetUid, out TagComponent? tags) && tags.Tags.AsReadOnly().Contains(ProtoMan.Index<TagPrototype>(reagentFireTagPrototype)))
                     return 1f;
 
                 return 0f;
