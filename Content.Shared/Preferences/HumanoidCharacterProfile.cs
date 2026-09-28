@@ -23,6 +23,7 @@ using Robust.Shared.Serialization;
 using Robust.Shared.Utility;
 using Robust.Shared;
 using YamlDotNet.RepresentationModel;
+using Content.Shared._Persistence14.Background.Prototypes;
 
 namespace Content.Shared.Preferences
 {
@@ -35,7 +36,7 @@ namespace Content.Shared.Preferences
     {
         public static readonly ProtoId<SpeciesPrototype> DefaultSpecies = "Human";
         public static readonly ProtoId<EmoteSoundsPrototype> DefaultVoice = "MaleHuman";
-        private static readonly Regex RestrictedNameRegex = new(@"[^A-Za-z0-9 '\-]");
+        private static readonly Regex RestrictedNameRegex = new(@"[^A-Za-z0-9, '\-]");
         private static readonly Regex ICNameCaseRegex = new(@"^(?<word>\w)|\b(?<word>\w)(?=\w*$)");
 
         /// <summary>
@@ -70,7 +71,7 @@ namespace Content.Shared.Preferences
         private Dictionary<string, RoleLoadout> _loadouts = new();
 
         [DataField]
-        public string Name { get; set; } = "John Doe";
+        public string Name { get; set; } = "";
 
         /// <summary>
         /// Detailed text that can appear for the character if <see cref="CCVars.FlavorText"/> is enabled.
@@ -130,6 +131,14 @@ namespace Content.Shared.Preferences
         public PreferenceUnavailableMode PreferenceUnavailable { get; private set; } =
             PreferenceUnavailableMode.SpawnAsOverflow;
 
+        [DataField]
+        public ProtoId<AlignmentPrototype>? Alignment = null;
+
+        [DataField]
+        public ProtoId<UniverseOriginPrototype>? UniverseOrigin = null;
+        [DataField]
+        public ProtoId<MotivePrototype>? Motive = null;
+
         public HumanoidCharacterProfile(
             string name,
             string flavortext,
@@ -144,7 +153,10 @@ namespace Content.Shared.Preferences
             PreferenceUnavailableMode preferenceUnavailable,
             HashSet<ProtoId<AntagPrototype>> antagPreferences,
             HashSet<ProtoId<TraitPrototype>> traitPreferences,
-            Dictionary<string, RoleLoadout> loadouts)
+            Dictionary<string, RoleLoadout> loadouts,
+            ProtoId<AlignmentPrototype>? alignment = null,
+            ProtoId<UniverseOriginPrototype>? universeOrigin = null,
+            ProtoId<MotivePrototype>? motive = null)
         {
             Name = name;
             FlavorText = flavortext;
@@ -160,6 +172,9 @@ namespace Content.Shared.Preferences
             _antagPreferences = antagPreferences;
             _traitPreferences = traitPreferences;
             _loadouts = loadouts;
+            Alignment = alignment;
+            UniverseOrigin = universeOrigin;
+            Motive = motive;
 
             var hasHighPrority = false;
             foreach (var (key, value) in _jobPriorities)
@@ -191,7 +206,10 @@ namespace Content.Shared.Preferences
                 other.PreferenceUnavailable,
                 new HashSet<ProtoId<AntagPrototype>>(other.AntagPreferences),
                 new HashSet<ProtoId<TraitPrototype>>(other.TraitPreferences),
-                new Dictionary<string, RoleLoadout>(other.Loadouts))
+                new Dictionary<string, RoleLoadout>(other.Loadouts),
+                other.Alignment,
+                other.UniverseOrigin,
+                other.Motive)
         {
         }
 
@@ -369,7 +387,9 @@ namespace Content.Shared.Preferences
             profile.Age = (randomizeCfg & RandomizeCfg.Age) != 0 ? RandomAge(speciesProto) : baseProfile.Age;
 
             profile.Appearance = HumanoidCharacterAppearance.Random(speciesProto, profile.Sex, randomizeCfg, baseProfile.Appearance);
-
+            profile.Alignment = baseProfile.Alignment;
+            profile.UniverseOrigin = baseProfile.UniverseOrigin;
+            profile.Motive = baseProfile.Motive;
             return profile;
         }
 
@@ -684,9 +704,7 @@ namespace Content.Shared.Preferences
             name = name.Trim();
 
             if (configManager.GetCVar(CCVars.RestrictedNames))
-            {
-                name = RestrictedNameRegex.Replace(name, string.Empty);
-            }
+                ApplyRestrictedNameRegex(ref name); // Persistence: Move logic to separate function
 
             if (configManager.GetCVar(CCVars.ICNameCase))
             {
@@ -710,7 +728,7 @@ namespace Content.Shared.Preferences
                 flavortext = FormattedMessage.RemoveMarkupOrThrow(FlavorText);
             }
 
-            var appearance = HumanoidCharacterAppearance.EnsureValid(Appearance, Species, Sex);
+            var appearance = HumanoidCharacterAppearance.EnsureValid(Appearance, Species, Sex, false); // Scav: Add false
 
             var prefsUnavailableMode = PreferenceUnavailable switch
             {
@@ -801,6 +819,17 @@ namespace Content.Shared.Preferences
             {
                 _loadouts.Remove(value);
             }
+        }
+
+        /// <summary>
+        /// Persistence
+        /// Apply <see cref="RestrictedNameRegex "/> to a reference string.
+        /// This function does not check <see cref="CCVars.RestrictedNames"/>, callers should perform the check instead.
+        /// </summary>
+        /// <param name="name">A reference to the string to apply the regex to</param>
+        public void ApplyRestrictedNameRegex(ref string name)
+        {
+            name = RestrictedNameRegex.Replace(name, string.Empty);
         }
 
         /// <summary>
