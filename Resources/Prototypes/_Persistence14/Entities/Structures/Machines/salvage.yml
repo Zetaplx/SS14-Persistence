@@ -43,6 +43,7 @@
   - type: ActiveRadio
     channels:
     - Supply
+  - type: SimpleStationAnchor
 
 - type: entity
   parent: [ BaseMachine ]
