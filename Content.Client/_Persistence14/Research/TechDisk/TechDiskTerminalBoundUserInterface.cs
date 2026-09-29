@@ -19,6 +19,7 @@ public sealed partial class TechDiskTerminalBoundUserInterface : BoundUserInterf
         _window = this.CreateWindow<TechDiskTerminalWindow>();
         _window.OnAdd += (t) => SendMessage(new TechDiskAddTechMessage(t));
         _window.OnRemove += (t) => SendMessage(new TechDiskRemoveTechMessage(t));
+        _window.OnPrint += () => SendMessage(new TechDiskPrintMessage());
     }
 
     protected override void UpdateState(BoundUserInterfaceState state)
@@ -30,4 +31,15 @@ public sealed partial class TechDiskTerminalBoundUserInterface : BoundUserInterf
 
         _window.UpdateUIState(buiState);
     }
+
+    public override void Update()
+    {
+        base.Update();
+
+        if (_window is not { } window)
+            return;
+
+        _window.Update();
+    }
+    
 }

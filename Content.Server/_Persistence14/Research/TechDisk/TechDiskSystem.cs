@@ -65,6 +65,12 @@ public sealed partial class TechDiskSystem : EntitySystem
         QueueDel(uid);
     }
 
+    /// <inheritdoc/>
+    public override void Update(float frameTime)
+    {
+        UpdatePrint(frameTime);
+    }
+
     /// <summary>
     /// Attemps to retrieve a tech disk stored in the terminal's item slot.
     /// </summary>
@@ -105,5 +111,6 @@ public sealed partial class TechDiskSystem : EntitySystem
         return (research, size);
     }
 
+    [NetSerializable, Serializable]
     public sealed partial class TechDiskInteractEvent : SimpleDoAfterEvent;
 }

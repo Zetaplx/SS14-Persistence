@@ -33,6 +33,16 @@ public sealed partial class TechDiskSystem
         RemoveQueue((terminal, comp), args.TechId);
     }
 
+    [SubscribeLocalEvent]
+    public void OnPrintMessageReceived(TechDiskPrintMessage args)
+    {
+        var terminal = GetEntity(args.Entity);
+        if (!TryComp<TechDiskTerminalComponent>(terminal, out var comp))
+            return;
+
+        StartPrint((terminal, comp));
+    }
+
     private void UpdateUserInterface(Entity<TechDiskTerminalComponent> ent)
     {
 
@@ -59,6 +69,16 @@ public sealed partial class TechDiskSystem
             hasDisk = true;
         }
 
+        bool isPrinting = false;
+        TimeSpan printEndTime = TimeSpan.Zero;
+        TimeSpan printStartTime = TimeSpan.Zero;
+        if (TryComp<TechDiskTerminalPrintingComponent>(ent.Owner, out var printing))
+        {
+            isPrinting = true;
+            printEndTime = printing.PrintEndTime;
+            printStartTime = printing.PrintStartTime;
+        }
+
         var state = new TechDiskTerminalBUIState
         {
             ServerData = serverData,
@@ -70,6 +90,10 @@ public sealed partial class TechDiskSystem
             CurrentResearchPrice = currentPointCost,
             CanPrint = diskData.Any() && currentPoints >= currentPointCost,
             HasDisk = hasDisk,
+
+            IsPrinting = isPrinting,
+            PrintEndTime = printEndTime,
+            PrintStartTime = printStartTime,
         };
         _ui.SetUiState(ent.Owner, TechDiskTerminalUIKey.Main, state);
     }

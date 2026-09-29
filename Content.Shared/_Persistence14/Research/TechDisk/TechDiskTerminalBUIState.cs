@@ -16,6 +16,9 @@ public sealed partial class TechDiskTerminalBUIState : BoundUserInterfaceState
     public required int CurrentResearchPrice;
     public required bool CanPrint;
     public required bool HasDisk;
+    public required bool IsPrinting;
+    public required TimeSpan PrintEndTime;
+    public required TimeSpan PrintStartTime;
 }
 
 [NetSerializable, Serializable]
@@ -49,3 +52,6 @@ public sealed partial class TechDiskRemoveTechMessage : BoundUserInterfaceMessag
 
     public TechDiskRemoveTechMessage(ProtoId<LatheRecipePrototype> techId) => TechId = techId;
 }
+
+[NetSerializable, Serializable]
+public sealed partial class TechDiskPrintMessage : BoundUserInterfaceMessage;

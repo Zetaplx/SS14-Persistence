@@ -10,6 +10,7 @@ using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controls;
 using Robust.Client.UserInterface.XAML;
 using Robust.Shared.Prototypes;
+using Robust.Shared.Timing;
 
 namespace Content.Client._Persistence14.Research.TechDisk;
 
@@ -18,6 +19,7 @@ public sealed partial class TechDiskTerminalWindow : FancyWindow
 {
     [Dependency] private IPrototypeManager _protoMan = default!;
     [Dependency] private ILogManager _log = default!;
+    [Dependency] private IGameTiming _time = default!;
     private SpriteSystem _sprite = default!;
 
     private TechDiskTerminalBUIState? _lastState = null;
@@ -46,6 +48,8 @@ public sealed partial class TechDiskTerminalWindow : FancyWindow
 
             DrawServerTechCards();
         };
+
+        PrintButton.OnPressed += _ => OnPrint?.Invoke();
     }
 
     public void UpdateUIState(TechDiskTerminalBUIState state)
@@ -58,11 +62,14 @@ public sealed partial class TechDiskTerminalWindow : FancyWindow
 
         ResearchPointLabel.Text = $"{state.ResearchPoints}";
         PrintCostLabel.Text = $"{state.CurrentResearchPrice}";
-        PrintButton.Disabled = !state.CanPrint;
+        PrintButton.Disabled = !state.CanPrint || state.IsPrinting;
 
         StorageLabel.Text = $"{state.CurrentTechSize} / {state.MaxTechSize} MB";
         StorageProgress.MaxValue = state.MaxTechSize;
         StorageProgress.Value = state.CurrentTechSize;
+
+        UpdatePrinting();
+        PrintButton.Text = state.IsPrinting ? $"{(state.PrintEndTime - _time.CurTime).TotalSeconds:F2}" : "Print";
     }
 
     private void UpdateCategories()
@@ -93,6 +100,27 @@ public sealed partial class TechDiskTerminalWindow : FancyWindow
             CategoryFilter.SelectId(-1);
     }
 
+    private void UpdatePrinting()
+    {
+        if (_lastState is not { } state ||
+            !state.IsPrinting)
+            return;
+
+        StorageProgress.MaxValue = (float)(state.PrintEndTime - state.PrintStartTime).TotalMilliseconds;
+        StorageProgress.Value = StorageProgress.MaxValue - (float)(state.PrintEndTime - _time.CurTime).TotalMilliseconds;
+    }
+
+    public void Update()
+    {
+        if (_lastState is not { } state ||
+            !state.IsPrinting)
+            return;
+
+        var dt = state.PrintEndTime - _time.CurTime;
+        StorageProgress.Value = (float)dt.TotalMilliseconds;
+        PrintButton.Text = $"{dt.TotalSeconds:F2}";
+    }
+
     private void DrawServerTechCards()
     {
         if (_lastState is not { } state)
@@ -107,9 +135,12 @@ public sealed partial class TechDiskTerminalWindow : FancyWindow
         {
             techs = techs
                 .Select(x => (tech: x, score: SearchScore(x.TechName, SearchBar.Text)))
-                .Where(x => x.score >= 0.5f)
                 .OrderByDescending(x => x.score)
-                .Select(x => x.tech);
+                .Where(x => x.score >= 0.2f)
+                .Select(x =>
+                {
+                    return x.tech;
+                });
         }
 
         foreach (var tech in techs)
@@ -132,7 +163,8 @@ public sealed partial class TechDiskTerminalWindow : FancyWindow
         foreach (var (techId, tech) in state.DiskData)
         {
             var proto = _protoMan.Index(techId);
-            var canAdd = state.CurrentTechSize + tech.TechSize <= state.MaxTechSize;
+            var canAdd = state.CurrentTechSize + tech.TechSize <= state.MaxTechSize &&
+                         state.ServerData.TryGetValue(techId, out var t) && t.Quantity > 0;
             var card = new TechCardControl(TechCardSide.Disk, tech, canAdd, true, GetRecipeDisplayControl(proto));
             card.OnAdd += OnAdd;
             card.OnRemove += OnRemove;
@@ -163,10 +195,39 @@ public sealed partial class TechDiskTerminalWindow : FancyWindow
 
     private static float SearchScore(string name, string query)
     {
-        var levDist = LevenshteinDistance(name, query);
-        var maxLength = Math.Max(name.Length, query.Length);
+        if (name == query)
+            return 1.0f;
 
-        return 1.0f - (float)levDist / maxLength;
+        var lowerName = name.ToLowerInvariant();
+        var lowerQuery = query.ToLowerInvariant();
+        if (lowerName == lowerQuery)
+            return .99f;
+
+        var trimName = lowerName.Trim();
+        var trimQuery = lowerQuery.Trim();
+
+        if (trimName == trimQuery)
+            return .98f;
+
+        if (name.StartsWith(query))
+            return .95f;
+        if (lowerName.StartsWith(lowerQuery))
+            return .94f;
+        if (trimName.StartsWith(trimQuery))
+            return .93f;
+
+        if (name.Contains(query))
+            return .90f;
+        if (lowerName.Contains(lowerQuery))
+            return .89f;
+        if (trimName.Contains(trimQuery))
+            return .88f;
+
+        var levDist = LevenshteinDistance(trimName, trimQuery);
+        var maxLength = Math.Max(trimName.Length, trimQuery.Length);
+        var levScore = 0.8f * (1.0f - (float)levDist / maxLength);
+
+        return levScore;
     }
 
     private static float LevenshteinDistance(string first, string second)
@@ -177,11 +238,11 @@ public sealed partial class TechDiskTerminalWindow : FancyWindow
         for (var j = 0; j <= second.Length; j++)
             previous[j] = j;
 
-        for (var i = 0; i <= first.Length; i++)
+        for (var i = 1; i <= first.Length; i++)
         {
             current[0] = i;
 
-            for (var j = 0; j < second.Length; j++)
+            for (var j = 1; j <= second.Length; j++)
             {
                 var cost = first[i - 1] == second[j - 1] ? 0 : 1;
 
@@ -189,10 +250,8 @@ public sealed partial class TechDiskTerminalWindow : FancyWindow
                     Math.Min(current[j - 1] + 1, previous[j] + 1),
                     previous[j - 1] + cost
                 );
-
-
-                (previous, current) = (current, previous);
             }
+            (previous, current) = (current, previous);
         }
 
         return previous[second.Length];
@@ -200,4 +259,5 @@ public sealed partial class TechDiskTerminalWindow : FancyWindow
 
     public event Action<ProtoId<LatheRecipePrototype>>? OnAdd;
     public event Action<ProtoId<LatheRecipePrototype>>? OnRemove;
+    public event Action? OnPrint;
 }
