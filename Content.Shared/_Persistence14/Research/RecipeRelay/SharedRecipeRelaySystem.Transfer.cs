@@ -1,3 +1,5 @@
+using System.Linq;
+using Content.Shared._Persistence14.Log;
 using Content.Shared.Research.Prototypes;
 using Robust.Shared.Prototypes;
 
@@ -9,40 +11,23 @@ public sealed partial class SharedRecipeRelaySystem
     /// Attempts to transfer a recipe from one recipe container to another.
     /// </summary>
     public bool TryTransferRecipe(EntityUid from, EntityUid to,
-        ProtoId<LatheRecipePrototype> recipeId, int count = -1,
-        PermanentRecipeBehavior permanentRecipeBehavior = PermanentRecipeBehavior.None)
+        ProtoId<LatheRecipePrototype> recipeId, int count = -1)
     {
         if (!TryGetRecipeContainer(from, out var fromContainer) ||
             !TryGetRecipeContainer(to, out var toContainer) ||
             fromContainer.Owner == toContainer.Owner) // Relays end up pointing to same container.
             return false;
 
-        // Handle Permanent Recipes
-        if (fromContainer.Comp.PermanentRecipes.Contains(recipeId))
-        {
-            switch (permanentRecipeBehavior)
-            {
-                case PermanentRecipeBehavior.Copy:
-                    if (toContainer.Comp.PermanentRecipes.Add(recipeId))
-                        Dirty(toContainer);
-                    return true; // Copy doesn't care that its already there.
-                case PermanentRecipeBehavior.Transfer:
-                    if (toContainer.Comp.PermanentRecipes.Add(recipeId))
-                    {
-                        fromContainer.Comp.PermanentRecipes.Remove(recipeId);
-                        Dirty(fromContainer);
-                        Dirty(toContainer);
-                        return true;
-                    }
-                    return false;
-            }
-        }
-
         if (!fromContainer.Comp.UnlockedRecipes.TryGetValue(recipeId, out var qty))
             return false;
 
         if (count < 0 || count > qty)
             count = qty;
+
+        var ev = new RecipeRelayCompatibilityCheckEvent();
+        RaiseLocalEvent(toContainer.Owner, ref ev);
+        if (ev.CompatibleRecipes.Count > 0 && !ev.CompatibleRecipes.Contains(recipeId))
+            return false;
 
         var current = 0;
         if (toContainer.Comp.UnlockedRecipes.TryGetValue(recipeId, out var curr))
@@ -58,9 +43,92 @@ public sealed partial class SharedRecipeRelaySystem
     }
 
     /// <summary>
+    /// Transfers all applicable technologies in the provided quantities from the from entity to the to entity, provided those are different containers.
+    /// If a count is negative, all prints will be transfered.
+    /// Returns true if any recipes were transfered. Otherwise, false.
+    /// </summary>
+    public bool TransferRecipes(EntityUid from, EntityUid to, bool ignoreCompatibility, params (ProtoId<LatheRecipePrototype> recipeId, int count)[] recipeIds)
+    {
+        if (!TryGetRecipeContainer(from, out var fromContainer) ||
+            !TryGetRecipeContainer(to, out var toContainer) ||
+            fromContainer.Owner == toContainer.Owner) // Relays end up pointing to same container.
+            return false;
+
+        var ev = new RecipeRelayCompatibilityCheckEvent();
+        if (!ignoreCompatibility)
+            RaiseLocalEvent(toContainer.Owner, ref ev);
+
+        var any = false;
+        foreach (var (recipeId, count) in recipeIds)
+        {
+            if (!fromContainer.Comp.UnlockedRecipes.TryGetValue(recipeId, out var supply) ||
+                !ev.Check(recipeId))
+                continue;
+
+            any = true;
+
+            var qty = count;
+            if (qty < 0 || qty > supply)
+                qty = supply;
+            fromContainer.Comp.UnlockedRecipes[recipeId] -= qty;
+            if (fromContainer.Comp.UnlockedRecipes[recipeId] <= 0)
+                fromContainer.Comp.UnlockedRecipes.Remove(recipeId);
+
+            if (toContainer.Comp.UnlockedRecipes.TryGetValue(recipeId, out var current))
+                qty += current;
+            toContainer.Comp.UnlockedRecipes[recipeId] = qty;
+        }
+
+        Dirty(fromContainer);
+        Dirty(toContainer);
+        return any;
+    }
+    /// <summary>
+    /// Transfers all applicable technologies in the provided quantities from the from entity to the to entity, provided those are different containers.
+    /// If a count is negative, all prints will be transfered.
+    /// Returns true if any recipes were transfered. Otherwise, false.
+    /// </summary>
+    public bool TransferRecipes(EntityUid from, EntityUid to, params (ProtoId<LatheRecipePrototype> recipeId, int count)[] recipeIds)
+        => TransferRecipes(from, to, false, recipeIds);
+
+    /// <summary>
+    /// Transfers all recipes from one container to another. Returns true if any recipes were transfered. Otherwise, false.
+    /// </summary>
+    public bool TransferAllRecipes(EntityUid from, EntityUid to, bool ignoreCompatibility = false)
+    {
+        if (!TryGetRecipeContainer(from, out var fromContainer) ||
+            !TryGetRecipeContainer(to, out var toContainer) ||
+            fromContainer.Owner == toContainer.Owner) // Relays end up pointing to same container.
+            return false;
+
+        var ev = new RecipeRelayCompatibilityCheckEvent();
+        if (!ignoreCompatibility) // If the event is never raised, the filter can never have anything in it.
+            RaiseLocalEvent(toContainer.Owner, ref ev);
+
+        bool any = false;
+        foreach (var (recipeId, count) in fromContainer.Comp.UnlockedRecipes.ToArray())
+        {
+            if (!ev.Check(recipeId))
+                continue;
+
+            any = true;
+            fromContainer.Comp.UnlockedRecipes.Remove(recipeId);
+
+            var qty = count;
+            if (toContainer.Comp.UnlockedRecipes.TryGetValue(recipeId, out var current))
+                qty += current;
+            toContainer.Comp.UnlockedRecipes[recipeId] = qty;
+        }
+
+        Dirty(fromContainer);
+        Dirty(toContainer);
+        return any;
+    }
+
+    /// <summary>
     /// Attempts to add an unlockable recipe to the container.
     /// </summary>
-    public bool TryAddUnlockRecipe(EntityUid uid, ProtoId<LatheRecipePrototype> recipeId, int count = 1)
+    public bool TryAddRecipe(EntityUid uid, ProtoId<LatheRecipePrototype> recipeId, int count = 1)
     {
         if (!TryGetRecipeContainer(uid, out var container))
             return false;
@@ -77,14 +145,14 @@ public sealed partial class SharedRecipeRelaySystem
     /// Attempts to remove a specific quantity of an unlocked recipe from a container. 
     /// When count is negative (by default) all of the specified recipe are removed.
     /// </summary>
-    public bool TryRemoveUnlockRecipe(EntityUid uid, ProtoId<LatheRecipePrototype> recipeId, int count = -1, bool allowOverdraw = true)
-        => TryRemoveUnlockRecipe(uid, recipeId, out _, count, allowOverdraw);
+    public bool TryRemoveRecipe(EntityUid uid, ProtoId<LatheRecipePrototype> recipeId, int count = -1, bool allowOverdraw = true)
+        => TryRemoveRecipe(uid, recipeId, out _, count, allowOverdraw);
     /// <summary>
     /// Attempts to remove a specific quantity of an unlocked recipe from a container. 
     /// When count is negative (by default) all of the specified recipe are removed. 
     /// Provides any overflow as an output variable
     /// </summary>
-    public bool TryRemoveUnlockRecipe(EntityUid uid, ProtoId<LatheRecipePrototype> recipeId, out int overflow, int count = -1, bool allowOverdraw = true)
+    public bool TryRemoveRecipe(EntityUid uid, ProtoId<LatheRecipePrototype> recipeId, out int overflow, int count = -1, bool allowOverdraw = true)
     {
         overflow = 0;
         if (!TryGetRecipeContainer(uid, out var container))
@@ -115,31 +183,22 @@ public sealed partial class SharedRecipeRelaySystem
     }
 
     /// <summary>
-    /// Removes all recipes from the container. Has options for removing just permanent or just unlocked recipes.
+    /// Removes all recipes from the container.
     /// </summary>
-    public void ClearRecipes(EntityUid uid, bool clearPermanent = true, bool clearUnlocked = true)
+    public void ClearRecipes(EntityUid uid)
     {
         if (!TryGetRecipeContainer(uid, out var container))
             return; // No container to clear
 
-        if (clearPermanent) container.Comp.PermanentRecipes.Clear();
-        if (clearUnlocked) container.Comp.UnlockedRecipes.Clear();
+        container.Comp.UnlockedRecipes.Clear();
         Dirty(container);
     }
 
     /// <summary>
     /// Copies the recipes from one container to another.
     /// </summary>
-    public void CopyTo(Entity<RecipeContainerComponent> root, Entity<RecipeContainerComponent> copy, bool ignorePermanent = false)
+    public void CopyTo(Entity<RecipeContainerComponent> root, Entity<RecipeContainerComponent> copy)
     {
-        if (!ignorePermanent)
-        {
-            foreach (var perm in root.Comp.PermanentRecipes)
-            {
-                copy.Comp.PermanentRecipes.Add(perm);
-            }
-        }
-
         foreach (var (key, qty) in root.Comp.UnlockedRecipes)
         {
             var current = 0;
@@ -149,12 +208,5 @@ public sealed partial class SharedRecipeRelaySystem
         }
 
         Dirty(copy);
-    }
-
-    public enum PermanentRecipeBehavior
-    {
-        None,
-        Copy,
-        Transfer
     }
 }

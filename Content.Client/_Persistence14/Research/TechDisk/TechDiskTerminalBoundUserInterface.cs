@@ -25,17 +25,20 @@ public sealed partial class TechDiskTerminalBoundUserInterface : BoundUserInterf
     protected override void UpdateState(BoundUserInterfaceState state)
     {
         base.UpdateState(state);
-        if (_window is not { } window ||
-            state is not TechDiskTerminalBUIState buiState)
+        if (_window is not { } window)
             return;
 
-        _window.UpdateUIState(buiState);
+        switch (state)
+        {
+            case TechDiskTerminalBUIState fullState:
+                _window.UpdateUIState(fullState);
+                break;
+        }
     }
 
     public override void Update()
     {
         base.Update();
-
         if (_window is not { } window)
             return;
 

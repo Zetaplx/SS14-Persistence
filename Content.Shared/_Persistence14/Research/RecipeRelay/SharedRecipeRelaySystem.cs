@@ -1,10 +1,7 @@
 using System.Linq;
 using Content.Shared._Persistence14.PersistentIdentifier;
-using Content.Shared._Persistence14.PersistentIdentifier.Reference;
 using Content.Shared.Popups;
 using Content.Shared.Power;
-using Content.Shared.Power.Components;
-using Robust.Shared.Player;
 
 namespace Content.Shared._Persistence14.Research.RecipeRelay;
 

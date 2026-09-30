@@ -8,12 +8,6 @@ namespace Content.Shared._Persistence14.Research.RecipeRelay;
 public sealed partial class RecipeContainerComponent : Component
 {
     /// <summary>
-    /// The set of all permanantly unlocked recipes which do not have recipe counts.
-    /// </summary>
-    [DataField, AutoNetworkedField]
-    public HashSet<ProtoId<LatheRecipePrototype>> PermanentRecipes = new();
-
-    /// <summary>
     /// A lookup dictionary for unlocked recipe quantities stored by their prototype ID.
     /// </summary>
     [DataField, AutoNetworkedField]

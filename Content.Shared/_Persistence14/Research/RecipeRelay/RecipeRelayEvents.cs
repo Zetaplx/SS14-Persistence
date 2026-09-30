@@ -1,3 +1,5 @@
+using Content.Shared.Research.Prototypes;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
 
 namespace Content.Shared._Persistence14.Research.RecipeRelay;
@@ -79,4 +81,12 @@ public sealed class RecipeRelayToggleReceieverMessage : BoundUserInterfaceMessag
 public enum RecipeRelaySourceUIKey : byte
 {
     Main,
+}
+
+[NetSerializable, Serializable, ByRefEvent]
+public sealed partial class RecipeRelayCompatibilityCheckEvent : EntityEventArgs
+{
+    public HashSet<ProtoId<LatheRecipePrototype>> CompatibleRecipes = new();
+
+    public bool Check(ProtoId<LatheRecipePrototype> protoId) => CompatibleRecipes.Count <= 0 || CompatibleRecipes.Contains(protoId);
 }

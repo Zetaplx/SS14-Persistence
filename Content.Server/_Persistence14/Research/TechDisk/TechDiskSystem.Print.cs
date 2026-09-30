@@ -45,14 +45,15 @@ public sealed partial class TechDiskSystem
 
         foreach (var (tech, qty) in terminal.Comp.QueuedTech)
         {
-            _relay.TryAddUnlockRecipe(disk, tech, qty);
+            _relay.TryAddRecipe(disk.Owner, tech, qty);
         }
         terminal.Comp.QueuedTech.Clear();
 
+        EnsureComp<EncryptedTechDiskComponent>(disk.Owner);
         _slots.TryEject(terminal.Owner, slot, null, out _);
 
-        if (terminal.Comp.CompleteSound is { } complete)
-            _audio.PlayPvs(complete, terminal.Owner);
+        if (terminal.Comp.CompleteSound is not null)
+            _audio.PlayPvs(terminal.Comp.CompleteSound, terminal.Owner);
 
         UpdateUserInterface(terminal);
     }

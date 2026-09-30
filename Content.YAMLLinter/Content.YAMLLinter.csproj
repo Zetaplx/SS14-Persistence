@@ -5,6 +5,7 @@
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <ServerGarbageCollection>true</ServerGarbageCollection>
         <IsTestingPlatformApplication>false</IsTestingPlatformApplication>
+        <WarningsAsErrors>RA0045;nullable</WarningsAsErrors>
       <Nullable>disable</Nullable>
     </PropertyGroup>
 

@@ -150,6 +150,18 @@ namespace Content.Server.Lathe
             args.Whitelist = combined;
         }
 
+        [SubscribeLocalEvent]
+        private void OnGetRecipeCompatibility(EntityUid uid, LatheComponent component, ref RecipeRelayCompatibilityCheckEvent args)
+        {
+            foreach (var packId in component.DynamicPacks)
+            {
+                var pack = ProtoMan.Index(packId);
+
+                foreach (var recipe in pack.Recipes)
+                    args.CompatibleRecipes.Add(recipe);
+            }
+        }
+
         [PublicAPI]
         public bool TryGetAvailableRecipes(EntityUid uid, [NotNullWhen(true)] out Dictionary<ProtoId<LatheRecipePrototype>, int>? recipes, [NotNullWhen(true)] LatheComponent? component = null, bool getUnavailable = false)
         {

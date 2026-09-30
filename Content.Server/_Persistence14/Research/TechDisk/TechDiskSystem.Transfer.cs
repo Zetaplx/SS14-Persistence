@@ -23,7 +23,7 @@ public sealed partial class TechDiskSystem
             return;
 
         // Attempt removal
-        if (!_relay.TryRemoveUnlockRecipe(server.Owner, techId, count: 1))
+        if (!_relay.TryRemoveRecipe(server.Owner, techId, count: 1))
             return;
 
         if (!terminal.Comp.QueuedTech.TryAdd(techId, 1))
@@ -51,7 +51,7 @@ public sealed partial class TechDiskSystem
         else
             terminal.Comp.QueuedTech[techId] = qty - 1;
 
-        _relay.TryAddUnlockRecipe(server.Owner, techId, count: 1);
+        _relay.TryAddRecipe(server.Owner, techId, count: 1);
 
         UpdateUserInterface(terminal);
     }
@@ -64,7 +64,7 @@ public sealed partial class TechDiskSystem
 
         foreach (var (techId, qty) in terminal.Comp.QueuedTech)
         {
-            _relay.TryAddUnlockRecipe(server.Owner, techId, count: qty);
+            _relay.TryAddRecipe(server.Owner, techId, count: qty);
         }
         terminal.Comp.QueuedTech.Clear();
 

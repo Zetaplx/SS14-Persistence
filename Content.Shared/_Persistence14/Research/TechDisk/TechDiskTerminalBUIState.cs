@@ -22,6 +22,12 @@ public sealed partial class TechDiskTerminalBUIState : BoundUserInterfaceState
     public required TimeSpan PrintStartTime;
 }
 
+/// <summary>
+/// A super simple state to be sent to the UI just to tell it to update the current time.
+/// </summary>
+[NetSerializable, Serializable]
+public sealed partial class TechDiskTerminalTimeBUIState : BoundUserInterfaceState;
+
 [NetSerializable, Serializable]
 public sealed partial class TechCardData
 {

@@ -1,17 +1,14 @@
 using System.Linq;
 using Content.Server.Research.Systems;
-using Content.Shared._Persistence14.Log;
 using Content.Shared._Persistence14.Research.RecipeRelay;
 using Content.Shared._Persistence14.Research.TechDisk;
 using Content.Shared.Access.Systems;
 using Content.Shared.Containers.ItemSlots;
 using Content.Shared.DoAfter;
 using Content.Shared.Interaction;
-using Content.Shared.Research.Prototypes;
+using Content.Shared.Popups;
 using Content.Shared.Whitelist;
 using Robust.Shared.Audio.Systems;
-using Robust.Shared.Prototypes;
-using Robust.Shared.Serialization;
 using Robust.Shared.Timing;
 
 namespace Content.Server._Persistence14.Research.TechDisk;
@@ -27,6 +24,7 @@ public sealed partial class TechDiskSystem : EntitySystem
     [Dependency] private ResearchSystem _research = default!;
     [Dependency] private IGameTiming _time = default!;
     [Dependency] private SharedAudioSystem _audio = default!;
+    [Dependency] private SharedPopupSystem _popup = default!;
 
 
     [SubscribeLocalEvent]
@@ -63,25 +61,22 @@ public sealed partial class TechDiskSystem : EntitySystem
     {
         // Aquire disk container
         if (!TryComp<RecipeContainerComponent>(uid, out var localContainer))
-        {
-            LogManager.GetSawmill("tech-disk-system").Info("Disk does not have container");
             return;
-        }
 
         // Aquire Target Container
         if (args.Target is not { } target || !_relay.TryGetRecipeContainer(target, out var targetContainer))
+            return;
+
+        if (!_relay.TransferAllRecipes(uid, targetContainer))
         {
-            LogManager.GetSawmill("tech-disk-system").Info($"Invalid target: {ToPrettyString(args.Target)}");
+            _popup.PopupEntity("No recipes for this device!", target, PopupType.Medium); // TODO: Use Loc
             return;
         }
-
-        LogManager.GetSawmill("tech-disk-system").Info($"Copying techs onto target. Disk techs: {localContainer.UnlockedRecipes.Count}, Current Target Techs: {targetContainer.Comp.UnlockedRecipes.Count}");
-        _relay.CopyTo((uid, localContainer), targetContainer, ignorePermanent: true);
-        LogManager.GetSawmill("tech-disk-system").Info($"Target techs: {targetContainer.Comp.UnlockedRecipes.Count}");
         if (diskComponent.InsertSound is not null)
             _audio.PlayPvs(diskComponent.InsertSound, target);
-        LogManager.GetSawmill("tech-disk-system").Info($"Deleting disk entity.");
-        QueueDel(uid);
+
+        if (localContainer.UnlockedRecipes.Count <= 0)
+            QueueDel(uid);
     }
 
     [SubscribeLocalEvent]
