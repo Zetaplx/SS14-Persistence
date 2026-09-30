@@ -1,5 +1,6 @@
 using System.Linq;
 using Content.Server.Research.Systems;
+using Content.Shared._Persistence14.Log;
 using Content.Shared._Persistence14.Research.RecipeRelay;
 using Content.Shared._Persistence14.Research.TechDisk;
 using Content.Shared.Access.Systems;
@@ -62,16 +63,24 @@ public sealed partial class TechDiskSystem : EntitySystem
     {
         // Aquire disk container
         if (!TryComp<RecipeContainerComponent>(uid, out var localContainer))
+        {
+            LogManager.GetSawmill("tech-disk-system").Info("Disk does not have container");
             return;
+        }
 
         // Aquire Target Container
         if (args.Target is not { } target || !_relay.TryGetRecipeContainer(target, out var targetContainer))
+        {
+            LogManager.GetSawmill("tech-disk-system").Info($"Invalid target: {ToPrettyString(args.Target)}");
             return;
+        }
 
+        LogManager.GetSawmill("tech-disk-system").Info($"Copying techs onto target. Disk techs: {localContainer.UnlockedRecipes.Count}, Current Target Techs: {targetContainer.Comp.UnlockedRecipes.Count}");
         _relay.CopyTo((uid, localContainer), targetContainer, ignorePermanent: true);
+        LogManager.GetSawmill("tech-disk-system").Info($"Target techs: {targetContainer.Comp.UnlockedRecipes.Count}");
         if (diskComponent.InsertSound is not null)
             _audio.PlayPvs(diskComponent.InsertSound, target);
-
+        LogManager.GetSawmill("tech-disk-system").Info($"Deleting disk entity.");
         QueueDel(uid);
     }
 
