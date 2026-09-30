@@ -1,3 +1,4 @@
+using Content.Shared.DoAfter;
 using Content.Shared.Lathe.Prototypes;
 using Content.Shared.Research.Prototypes;
 using Robust.Shared.Prototypes;
@@ -55,3 +56,6 @@ public sealed partial class TechDiskRemoveTechMessage : BoundUserInterfaceMessag
 
 [NetSerializable, Serializable]
 public sealed partial class TechDiskPrintMessage : BoundUserInterfaceMessage;
+
+[NetSerializable, Serializable]
+public sealed partial class TechDiskInteractEvent : SimpleDoAfterEvent;

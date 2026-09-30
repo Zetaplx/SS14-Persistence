@@ -28,4 +28,5 @@
       components:
       - TechnologyDisk
     interactDuration: 5s
+    insertSound: /Audio/Machines/id_insert.ogg
   - type: RecipeContainer

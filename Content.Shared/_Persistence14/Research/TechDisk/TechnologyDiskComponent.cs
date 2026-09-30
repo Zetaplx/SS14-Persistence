@@ -1,4 +1,5 @@
 using Content.Shared.Whitelist;
+using Robust.Shared.Audio;
 
 namespace Content.Shared._Persistence14.Research.TechDisk;
 
@@ -23,6 +24,15 @@ public sealed partial class TechnologyDiskComponent : Component
     [DataField]
     public EntityWhitelist? Blacklist = null;
 
+    /// <summary>
+    /// The DoAfter duration of the tech disk interaction.
+    /// </summary>
     [DataField]
     public TimeSpan InteractDuration = TimeSpan.Zero;
+
+    /// <summary>
+    /// The sound played when a tech disk is used on a Recipe Container.
+    /// </summary>
+    [DataField]
+    public SoundSpecifier? InsertSound;
 }

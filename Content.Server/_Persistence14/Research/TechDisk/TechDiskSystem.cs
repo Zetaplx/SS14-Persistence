@@ -8,8 +8,10 @@ using Content.Shared.DoAfter;
 using Content.Shared.Interaction;
 using Content.Shared.Research.Prototypes;
 using Content.Shared.Whitelist;
+using Robust.Shared.Audio.Systems;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
+using Robust.Shared.Timing;
 
 namespace Content.Server._Persistence14.Research.TechDisk;
 
@@ -22,12 +24,16 @@ public sealed partial class TechDiskSystem : EntitySystem
     [Dependency] private SharedUserInterfaceSystem _ui = default!;
     [Dependency] private ItemSlotsSystem _slots = default!;
     [Dependency] private ResearchSystem _research = default!;
+    [Dependency] private IGameTiming _time = default!;
+    [Dependency] private SharedAudioSystem _audio = default!;
+
 
     [SubscribeLocalEvent]
-    private void OnInteractWith(EntityUid uid, TechnologyDiskComponent diskComponent, ref AfterInteractEvent args)
+    private void OnInteractWith(EntityUid uid, EncryptedTechDiskComponent encryptedComponent, ref AfterInteractEvent args)
     {
         // Verify Item
-        if (!TryComp<RecipeContainerComponent>(uid, out var localContainer) ||
+        if (!TryComp<TechnologyDiskComponent>(uid, out var diskComponent) ||
+            !TryComp<RecipeContainerComponent>(uid, out var localContainer) ||
             localContainer.UnlockedRecipes.Count == 0) // Tech disks *really* shouldn't have permanent recipes, so unlocked check only.
             return;
 
@@ -48,6 +54,7 @@ public sealed partial class TechDiskSystem : EntitySystem
             BreakOnMove = true,
             BreakOnDamage = true,
         });
+        args.Handled = true;
     }
 
     [SubscribeLocalEvent]
@@ -62,7 +69,17 @@ public sealed partial class TechDiskSystem : EntitySystem
             return;
 
         _relay.CopyTo((uid, localContainer), targetContainer, ignorePermanent: true);
+        if (diskComponent.InsertSound is not null)
+            _audio.PlayPvs(diskComponent.InsertSound, target);
+
         QueueDel(uid);
+    }
+
+    [SubscribeLocalEvent]
+    private void OnTryEject(EntityUid uid, TechDiskTerminalComponent terminalComponent, ref ItemSlotEjectAttemptEvent args)
+    {
+        if (terminalComponent.QueuedTech.Any())
+            args.Cancelled = true;
     }
 
     /// <inheritdoc/>
@@ -110,7 +127,4 @@ public sealed partial class TechDiskSystem : EntitySystem
 
         return (research, size);
     }
-
-    [NetSerializable, Serializable]
-    public sealed partial class TechDiskInteractEvent : SimpleDoAfterEvent;
 }

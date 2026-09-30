@@ -1,14 +1,10 @@
 using System.Linq;
-using Content.Shared._Persistence14.PersistentIdentifier;
 using Content.Shared._Persistence14.Research.TechDisk;
-using Robust.Shared.Timing;
 
 namespace Content.Server._Persistence14.Research.TechDisk;
 
 public sealed partial class TechDiskSystem
 {
-    [Dependency] private IGameTiming _time = default!;
-
     /// <summary>
     /// Initializes the print timer and extracts points from the research server.
     /// </summary>
@@ -28,6 +24,9 @@ public sealed partial class TechDiskSystem
         var printing = AddComp<TechDiskTerminalPrintingComponent>(terminal.Owner);
         printing.PrintEndTime = _time.CurTime + terminal.Comp.PrintDuration;
         printing.PrintStartTime = _time.CurTime;
+
+        if (terminal.Comp.PrintSound is { } print)
+            _audio.PlayPvs(print, terminal.Owner);
 
         UpdateUserInterface(terminal);
     }
@@ -51,6 +50,9 @@ public sealed partial class TechDiskSystem
         terminal.Comp.QueuedTech.Clear();
 
         _slots.TryEject(terminal.Owner, slot, null, out _);
+
+        if (terminal.Comp.CompleteSound is { } complete)
+            _audio.PlayPvs(complete, terminal.Owner);
 
         UpdateUserInterface(terminal);
     }

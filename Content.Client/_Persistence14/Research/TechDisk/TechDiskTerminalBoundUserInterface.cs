@@ -41,5 +41,4 @@ public sealed partial class TechDiskTerminalBoundUserInterface : BoundUserInterf
 
         _window.Update();
     }
-    
 }

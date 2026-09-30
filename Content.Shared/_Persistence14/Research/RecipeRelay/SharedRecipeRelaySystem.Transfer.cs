@@ -134,21 +134,21 @@ public sealed partial class SharedRecipeRelaySystem
     {
         if (!ignorePermanent)
         {
-            foreach (var perm in copy.Comp.PermanentRecipes)
+            foreach (var perm in root.Comp.PermanentRecipes)
             {
-                root.Comp.PermanentRecipes.Add(perm);
+                copy.Comp.PermanentRecipes.Add(perm);
             }
         }
 
-        foreach (var (key, qty) in copy.Comp.UnlockedRecipes)
+        foreach (var (key, qty) in root.Comp.UnlockedRecipes)
         {
             var current = 0;
-            if (root.Comp.UnlockedRecipes.TryGetValue(key, out var curr))
+            if (copy.Comp.UnlockedRecipes.TryGetValue(key, out var curr))
                 current = curr;
-            root.Comp.UnlockedRecipes[key] = current + qty;
+            copy.Comp.UnlockedRecipes[key] = current + qty;
         }
 
-        Dirty(root);
+        Dirty(copy);
     }
 
     public enum PermanentRecipeBehavior

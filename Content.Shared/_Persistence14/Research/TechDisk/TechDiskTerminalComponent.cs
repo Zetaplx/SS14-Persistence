@@ -1,4 +1,5 @@
 using Content.Shared.Research.Prototypes;
+using Robust.Shared.Audio;
 using Robust.Shared.Prototypes;
 
 namespace Content.Shared._Persistence14.Research.TechDisk;
@@ -29,4 +30,16 @@ public sealed partial class TechDiskTerminalComponent : Component
     /// </summary>
     [DataField]
     public TimeSpan PrintDuration = TimeSpan.Zero;
+
+    /// <summary>
+    /// The audio/sfx to be played while a disk is printing.
+    /// </summary>
+    [DataField]
+    public SoundSpecifier? PrintSound;
+
+    /// <summary>
+    /// The sound to be played when the print is completed.
+    /// </summary>
+    [DataField]
+    public SoundSpecifier? CompleteSound;
 }

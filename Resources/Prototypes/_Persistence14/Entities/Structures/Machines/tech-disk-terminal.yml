@@ -35,7 +35,11 @@
         whitelist:
           components:
           - TechnologyDisk
+        blacklist:
+          components:
+          - EncryptedTechDisk
   - type: RecipeRelayReceiver
   - type: TechDiskTerminal
     printDuration: 5s
+    printSound: /Audio/Machines/circuitprinter.ogg
 
