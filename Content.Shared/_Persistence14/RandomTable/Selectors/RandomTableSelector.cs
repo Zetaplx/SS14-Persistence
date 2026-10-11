@@ -1,8 +1,6 @@
 using System.Runtime.CompilerServices;
 using Content.Shared._Persistence14.RandomTable.Count;
 using JetBrains.Annotations;
-using Robust.Shared.Prototypes;
-using Robust.Shared.Random;
 
 namespace Content.Shared._Persistence14.RandomTable;
 
@@ -13,7 +11,7 @@ public abstract partial class RandomTableSelector
     /// Weight used when picking between selectors.
     /// </summary>
     [DataField]
-    public float Weight = 1f;
+    protected float Weight = 1f;
 
     /// <summary>
     /// The set of conditions which must be true for the selector to activate.
@@ -105,5 +103,7 @@ public abstract partial class RandomTableSelector
                 throw new NotImplementedException();
         }
     }
+
+    public virtual float GetWeight(RandomTableContext ctx) => Weight;
 }
 

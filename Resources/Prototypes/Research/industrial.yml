@@ -148,6 +148,7 @@
   cost: 7500
   recipeUnlocks:
     Spationautsuit: 2
+    Donknautsuit: 1
     EVAsuit: 3
     EVAsuitHelmet: 3
 
