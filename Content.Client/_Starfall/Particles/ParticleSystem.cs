@@ -810,17 +810,30 @@ public sealed partial class ParticleSystem : EntitySystem
     /// </summary>
     private void AgeOffScreenParticles(ActiveEmitter emitter, float dt)
     {
-        emitter.Age += TimeSpan.FromSeconds(dt);
+        var delta = TimeSpan.FromSeconds(dt);
+        var proto = emitter.Proto;
+        var ovr = emitter.Overrides;
+        var duration = ovr?.Duration ?? proto.Duration;
+
+        emitter.Age += delta;
+        if (!emitter.Exhausted && duration > TimeSpan.Zero && emitter.Age >= duration)
+            emitter.Exhausted = true;
+
+        if (!emitter.Exhausted && proto.Burst)
+            emitter.Exhausted = true;
+
         foreach (var p in emitter.Particles)
         {
-            if (!p.Alive) continue;
-            p.Age += TimeSpan.FromSeconds(dt);
-            if (p.Age >= p.Lifetime)
-            {
-                p.Alive = false;
-                _liveParticleCount--;
-                emitter.FreePool.Enqueue(p);
-            }
+            if (!p.Alive)
+                continue;
+            p.Age += delta;
+
+            if (p.Age < p.Lifetime)
+                continue;
+
+            p.Alive = false;
+            _liveParticleCount--;
+            emitter.FreePool.Enqueue(p);
         }
     }
 
