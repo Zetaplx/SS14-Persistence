@@ -492,6 +492,9 @@ namespace Content.Server.GameTicking
                 // Just in case it hasn't been loaded previously we'll try loading it.
                 LoadMaps();
 
+                // Persistence 14 - Singletons!!!
+                LoadSingletons();
+
                 // map has been selected so update the lobby info text
                 // applies to players who didn't ready up
                 UpdateInfoText();
