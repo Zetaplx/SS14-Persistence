@@ -1,4 +1,4 @@
-## A place to store all drink related/derived reagent localization stringsreagent-name-liquid-elysium = Liquid Elysium
+## A place to store all drink related/derived reagent localization strings
 
 # Liquid Elysium
 reagent-name-liquid-elysium = Liquid Elysium
