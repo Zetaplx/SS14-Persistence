@@ -167,6 +167,11 @@ public abstract partial class SharedStationTeleporterSystem : EntitySystem
             _audio.PlayPvs(ent.Comp.UnlinkSound, xform.Coordinates);
         }
 
+        if (TryComp<LinkedEntityComponent>(ent.Owner, out var linked))
+            foreach (var link in linked.LinkedEntities)
+                if (!Pid.TryResolveId(link, out _))
+                    Link.TrySever(ent.Owner, link);
+
         RefreshAllConsoles();
     }
 
