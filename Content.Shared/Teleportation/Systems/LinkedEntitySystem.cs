@@ -31,7 +31,7 @@ public sealed partial class LinkedEntitySystem : EntitySystem
         {
             if (!_pid.TryResolveId(entPid, out var ent))
                 component.LinkedEntities.Remove(entPid);
-                
+
             if (!Deleted(ent) && LifeStage(ent) < EntityLifeStage.Terminating && TryComp<LinkedEntityComponent>(ent, out var link))
             {
                 TryUnlink(uid, ent, component, link);
