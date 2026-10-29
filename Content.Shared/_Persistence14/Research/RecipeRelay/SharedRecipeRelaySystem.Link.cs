@@ -4,7 +4,7 @@ using Content.Shared._Persistence14.PersistentIdentifier.Reference;
 
 namespace Content.Shared._Persistence14.Research.RecipeRelay;
 
-public sealed partial class SharedRecipeRelaySystem
+public abstract partial class SharedRecipeRelaySystem
 {
     /// <summary>
     /// Links the source to the receiver.

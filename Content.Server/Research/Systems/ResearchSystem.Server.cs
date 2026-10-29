@@ -129,7 +129,8 @@ public sealed partial class ResearchSystem
     /// </summary>
     private float GetTechDiversityValue(ResearchServerComponent server, ProtoId<TechnologyPrototype> techId)
     {
-        var tech = ProtoMan.Index(techId);
+        if (!ProtoMan.TryIndex(techId, out var tech))
+            return 0f;
 
         // Scaling the tier to an array index
         var level = tech.Tier - 1;

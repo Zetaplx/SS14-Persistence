@@ -3,7 +3,7 @@ using Robust.Shared.Prototypes;
 
 namespace Content.Shared._Persistence14.Research.RecipeRelay;
 
-public sealed partial class SharedRecipeRelaySystem
+public abstract partial class SharedRecipeRelaySystem
 {
     /// <summary>
     /// Attempts to transfer a recipe from one recipe container to another.

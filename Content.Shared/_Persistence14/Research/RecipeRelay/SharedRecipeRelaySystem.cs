@@ -8,18 +8,11 @@ using Robust.Shared.Player;
 
 namespace Content.Shared._Persistence14.Research.RecipeRelay;
 
-public sealed partial class SharedRecipeRelaySystem : EntitySystem
+public abstract partial class SharedRecipeRelaySystem : EntitySystem
 {
     [Dependency] private PersistentIdentifierSystem _pid = default!;
     [Dependency] private SharedPopupSystem _popup = default!;
     [Dependency] private SharedUserInterfaceSystem _ui = default!;
-
-    public override void Initialize()
-    {
-        SubscribeLocalEvent<RecipeRelayToggleReceieverMessage>(OnToggleReceiverMessage);
-        SubscribeLocalEvent<RecipeRelaySourceComponent, PowerChangedEvent>(OnPowerChanged);
-        SubscribeLocalEvent<RecipeRelaySourceComponent, BoundUIOpenedEvent>(OnUiOpened);
-    }
 
     /// <summary>
     /// Attempts to retrieve the recipe container on an entity. Uses any available recipe relay connections.<br/><br/>
@@ -74,17 +67,18 @@ public sealed partial class SharedRecipeRelaySystem : EntitySystem
     /// Ensures all is well inside a relay source.
     /// </summary>
     /// <param name="source"></param>
-    private void EnsureSourceIntegrity(Entity<RecipeRelaySourceComponent> source)
+    protected void EnsureSourceIntegrity(Entity<RecipeRelaySourceComponent> source, bool verifyConnectedReceivers)
     {
         foreach (var receiverId in source.Comp.Receivers.ToArray())
         {
-            if (!_pid.TryResolveId(receiverId, out var receiverEnt) ||
-                !TryComp<RecipeRelayReceiverComponent>(receiverEnt.Owner, out var receiver) ||
-                receiver.Source != _pid.EnsureId(source.Owner))
+            if (!_pid.TryResolveId<RecipeRelayReceiverComponent>(receiverId, out var receiver))
             {
                 source.Comp.Receivers.Remove(receiverId);
                 continue;
             }
+
+            if (verifyConnectedReceivers)
+                EnsureReceiverIntegrity(receiver);
         }
 
         Dirty(source);
@@ -93,17 +87,18 @@ public sealed partial class SharedRecipeRelaySystem : EntitySystem
     /// <summary>
     /// Ensures all is well inside a relay receiver.
     /// </summary>
-    private void EnsureReceiverIntegrity(Entity<RecipeRelayReceiverComponent> receiver)
+    protected void EnsureReceiverIntegrity(Entity<RecipeRelayReceiverComponent> receiver)
     {
-        if (!_pid.TryResolveId(receiver.Comp.Source, out var sourceEnt) ||
-            !TryComp<RecipeRelaySourceComponent>(sourceEnt.Owner, out var source) ||
-            !source.Receivers.Contains(_pid.EnsureId(receiver.Owner)))
+        if (!_pid.TryResolveId<RecipeRelaySourceComponent>(receiver.Comp.Source, out var source) ||
+            !_pid.TryGetId(source.Owner, out var id) ||
+            !source.Comp.Receivers.Contains(id))
         {
             receiver.Comp.Source = PersistentIdentifierSystem.EmptyId;
             Dirty(receiver);
         }
     }
 
+    [SubscribeLocalEvent]
     private void OnToggleReceiverMessage(RecipeRelayToggleReceieverMessage message)
     {
         var sourceUid = GetEntity(message.Entity);
@@ -132,10 +127,9 @@ public sealed partial class SharedRecipeRelaySystem : EntitySystem
         while (query.MoveNext(out var receiverUid, out var receiverComp, out var receiverTransform))
         {
             var receiver = (receiverUid, receiverComp, receiverTransform);
-            if (!IsValidReceiver(source, receiver, user, out var canChangeState, out var tooltip))
+            if (!IsValidReceiver(source, receiver, user, out var canChangeState, out var tooltip, out var connected))
                 continue;
 
-            var connected = receiverComp.Source == sourceKey;
             validReceivers.Add(new RecipeRelayReceiverState(GetNetEntity(receiverUid), Name(receiverUid), connected, canChangeState, tooltip));
         }
 
@@ -145,17 +139,19 @@ public sealed partial class SharedRecipeRelaySystem : EntitySystem
 
     private bool IsValidReceiver(
         Entity<RecipeRelaySourceComponent, TransformComponent, PersistentIdentifierComponent> source,
-        Entity<RecipeRelayReceiverComponent, TransformComponent> receiver, EntityUid? user, out bool canChangeState, out string? blockedTooltip)
+        Entity<RecipeRelayReceiverComponent, TransformComponent> receiver, EntityUid? user,
+        out bool canChangeState, out string? blockedTooltip, out bool connected)
     {
         canChangeState = true;
         blockedTooltip = null;
+        connected = false;
         if (source.Comp2.MapID != receiver.Comp2.MapID)
             return false; // Can never link across maps.
 
         // TODO: It feels very odd that this is duplicated twice... these events are too similar.
 
         // Receiver and source are already connected
-        if (receiver.Comp1.Source == source.Comp3.Id)
+        if (source.Comp1.Receivers.Contains(_pid.EnsureId(receiver.Owner)))
         {
             var args = new RecipeRelayUnlinkAttemptEvent
             {
@@ -167,6 +163,7 @@ public sealed partial class SharedRecipeRelaySystem : EntitySystem
             RaiseLocalEvent(receiver, ref args);
             canChangeState = !args.Cancelled;
             blockedTooltip = args.BlockedTooltip;
+            connected = true;
             return args.AllowDisplay;
         }
 
@@ -190,6 +187,7 @@ public sealed partial class SharedRecipeRelaySystem : EntitySystem
         return false;
     }
 
+    [SubscribeLocalEvent]
     private void OnPowerChanged(Entity<RecipeRelaySourceComponent> source, ref PowerChangedEvent args)
     {
         if (args.Powered)
@@ -198,9 +196,11 @@ public sealed partial class SharedRecipeRelaySystem : EntitySystem
         _ui.CloseUi(source.Owner, RecipeRelaySourceUIKey.Main);
     }
 
+    [SubscribeLocalEvent]
     private void OnUiOpened(Entity<RecipeRelaySourceComponent> source, ref BoundUIOpenedEvent args)
     {
-        EnsureSourceIntegrity(source);
+        EnsureSourceIntegrity(source, true);
         UpdateSourceUI(source, args.Actor);
     }
+
 }

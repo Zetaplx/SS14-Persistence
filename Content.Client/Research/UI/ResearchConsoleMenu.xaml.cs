@@ -76,7 +76,8 @@ public sealed partial class ResearchConsoleMenu : FancyWindow
 
         var unlockedTech = new List<TechnologyPrototype>();
         foreach (var tech in state.UnlockedTechnologies)
-            unlockedTech.Add(_prototype.Index(tech));
+            if (_prototype.TryIndex(tech, out var t))
+                unlockedTech.Add(t);
 
         SyncTechnologyList(UnlockedCardsContainer, state.UnlockedTechnologies);
 
@@ -154,9 +155,8 @@ public sealed partial class ResearchConsoleMenu : FancyWindow
 
         foreach (var tech in technologies)
         {
-            if (!currentTechControls.ContainsKey(tech))
+            if (!currentTechControls.ContainsKey(tech) && _prototype.TryIndex(tech, out var protoTech))
             {
-                var protoTech = _prototype.Index(tech);
                 // Create a card for any technology which doesn't already have one.
                 var mini = new MiniTechnologyCardControl(protoTech, _prototype, _sprite, _research.GetTechnologyDescription(protoTech, _costMultiplier));
                 container.AddChild(mini);
@@ -221,7 +221,7 @@ public sealed partial class ResearchConsoleMenu : FancyWindow
         if (_currentState == null)
             return;
 
-        var technologies = _currentState.AvailableTechnologies.Select(_prototype.Index);
+        var technologies = _currentState.AvailableTechnologies.Where(x => _prototype.TryIndex(x, out _)).Select(_prototype.Index);
 
         var searchText = TechnologySearch.Text.Trim();
 
@@ -284,7 +284,9 @@ public sealed partial class ResearchConsoleMenu : FancyWindow
         int highest = 0;
         foreach (var techId in _currentState.UnlockedTechnologies)
         {
-            var tech = _prototype.Index(techId);
+            if (!_prototype.TryIndex(techId, out var tech))
+                continue;
+
             if (tech.Discipline != discipline || tech.Tier <= highest)
                 continue;
 
