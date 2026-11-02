@@ -5,9 +5,11 @@ using Robust.Shared.Console;
 namespace Content.Server._Persistence14.Commands;
 
 [AnyCommand]
-public sealed class SSDCommand : LocalizedEntityCommands
+public sealed partial class SSDCommand : LocalizedEntityCommands
 {
-    [Dependency] private readonly SSDIndicatorSystem _SSDSystem = default!;
+#pragma warning disable IDE1006 // Naming Styles
+    [Dependency] private SSDIndicatorSystem _SSDSystem = default!;
+#pragma warning restore IDE1006 // Naming Styles
 
     public override string Command => "ssd";
     public override string Help => "ssd";
