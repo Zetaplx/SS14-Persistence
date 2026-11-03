@@ -182,6 +182,7 @@ public sealed partial class LinkedEntitySystem : EntitySystem
 
         return true;
     }
+    public bool TrySever(Entity<LinkedEntityComponent?> target) => TrySever(target, new PersistentEntityReference[] { });
 
     public bool TrySever(Entity<LinkedEntityComponent?> target, params PersistentEntityReference[] idsToRemove)
     {

@@ -1,3 +1,4 @@
+using Content.Server.Administration;
 using Content.Shared._Persistence14.PersistentIdentifier;
 using Robust.Shared.Console;
 
@@ -12,6 +13,7 @@ public abstract partial class PIDCommand : LocalizedEntityCommands
 /// <summary>
 ///     A simple command for getting the PID of a target entity, if it has one.
 /// </summary>
+[AdminCommand(Shared.Administration.AdminFlags.Debug)]
 public sealed partial class GetPIDCommand : PIDCommand
 {
     public override string Command => "pidget";
@@ -49,6 +51,10 @@ public sealed partial class GetPIDCommand : PIDCommand
     }
 }
 
+/// <summary>
+///     A command to find an entity with a given PID
+/// </summary>
+[AdminCommand(Shared.Administration.AdminFlags.Debug)]
 public sealed partial class FindPIDCommand : PIDCommand
 {
     public override string Command => "pidfind";
@@ -73,6 +79,10 @@ public sealed partial class FindPIDCommand : PIDCommand
     }
 }
 
+/// <summary>
+///     Initializes a target entity's PID
+/// </summary>
+[AdminCommand(Shared.Administration.AdminFlags.Debug)]
 public sealed partial class InitPIDCommand : PIDCommand
 {
     public override string Command => "pidinit";
