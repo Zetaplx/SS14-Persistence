@@ -43,9 +43,15 @@
       Cloth: 300
   - type: Upgradeable
     upgrades:
-      BasicZenith : 0
-      BasicGreen : 0
-      BasicShadow : 0
+      BasicZenith: 
+        system: StorageUpgrade
+        max: 2
+      BasicGreen:
+        system: StorageUpgrade
+        max: 2
+      BasicShadow:
+        system: StorageUpgrade
+        max: 2
 
 - type: entity
   parent: ClothingBackpack

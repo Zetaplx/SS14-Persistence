@@ -1,0 +1,36 @@
+- type: upgrade
+  id: ArmorShadow
+  name: Blunt Armor
+  description: "Increases blunt armor"
+  armorModifiers:
+    coefficients:
+      Blunt: 0.1
+  blacklist:
+  - ArmorMarine
+  - ArmorPrecursor
+
+- type: upgrade
+  id: RadiationCollectorPowerShadow
+  name: Increase Power Generation
+  description: "Increases the power generated"
+  upgradeValues: [ 2500 ]
+
+- type: upgrade
+  id: TelecomServerRangeShadow
+  name: Telecom Range Increase
+  description: "Adds 512m to the server range."
+  upgradeValues: [ 512 ]
+  blacklist:
+  - TelecomServerRangeLuminal
+
+- type: upgrade
+  id: BasicShadow
+  name: Small Storage
+  description: "Adds a column to the storage space."
+  upgradeValues: [ 1, 0 ]
+  blacklist:
+  - BasicGreen
+  - BasicStorage
+  - BasicMarine
+  - BasicPrecursor
+  - BasicZenith

@@ -156,7 +156,9 @@
     - ShuttleCraft
   - type: Upgradeable
     upgrades:
-      RangeLuminal : 0
+      RangeLuminal:
+        system: RadarRangeUpgrade
+        max: 2
 
 - type: entity
   parent: BaseComputerShuttle
@@ -968,7 +970,9 @@
     color: "#e6e227"
   - type: Upgradeable
     upgrades:
-      RangeLuminal : 0
+      RangeLuminal:
+        system: RadarRangeUpgrade
+        max: 2
 
 - type: entity
   id: ComputerCargoOrders

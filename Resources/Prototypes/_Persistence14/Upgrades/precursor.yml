@@ -1,0 +1,40 @@
+- type: upgrade
+  id: ArmorPrecursor
+  name: Slashing Armor
+  description: "Increases slashing armor"
+  armorModifiers:
+    coefficients:
+      Slash: 0.1
+  blacklist:
+  - ArmorShadow
+  - ArmorMarine
+
+- type: upgrade
+  id: LatheSpeedPrecursor
+  name: Crafting Speed increase
+  description: "Makes crafting 10% faster."
+  upgradeValues: [ 0.1 ]
+
+- type: upgrade
+  id: MicrowaveSpeedPrecursor
+  name: Speed Increase
+  description: "Increases cooking speed by 10%"
+  upgradeValues: [ 0.1 ]
+
+- type: upgrade
+  id: ReagentGrinderSpeedPrecursor
+  name: Speed Increase
+  description: "Increases grinding speed by 10%"
+  upgradeValues: [ 0.1 ]
+
+- type: upgrade
+  id: BasicPrecursor
+  name: Small Storage
+  description: "Adds a column to the storage space."
+  upgradeValues: [ 1, 0 ]
+  blacklist:
+  - BasicGreen
+  - BasicStorage
+  - BasicMarine
+  - BasicShadow
+  - BasicZenith

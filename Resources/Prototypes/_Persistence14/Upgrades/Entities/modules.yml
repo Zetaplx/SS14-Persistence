@@ -29,7 +29,6 @@
   - type: StaticPrice
     price: 100
   - type: UpgradeModule
-    targetModule: Zenith
 
 - type: entity
   id: ZenithUpgradeModule
@@ -42,6 +41,12 @@
     - state: icon-SL
   - type: UpgradeModule
     targetModule: Zenith
+    upgrades: 
+    - AirTankCapacityZenith
+    - ArmorZenith
+    - BatteryCapacityZenith
+    - BasicZenith
+    - TegGeneratorPowerZenith
 
 - type: entity
   id: GreenUpgradeModule
@@ -54,6 +59,12 @@
     - state: icon-NT
   - type: UpgradeModule
     targetModule: Green
+    upgrades: 
+    - ApcMaxLoadGreen
+    - ArmorGreen
+    - GasCanisterCapacityGreen
+    - ToolSpeedGreen
+    - BasicGreen
 
 - type: entity
   id: MarineUpgradeModule
@@ -66,6 +77,11 @@
     - state: icon-UNMC
   - type: UpgradeModule
     targetModule: Marine
+    upgrades: 
+    - ArmorMarine
+    - EntityStorageCapacityMarine
+    - MicrowaveCapacityMarine
+    - BasicMarine
 
 - type: entity
   id: ShadowUpgradeModule
@@ -78,7 +94,11 @@
     - state: icon-shadow
   - type: UpgradeModule
     targetModule: Shadow
-
+    upgrades: 
+    - ArmorShadow
+    - RadiationCollectorPowerShadow
+    - BasicShadow
+    - TelecomServerRangeShadow
 
 - type: entity
   id: PrecursorUpgradeModule
@@ -91,6 +111,12 @@
     - state: icon-syndi
   - type: UpgradeModule
     targetModule: Precursor
+    upgrades: 
+    - ArmorPrecursor
+    - LatheSpeedPrecursor
+    - MicrowaveSpeedPrecursor
+    - ReagentGrinderSpeedPrecursor
+    - BasicPrecursor
 
 
 - type: entity
@@ -104,3 +130,8 @@
     - state: icon-lumi
   - type: UpgradeModule
     targetModule: Luminal
+    upgrades: 
+    - ArmorLuminal
+    - RangeLuminal
+    - TelecomServerRangeLuminal
+    - BasicStorage

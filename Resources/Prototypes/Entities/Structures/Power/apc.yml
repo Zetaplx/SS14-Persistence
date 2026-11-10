@@ -155,7 +155,9 @@
     - Power
   - type: Upgradeable
     upgrades:
-      ApcMaxLoadGreen : 0
+      ApcMaxLoadGreen:
+        system: ApcMaxLoadUpgrade
+        max: 2
 
 
 # APC under construction

@@ -91,4 +91,6 @@
         acts: ["Destruction"]
   - type: Upgradeable
     upgrades:
-      EntityStorageCapacityMarine : 0
+      EntityStorageCapacityMarine:
+        system: EntityStorageCapacityUpgrade
+        max: 2

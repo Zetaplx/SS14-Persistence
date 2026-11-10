@@ -1,0 +1,24 @@
+- type: upgrade
+  id: ArmorLuminal
+  name: Radiation Armor
+  description: "Increases radiation armor"
+  armorModifiers:
+    coefficients:
+      Radiation: 0.1
+  blacklist:
+  - ArmorZenith
+  - ArmorGreen
+
+- type: upgrade
+  id: RangeLuminal
+  name: Radar Range Upgrade
+  description: "Adds 1km range to the radar."
+  upgradeValues: [ 1000 ]
+
+- type: upgrade
+  id: TelecomServerRangeLuminal
+  name: Telecom Range Increase
+  description: "Adds 512m to the server range."
+  upgradeValues: [ 512 ]
+  blacklist:
+  - TelecomServerRangeShadow

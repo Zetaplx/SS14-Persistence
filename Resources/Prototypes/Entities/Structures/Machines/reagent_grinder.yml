@@ -76,7 +76,9 @@
       machine_parts: !type:Container
   - type: Upgradeable
     upgrades:
-      ReagentGrinderSpeedPrecursor : 0
+      ReagentGrinderSpeedPrecursor:
+        system: ReagentGrinderSpeedUpgrade
+        max: 2
 
 - type: entity
   id: KitchenReagentGrinderBeaker

@@ -153,8 +153,12 @@
   - type: DamageExaminable
   - type: Upgradeable
     upgrades:
-      MicrowaveCapacityMarine : 0
-      MicrowaveSpeedPrecursor : 0
+      MicrowaveCapacityMarine:
+        system: MicrowaveCapacityUpgrade
+        max: 2
+      MicrowaveSpeedPrecursor:
+        system: MicrowaveSpeedUpgrade
+        max: 2
 
 
 - type: entity

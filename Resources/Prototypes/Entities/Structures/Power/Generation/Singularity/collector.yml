@@ -98,7 +98,8 @@
           collection: MetalGlassBreak
   - type: Upgradeable
     upgrades:
-      RadiationCollectorPowerShadow : 0
+      RadiationCollectorPowerShadow:
+        system: RadiationCollectorPowerUpgrade
 
 - type: entity
   id: RadiationCollectorNoTank

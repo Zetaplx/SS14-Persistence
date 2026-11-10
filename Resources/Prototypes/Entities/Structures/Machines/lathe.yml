@@ -59,7 +59,9 @@
   - type: ActivatableUIRequiresAccess
   - type: Upgradeable
     upgrades:
-      LatheSpeedPrecursor : 0
+      LatheSpeedPrecursor:
+        system: LatheSpeedUpgrade
+        max: 2
 
 # a lathe that can be sped up with space lube / slowed down with glue
 - type: entity

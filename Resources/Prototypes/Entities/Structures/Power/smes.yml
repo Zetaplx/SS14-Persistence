@@ -130,7 +130,9 @@
       key: enum.BatteryUiKey.Key
     - type: Upgradeable
       upgrades:
-        BatteryCapacityZenith : 0
+        BatteryCapacityZenith:
+          system: BatteryCapacityUpgrade
+          max: 4
 
 # SMES' in use
 

@@ -187,8 +187,12 @@
       machine_parts: !type:Container
   - type: Upgradeable
     upgrades:
-      TelecomServerRangeLuminal : 0
-      TelecomServerRangeShadow : 0
+      TelecomServerRangeLuminal:
+        system: TelecomServerRangeUpgrade
+        max: 2
+      TelecomServerRangeShadow:
+        system: TelecomServerRangeUpgrade
+        max: 2
 
 - type: entity
   parent: TelecomServer

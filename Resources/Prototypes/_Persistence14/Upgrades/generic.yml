@@ -1,0 +1,11 @@
+- type: upgrade
+  id: BasicStorage
+  name: Small Storage
+  description: "Adds a column to the storage space."
+  upgradeValues: [ 1, 0 ]
+  blacklist:
+  - BasicGreen
+  - BasicMarine
+  - BasicPrecursor
+  - BasicShadow
+  - BasicZenith

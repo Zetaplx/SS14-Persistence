@@ -1,0 +1,40 @@
+- type: upgrade
+  id: ApcMaxLoadGreen
+  name: Max Load Increase
+  description: "Adds 10000 to the max load."
+  upgradeValues: [ 10000 ]
+
+- type: upgrade
+  id: ArmorGreen
+  name: Caustic Armor
+  description: "Increases caustic armor"
+  armorModifiers:
+    coefficients:
+      Caustic: 0.1
+  blacklist:
+  - ArmorZenith
+  - ArmorLuminal
+
+- type: upgrade
+  id: GasCanisterCapacityGreen
+  name: Capacity Increase
+  description: "Adds 500L of capcity to the canister."
+  upgradeValues: [ 500 ]
+
+- type: upgrade
+  id: ToolSpeedGreen
+  name: Speed Increase
+  description: "Increases tool speed by 10%"
+  upgradeValues: [ 0.1 ]
+
+- type: upgrade
+  id: BasicGreen
+  name: Small Storage
+  description: "Adds a column to the storage space."
+  upgradeValues: [ 1, 0 ]
+  blacklist:
+  - BasicStorage
+  - BasicMarine
+  - BasicPrecursor
+  - BasicShadow
+  - BasicZenith

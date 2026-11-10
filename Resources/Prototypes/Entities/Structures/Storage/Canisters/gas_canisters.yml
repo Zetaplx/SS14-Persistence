@@ -169,7 +169,9 @@
     group: Canisters
   - type: Upgradeable
     upgrades:
-      GasCanisterCapacityGreen : 0
+      GasCanisterCapacityGreen:
+        system: GasCanisterCapacityUpgrade
+        max: 2
   - type: Construction
     graph: StorageCanisterGraph
     node: canister

@@ -62,7 +62,9 @@
     price: 30
   - type: Upgradeable
     upgrades:
-      AirTankCapacityZenith : 0
+      AirTankCapacityZenith:
+        system: AirTankCapacityUpgrade
+        max: 2
 
 
 - type: entity

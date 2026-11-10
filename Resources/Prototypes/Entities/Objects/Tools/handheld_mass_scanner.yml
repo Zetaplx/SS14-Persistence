@@ -42,7 +42,9 @@
     price: 150
   - type: Upgradeable
     upgrades:
-      RangeLuminal : 0
+      RangeLuminal:
+        system: RadarRangeUpgrade
+        max: 2
 
 - type: entity
   id: HandHeldMassScannerDEBUG5K

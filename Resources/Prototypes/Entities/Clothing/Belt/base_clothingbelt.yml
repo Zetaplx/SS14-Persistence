@@ -42,8 +42,12 @@
         type: StorageBoundUserInterface
   - type: Upgradeable
     upgrades:
-      BasicMarine : 0
-      BasicPrecursor : 0
+      BasicMarine:
+        system: StorageUpgrade
+        max: 2
+      BasicPrecursor:
+        system: StorageUpgrade
+        max: 2
 
 - type: entity
   abstract: true

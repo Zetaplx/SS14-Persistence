@@ -14,35 +14,31 @@ public sealed partial class UpgradePrototype : IPrototype
     public string Name { get; set; } = string.Empty;
     [DataField]
     public string Description { get; set; } = string.Empty;
-    [DataField]
-    public int MaxApplications { get; set; } = 1;
-    [DataField]
-    public ProtoId<UpgradeModuleTypePrototype> TargetModule { get; set; } = string.Empty;
-    [DataField]
-    public UpgradeType UpgradeType { get; set; } = UpgradeType.Storage;
+
+    /// <summary>
+    /// The values for the particular upgrade. Some types of upgrades may expect different amounts of information.
+    /// Check the applicable UpgradeSystem to get a sense for what is expected.
+    /// </summary>
     [DataField]
     public List<float> UpgradeValues { get; set; } = new List<float>();
+
+    /// <summary>
+    /// Used when an upgrade should modify the armor values of an item.
+    /// </summary>
     [DataField]
     public DamageModifierSet? ArmorModifiers = null;
 
-}
 
-public enum UpgradeType
-{
-    Storage,
-    RadarRange,
-    ApcMaxLoad,
-    EnttiyStorageCapacity,
-    BatteryCapacity,
-    TelecomServerRange,
-    LatheSpeed,
-    MicrowaveCapacity,
-    MicrowaveSpeed,
-    AirTankCapacity,
-    GasCanisterCapacity,
-    ReagentGrinderSpeed,
-    TegGeneratorPower,
-    ToolSpeed,
-    RadiationCollectorPower,
-    Armor
+    /// <summary>
+    /// Upgrades that are required in order for this upgrade to be applied.
+    /// </summary>
+    [DataField]
+    public ProtoId<UpgradePrototype>[] Whitelist = { };
+
+    /// <summary>
+    /// Upgrades that are incompatible with this upgrade. This upgrade cannot be applied if these upgrades are present.
+    /// </summary>
+    [DataField]
+    public ProtoId<UpgradePrototype>[] Blacklist = { };
+
 }

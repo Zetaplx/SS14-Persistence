@@ -38,7 +38,9 @@
   - type: RequireProjectileTarget
   - type: Upgradeable
     upgrades:
-      EntityStorageCapacityMarine : 0
+      EntityStorageCapacityMarine:
+        system: EntiyStorageCapacityUpgrade
+        max: 2
 
 - type: entity
   parent: [ BaseCrate, StructureHealthContainerWeak ]

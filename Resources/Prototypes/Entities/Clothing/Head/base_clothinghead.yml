@@ -35,10 +35,16 @@
     - sprite: /Textures/_Funkystation/Effects/blood.rsi
       state: helmetbloodicon
   - type: Upgradeable
-    chooseOneUpgrades:
-      ArmorGreen : 0
-      ArmorZenith : 0
-      ArmorLuminal : 0
+    upgrades:
+      ArmorGreen:
+        system: ArmorUpgrade
+        max: 3
+      ArmorZenith:
+        system: ArmorUpgrade
+        max: 3
+      ArmorLuminal:
+        system: ArmorUpgrade
+        max: 3
 
 
 - type: entity

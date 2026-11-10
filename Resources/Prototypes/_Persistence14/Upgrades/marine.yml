@@ -1,0 +1,34 @@
+- type: upgrade
+  id: ArmorMarine
+  name: Piercing Armor
+  description: "Increases piercing armor"
+  armorModifiers:
+    coefficients:
+      Piercing: 0.1
+  blacklist:
+  - ArmorPrecursor
+  - ArmorShadow
+
+- type: upgrade
+  id: EntityStorageCapacityMarine
+  name: Storage Capacity Increase
+  description: "Adds 10 to the storage capacity."
+  upgradeValues: [ 10 ]
+
+- type: upgrade
+  id: MicrowaveCapacityMarine
+  name: Capacity Increase
+  description: "Increases capacity by 5"
+  upgradeValues: [ 5 ]
+
+- type: upgrade
+  id: BasicMarine
+  name: Small Storage
+  description: "Adds a column to the storage space."
+  upgradeValues: [ 1, 0 ]
+  blacklist:
+  - BasicGreen
+  - BasicStorage
+  - BasicPrecursor
+  - BasicShadow
+  - BasicZenith

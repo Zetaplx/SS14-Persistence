@@ -1,0 +1,40 @@
+- type: upgrade
+  id: AirTankCapacityZenith
+  name: Capacity Increase
+  description: "Adds 2L of capcity to the gas tank."
+  upgradeValues: [ 2 ] # Liters
+
+- type: upgrade
+  id: ArmorZenith
+  name: Heat Armor
+  description: "Increases heat armor"
+  armorModifiers:
+    coefficients:
+      Heat: 0.1
+  blacklist:
+  - ArmorGreen
+  - ArmorLuminal
+
+- type: upgrade
+  id: BatteryCapacityZenith
+  name: Storage Capacity Increase
+  description: "Adds to the 6 MJ to the battery capacity."
+  upgradeValues: [ 6000000 ]
+
+- type: upgrade
+  id: BasicZenith
+  name: Small Storage
+  description: "Adds a column to the storage space."
+  upgradeValues: [ 1, 0 ]
+  blacklist:
+  - BasicGreen
+  - BasicStorage
+  - BasicMarine
+  - BasicPrecursor
+  - BasicShadow
+
+- type: upgrade
+  id: TegGeneratorPowerZenith
+  name: Increase Power Generation
+  description: "Increases the power generated"
+  upgradeValues: [ 0.1 ]

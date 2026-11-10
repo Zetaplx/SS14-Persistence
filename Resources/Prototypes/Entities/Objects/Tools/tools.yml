@@ -1,6 +1,6 @@
 - type: entity
   name: wirecutter
-  parent: BaseItem
+  parent: [ BaseItem, BaseUpgradeableTool ]
   id: Wirecutter
   description: This kills the wire.
   components:
@@ -44,13 +44,10 @@
   - type: StaticPrice
     price: 30
   - type: BotanySampleTaker
-  - type: Upgradeable
-    upgrades:
-      ToolSpeedGreen : 0
 
 - type: entity
   name: screwdriver
-  parent: BaseItem
+  parent: [ BaseItem, BaseUpgradeableTool ]
   id: Screwdriver
   description: Industrial grade torque in a small screwdriving package.
   components:
@@ -91,13 +88,10 @@
       Steel: 100
   - type: StaticPrice
     price: 30
-  - type: Upgradeable
-    upgrades:
-      ToolSpeedGreen : 0
 
 - type: entity
   name: wrench
-  parent: BaseItem
+  parent: [ BaseItem, BaseUpgradeableTool ]
   id: Wrench
   description: 'A common tool for assembly and disassembly. Remember: lefty latchy, righty removey.'
   components:
@@ -136,13 +130,10 @@
   - type: GuideHelp
     guides:
     - Construction
-  - type: Upgradeable
-    upgrades:
-      ToolSpeedGreen : 0
 
 - type: entity
   name: multitool
-  parent: BaseItem
+  parent: [ BaseItem, BaseUpgradeableTool ]
   id: Multitool
   description: An advanced tool to copy, store, and send electrical pulses and signals through wires and machines.
   components:
@@ -193,9 +184,6 @@
     - WirePanels
     - Airlocks
     - InspectingPower
-  - type: Upgradeable
-    upgrades:
-      ToolSpeedGreen : 0
 
 - type: entity
   name: network configurator
@@ -255,7 +243,7 @@
 #Later on these should switch probably switch damage when changing the tool behavior.
 - type: entity
   name: power drill
-  parent: BaseItem
+  parent: [ BaseItem, BaseUpgradeableTool ]
   id: PowerDrill
   description: A simple powered hand drill.
   components:
@@ -317,9 +305,6 @@
         Piercing: 10
     soundHit:
       path: "/Audio/Items/drill_hit.ogg"
-  - type: Upgradeable
-    upgrades:
-      ToolSpeedGreen : 0
 
 - type: entity
   id: RCD
@@ -429,7 +414,7 @@
 
 - type: entity
   name: omnitool
-  parent: BaseItem
+  parent: [ BaseItem, BaseUpgradeableTool ]
   id: Omnitool
   description: A drone's best friend.
   components:
@@ -495,9 +480,6 @@
     materialComposition:
       Plastic: 50
       Steel: 50
-  - type: Upgradeable
-    upgrades:
-      ToolSpeedGreen : 0
 
 #Other
 - type: entity
@@ -528,7 +510,7 @@
   - type: Shovel
 
 - type: entity
-  parent: BaseItem
+  parent: [ BaseItem, BaseUpgradeableTool ]
   id: RollingPin
   name: rolling pin
   description: A tool used to shape and flatten dough.
@@ -564,6 +546,12 @@
   - type: Construction
     graph: WoodenRollingPin
     node: rollingpin
+
+- type: entity
+  id: BaseUpgradeableTool
+  abstract: true
+  components:
   - type: Upgradeable
     upgrades:
-      ToolSpeedGreen : 0
+      ToolSpeedGreen:
+        system: ToolSpeedUpgrade

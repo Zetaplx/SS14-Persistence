@@ -7,10 +7,12 @@ namespace Content.Shared._Persistence14.Upgrades.Components;
 [RegisterComponent]
 public sealed partial class UpgradeableComponent : Component
 {
-    [DataField]
+    [DataField("upgrades")]
+    public Dictionary<ProtoId<UpgradePrototype>, UpgradeProfile> UpgradeProfiles = new();
+
+    [DataField("storedUpgrades")]
     public Dictionary<ProtoId<UpgradePrototype>, int> Upgrades = new();
-    [DataField]
-    public Dictionary<ProtoId<UpgradePrototype>, int> ChooseOneUpgrades = new();
+
     [DataField]
     public bool Chosen = false;
     [DataField]

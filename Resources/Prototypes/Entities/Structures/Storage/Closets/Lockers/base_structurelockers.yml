@@ -54,7 +54,9 @@
     price: 300
   - type: Upgradeable
     upgrades:
-      EntityStorageCapacityMarine : 0
+      EntityStorageCapacityMarine:
+        system: EntityStorageCapacityUpgrade
+        max: 2
 
 - type: entity
   id: LockerBaseSecure
