@@ -58,6 +58,7 @@
     # Stuff that goes in front of stuff that goes in front of equipment
     - map: [ "mask" ]
     - map: [ "head" ]
+    - map: [ "hat" ] # Added for Persistence 14
     - map: [ "pocket1" ]
     - map: [ "pocket2" ]
 

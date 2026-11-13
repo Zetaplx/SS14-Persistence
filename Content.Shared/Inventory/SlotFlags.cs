@@ -26,6 +26,7 @@ public enum SlotFlags
     // LEGS = 1 << 13, // Frontier: unused
     FEET = 1 << 14,
     SUITSTORAGE = 1 << 15,
+    HAT = 1 << 16, // Persistence 14: Letting us wear hats over hardsuits.
     WALLET = 1 << 13, // Frontier: using an unused slot, redefine to a new bit if/when it's used (goodbye ushort)
     All = ~NONE,
 

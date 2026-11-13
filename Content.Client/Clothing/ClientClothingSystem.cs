@@ -29,6 +29,7 @@ public sealed partial class ClientClothingSystem : ClothingSystem
     /// </summary>
     private static readonly Dictionary<string, string> TemporarySlotMap = new()
     {
+        {"hat", "HELMET"}, // Added for Persistence 14
         {"head", "HELMET"},
         {"eyes", "EYES"},
         {"ears", "EARS"},
