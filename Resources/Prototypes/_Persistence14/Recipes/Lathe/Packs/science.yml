@@ -3,3 +3,8 @@
   recipes:
   - AnomalyCapsule
   - UnstableAnomalyCore
+
+- type: latheRecipePack
+  id: PersonalCryoPod
+  recipes:
+  - PersonalCryoMachineCircuitboard

@@ -5,3 +5,9 @@
   parent: [ BaseCircuitboardRecipe, BaseServiceComputerRecipeCategory ]
   id: RequisitionsConsoleCircuitboard
   result: RequisitionsConsoleCircuitboard
+
+# Personal Cryo Pods! Reseached as a T3 industrial research Remote Cryostasis
+- type: latheRecipe
+  parent: [ BaseSilverCircuitboardRecipe ]
+  id: PersonalCryoMachineCircuitboard
+  result: PersonalCryoMachineCircuitboard

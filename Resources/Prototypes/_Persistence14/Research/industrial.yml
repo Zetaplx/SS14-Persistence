@@ -12,6 +12,18 @@
     MedicalFulton: 20
     FultonBeacon: 2
 
+- type: technology
+  id: RemoteCryostasis
+  name: research-technology-remote-cryostasis
+  icon:
+    sprite: /Textures/_Persistence14/Structures/cryostorage.rsi
+    state: sleeper_0
+  discipline: Industrial
+  tier: 3
+  cost: 75000
+  recipeUnlocks:
+     PersonalCryoMachineCircuitboard: 2
+
 # Refill Technologies: Used to restock consumable parts of larger tech unlocks
 - type: technology
   id: InterstellarLogisticsRestock

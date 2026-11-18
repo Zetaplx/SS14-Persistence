@@ -294,6 +294,9 @@
     - CameraBoards
     - MechBoards
     - ShuttleBoards
+    # Persistence14 Start
+    - PersonalCryoPod
+    # Persistence14 End
   - type: EmagLatheRecipes
     emagDynamicPacks:
     - SecurityBoards
