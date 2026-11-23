@@ -39,6 +39,10 @@
   - type: Upgradeable
     upgrades:
       EntityStorageCapacityMarine : 0
+  - type: DragableStorage
+  - type: Tag
+    tags: 
+    - RackStorable
 
 - type: entity
   parent: [ BaseCrate, StructureHealthContainerWeak ]

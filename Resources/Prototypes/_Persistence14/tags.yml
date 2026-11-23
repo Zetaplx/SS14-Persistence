@@ -78,7 +78,8 @@
 ## Q ##
 
 ## R ##
-
+- type: Tag
+  id: RackStorable # Identifies entities which may be stored on a storage rack
 ## S ##
 
 ## T ##

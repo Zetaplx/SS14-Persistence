@@ -1,0 +1,73 @@
+- type: entity
+  id: StorageRack
+  parent: [ BaseStructure, StructureHealthFurnitureStrong ]
+  name: storage rack
+  description: A heavy steel rack for storing crates.
+  components:
+  - type: Sprite
+    sprite: _Persistence14/Structures/storage/storage-rack.rsi
+    state: base
+    noRot: true
+  - type: Anchorable
+  - type: Damageable
+    damageModifierSet: SteelMod
+  - type: StaticPrice
+    price: 150
+  - type: ContainerContainer
+    containers:
+      crate1: !type:ContainerSlot
+      crate2: !type:ContainerSlot
+      crate3: !type:ContainerSlot
+      crate4: !type:ContainerSlot
+  - type: ItemSlots
+    slots:
+      crate1:
+        whitelist:
+          tags:
+          - RackStorable
+        insertOnInteract: false
+        ejectOnInteract: false
+        swap: false
+        insertSound: /Audio/Items/deconstruct.ogg
+        ejectSound: /Audio/Items/deconstruct.ogg
+        ejectOnBreak: true
+        ejectOnDeconstruct: true
+      crate2:
+        whitelist:
+          tags:
+          - RackStorable
+        insertOnInteract: false
+        ejectOnInteract: false
+        swap: false
+        insertSound: /Audio/Items/deconstruct.ogg
+        ejectSound: /Audio/Items/deconstruct.ogg
+        ejectOnBreak: true
+        ejectOnDeconstruct: true
+      crate3:
+        whitelist:
+          tags:
+          - RackStorable
+        insertOnInteract: false
+        ejectOnInteract: false
+        swap: false
+        insertSound: /Audio/Items/deconstruct.ogg
+        ejectSound: /Audio/Items/deconstruct.ogg
+        ejectOnBreak: true
+        ejectOnDeconstruct: true
+      crate4:
+        whitelist:
+          tags:
+          - RackStorable
+        insertOnInteract: false
+        ejectOnInteract: false
+        swap: false
+        insertSound: /Audio/Items/deconstruct.ogg
+        ejectSound: /Audio/Items/deconstruct.ogg
+        ejectOnBreak: true
+        ejectOnDeconstruct: true
+  - type: StorageRack
+    slots:
+    - crate1
+    - crate2
+    - crate3
+    - crate4
